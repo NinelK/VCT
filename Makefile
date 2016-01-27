@@ -15,6 +15,7 @@ LDFLAGS += -lm
 CFLAGS += -std=c99
 
 cpmfem: $(OBJECTS)
+	mkdir -p output
 	cc $(LDFLAGS) -O -o cpmfem $(OBJECTS)	
 
 clean:
