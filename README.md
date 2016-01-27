@@ -1,1 +1,1 @@
-# growing
+# potts
