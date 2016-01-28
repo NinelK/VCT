@@ -13,12 +13,6 @@ typedef struct
 
 typedef struct
 {
-	double f;				//force
-	double phi;				//direction
-} FIELD;
-
-typedef struct
-{
 	double x;
 	double y;
 } CM;
@@ -28,5 +22,10 @@ typedef struct
 	int x;
 	int y;
 } CONT;
+
+typedef struct
+{
+	int Q;
+} FIBERS;
 
 #endif

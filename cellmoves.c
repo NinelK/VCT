@@ -2,7 +2,7 @@
 #include "functions.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-double CPM_moves(VOX* pv, FIELD* pf, CM* CMs, CONT* contacts, int* attached, int* csize)
+double CPM_moves(VOX* pv, FIBERS* pf, CM* CMs, CONT* contacts, int* attached, int* csize)
 // cellular potts model: one Monte Carlo step
 {
 	int i,j,NRsteps = NV;
@@ -44,13 +44,16 @@ double CPM_moves(VOX* pv, FIELD* pf, CM* CMs, CONT* contacts, int* attached, int
             		if(csize[ttag-1]==1) // cell cannot disappear (constraint may be removed)
                 		go_on = 0;
 				}
+				if(pv[xs].contact && pf[xs].Q && !pf[xt].Q){
+					go_on = 0;
+				}
 			}
 
 			if(go_on)
 			{
         		dH = calcdH(pv,pf,CMs,contacts,csize,xt,xs,pick,ttag,stag);
         		prob = exp(-IMMOTILITY*dH);
-        		if (prob>(rand()/(double)RAND_MAX) && !pv[xt].contact)
+        		if (prob>(rand()/(double)RAND_MAX))
 				{
             		pv[xt].ctag = stag; // a move is made
 

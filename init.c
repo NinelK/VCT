@@ -67,24 +67,45 @@ int init_cells(VOX* pv)
 	return NRc;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////
-
-FIELD* set_field (void)
+////////////////////////////////////////////////////////////////////////////////
+FIBERS* set_fibers(void)
 {
-	FIELD* pf;
-	int n, nx, ny;
+	FIBERS* pf;
+	int v, vx, vy;
+	int i;
+	double dx,dy;
+	double k, k0;
 
-   	pf = calloc(NV, sizeof(FIELD));
+	dx = F_ANGLE!=0 ? F_DISTANCE / sin(F_ANGLE) : 0.0;
+	dy = F_ANGLE!=PI/2 ? F_DISTANCE / cos(F_ANGLE) : 0.0;
 
-	// set node information
-   	for(ny=0; ny<NVY; ny++)
-   	for(nx=0; nx<NVX; nx++)
-   	{
-   		n = nx + ny*NVX;
-		//pf[n].f = FIELD_POWER * cos((2*nx+ny)/F_DISTANCE) + FIELD_POWER_MIN;
-		//pf[n].phi = atan(-2)+PI;
-		pf[n].f = FIELD_POWER * cos(nx/F_DISTANCE) + FIELD_POWER_MIN;
-		pf[n].phi = 0;
-	}
+   	pf = calloc(NV, sizeof(FIBERS));
+
+	// set voxel information
+   	for(v=0; v<NV; v++)
+   		pf[v].Q = 0;
+
+   	if(F_ANGLE!=PI/2)
+	   	for(vx=0; vx<NVX; vx++){
+	   		k0 = fmod(vx*tan(F_ANGLE),dy);
+	   		k = k0;
+	   		for(vy=0; vy<=(NVY-k0)/dy; vy++){
+	   			v = vx + round(k)*NVX;
+	   			pf[v].Q = 1;
+	   			k += dy;
+	   		}
+	   	}
+
+	if(F_ANGLE!=0)
+	   	for(vy=0; vy<NVY; vy++){
+	   		k0 = fmod(vy/tan(F_ANGLE),dx);
+	   		k = k0;
+	   		for(vx=0; vx<=(NVX-k0)/dx; vx++){
+	   			v = round(k) + vy*NVX;
+	   			pf[v].Q = 1;
+	   			k += dx;
+	   		}
+	   	}
+
 	return pf;
 }

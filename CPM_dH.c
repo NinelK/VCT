@@ -32,7 +32,7 @@ double calcdHborder(VOX* pv, int xt, int ttag)
 	{
 		nbtag = pv[nbs[n]].ctag;
 		if(ttag!=nbtag)
-			dHcontact = 0;
+			dHcontact = pv[nbs[n]].contact ? 0.0 : JH;
 	}
 	
 	return dHcontact;
@@ -50,22 +50,19 @@ double calcdHdist(VOX* pv, CM* CMs, int xt, int xs, int ttag)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-double calcdH(VOX* pv, FIELD* pf, CM* CMs, CONT* contacts, int* csize, int xt, int xs, int pick, int ttag, int stag)
+double calcdH(VOX* pv, FIBERS* pf, CM* CMs, CONT* contacts, int* csize, int xt, int xs, int pick, int ttag, int stag)
 {
-	double dH, dHcontact, dHvol, dHconnectivity, dHfield, dHfocals, dHnuclei;//, dHstrain;
+	double dH, dHcontact, dHvol, dHconnectivity, dHfocals, dHnuclei;//, dHstrain;
 	int ctag;
 
 	dHcontact = 0;
-	dHcontact = calcdHcontact(pv,xt,ttag,stag);
+	dHcontact = calcdHcontact(pv,xt,ttag,stag, pf[xt].Q);
 
 	dHvol = 0;
 	dHvol = calcdHvol(csize,ttag,stag);
 
 	dHconnectivity = 0;
 	dHconnectivity = calcdHconnectivity(pv,xt,stag);
-
-	dHfield = 0;
-	dHfield = calcdHfield(pf,CMs,xt, ttag, stag);
 
 	dHfocals = 0;
 	dHfocals = calcdHfromnuclei(pv, CMs, xt, xs, ttag, stag);
@@ -76,14 +73,14 @@ double calcdH(VOX* pv, FIELD* pf, CM* CMs, CONT* contacts, int* csize, int xt, i
 	//dHstrain = 0;
 	//dHstrain = calcdHstrain(CMs,contacts,xt,stag,ttag);
 
-	dH = dHcontact + dHvol + dHconnectivity + dHfield + dHfocals + dHnuclei;// + dHstrain;
+	dH = dHcontact + dHvol + dHconnectivity + dHfocals + dHnuclei;// + dHstrain;
 	return dH;
 
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////
-double calcdHcontact(VOX* pv, int xt, int ttag, int stag)
+double calcdHcontact(VOX* pv, int xt, int ttag, int stag, int Q)
 {
 	double dHcontact, Hcontact, Hcontactn;
 	int nbs[8],n,nbtag;
@@ -95,8 +92,8 @@ double calcdHcontact(VOX* pv, int xt, int ttag, int stag)
 	for(n=0;n<8;n++)
 	{
 		nbtag = pv[nbs[n]].ctag;
-		Hcontact += contactenergy(ttag,nbtag);
-		Hcontactn += contactenergy(stag,nbtag);
+		Hcontact += contactenergy(ttag,nbtag) + scaffoldenergy(ttag, Q);
+		Hcontactn += contactenergy(stag,nbtag) + scaffoldenergy(stag, Q);
 	}
 	dHcontact = Hcontactn-Hcontact;
 
@@ -116,9 +113,17 @@ double contactenergy(int tag1, int tag2)
     	else
         	J = JCC;
 	}
+
 	return J;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+double scaffoldenergy(int tag, int Q)
+{
+	double J = Q ? JCF : JSC;
+
+	return J;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 double calcdHvol(int* csize, int ttag, int stag)
@@ -162,16 +167,6 @@ double calcdHconnectivity(VOX* pv, int xt, int stag)
 	return dH;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-double calcdHfield(FIELD* pf, CM* CMs, int xt, int ttag, int stag)
-{
-	double dH = 0;
-
-	dH = fieldenergy(pf, CMs, xt, stag) - fieldenergy(pf, CMs, xt, ttag);
-
-	return dH;
-}
-
 double findphi(CM* CMs, int xt, int tag)
 {
 	int xtx, xty;
@@ -183,18 +178,6 @@ double findphi(CM* CMs, int xt, int tag)
 	if(phi<0)
 		phi += PI;
 	return phi;
-}
-
-double fieldenergy(FIELD* pf, CM* CMs, int xt, int tag)
-{
-	double Jd;
-	double phi = findphi(CMs, xt, tag);
-
-	if(tag != 0)
-		Jd = pf[xt].f*fabs(sin(pf[xt].phi - phi));
-	else Jd = pf[xt].f;
-
-	return Jd;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

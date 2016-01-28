@@ -11,11 +11,11 @@
 int* 		alloc_attach(int NRc);
 VOX*		init_voxels(void);
 int 		init_cells(VOX* pv);
-FIELD*		set_field(void);
+FIBERS* 	set_fibers(void);
 
 
 // cellmoves.c
-double 		CPM_moves(VOX* pv, FIELD* pf, CM* CMs, CONT* contacts, int* attached, int* csize);
+double 		CPM_moves(VOX* pv, FIBERS* pf, CM* CMs, CONT* contacts, int* attached, int* csize);
 double 		CH_moves(VOX* pv, CM* CMs);
 BOOL 		splitcheckCCR(VOX* pv,  int* csize, int xt, int ttag);
 
@@ -29,19 +29,18 @@ double 		calcdH_CH(VOX* pv, CM* CMs, int xt, int xs);
 double 		calcdHborder(VOX* pv, int xt, int ttag);
 double 		calcdHdist(VOX* pv, CM* CMs, int xt, int xs, int ttag);
 
-double 		calcdH(VOX* pv, FIELD* pf, CM* CMs, CONT* contacts, int* csize, int xt, int xs, int pick, int ttag, int stag);
-double 		calcdHcontact(VOX* pv, int xt, int ttag, int stag);
+double 		calcdH(VOX* pv, FIBERS* pf, CM* CMs, CONT* contacts, int* csize, int xt, int xs, int pick, int ttag, int stag);
+double 		calcdHcontact(VOX* pv, int xt, int ttag, int stag, int Q);
 double 		contactenergy(int tag1, int tag2);
+double 		scaffoldenergy(int tag, int Q);
 double 		calcdHvol(int* csize, int ttag, int stag);
 double 		calcdHconnectivity(VOX* pv, int xt, int stag);
-double 		calcdHfield(FIELD* pf, CM* CMs, int xt, int ttag, int stag);
 double 		calcdHfromnuclei(VOX* pv, CM* CMs, int xt, int xs, int ttag, int stag);
 double 		calcdHnuclei(VOX* pv, CM* CMs, int xt, int ttag, int stag);
 double 		calcHstrain(CM* CMs, CONT* contacts, int xt, int tag);
 double 		calcdHstrain(CM* CMs, CONT* contacts, int xt, int stag, int ttag);
 
 double 		findphi(CM* CMs, int xt, int tag);
-double 		fieldenergy(FIELD* pf, CM* CMs, int xt, int tag);
 double 		dist(CM* CMs, int xt, int tag);
 double 		find_perp(CM* CMs, CONT* contacts, int xt, int tag);
 double 		perp(CM* CMs, CONT contact, double alpha, int xt, int tag);
@@ -53,6 +52,7 @@ double		sqr(double x);
 void   		write_increment(int increment);
 void 		write_cells(VOX* pv, int increment);
 void 		write_contacts(VOX* pv, CONT* contacts, int NRc, int increment);
+void 		write_fibers(FIBERS* pf);
 void 		read_cells(VOX* pv, char filename_ctag[40], char filename_cont[40]);
 
 // mylib.c

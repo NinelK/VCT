@@ -9,7 +9,7 @@ int main(void)
 
 	int d;
 	VOX *pv;
-	FIELD *pf;
+	FIBERS *pf;
 	int NRc,c,v;
 	int *csize;
 	int incr, startincr;
@@ -18,7 +18,9 @@ int main(void)
 	/// INITIALIZE ///
    	srand(SEED); mt_init();
    	pv = init_voxels();
-	pf = set_field();
+	pf = set_fibers();
+
+	write_fibers(pf);
 
 	startincr = 0;
 	NRc = init_cells(pv);write_cells(pv,0);
@@ -54,7 +56,7 @@ int main(void)
 
 	// free(pv);
 	// pv = init_voxels();
-	// read_cells(pv,"./output/ctags700.sout","./output/contactM700.sout");
+	// read_cells(pv,"./output/ctags900.sout","./output/contactM900.sout");
 	// incr=800;
 	// write_cells(pv,incr);
 	// write_contacts(pv,contacts,NRc,incr);

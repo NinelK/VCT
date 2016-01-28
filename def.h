@@ -8,12 +8,14 @@
 typedef int BOOL;
 #define SEED 2
 
+#define PI 3.14159265359 
+
 #define rounder(a) (((a) + ((a) < 0 ? 0.5 : -0.5) < (int)(a))? (int)(a): (int)(a) + 1)
 
 #define VOXSIZE .0025 // [mm]
 #define SCALE (VOXSIZE/.0025)
-#define sizeX 1.75 				// [mm]
-#define sizeY 1.75 				// [mm]
+#define sizeX 0.75 				// [mm]
+#define sizeY 0.75 				// [mm]
 #define sizeMargin 0.125 		// [mm] from one side
 #define MARGIN rounder(sizeMargin/VOXSIZE)
 #define NVX rounder((sizeX+2*sizeMargin)/VOXSIZE) // x 3 = 1500
@@ -22,30 +24,29 @@ typedef int BOOL;
 #define NNX (NVX+1)
 #define NNY (NVY+1)
 #define NN  (NNX*NNY)
-#define NRINC 701
+#define NRINC 901
 
 #define MAXNRITER 1000
 #define ACCURACY .00001
 
 
 #define IMMOTILITY_CH 1.0*SCALE*SCALE//50
-#define JB	10.0
-#define G_NCH 100.0
+#define JB	2.0
+#define JH	.5
+#define G_NCH 80.0
 
 // cells
 #define IMMOTILITY 1.0*SCALE*SCALE//50
 //#define OVERCROWD 2.0
-#define NCX 28
-#define NCY 28
+#define NCX 12
+#define NCY 12
 
 //field
-#define FIELD_POWER_MIN 2.0*SCALE
-#define FIELD_POWER_MAX 2.0*SCALE
-#define FIELD_POWER (FIELD_POWER_MAX - FIELD_POWER_MIN)
-#define distanceF 0.05
+#define distanceF 0.02
 #define F_DISTANCE rounder(distanceF/VOXSIZE)
+#define F_ANGLE PI/4
 
-#define G_N (2000.0/SCALE)
+#define G_N (2500.0/SCALE)
 #define gS	0.0			// [1/mm]
 
 
@@ -61,13 +62,13 @@ typedef int BOOL;
 
 //#define NC ((int) sqrt(NVX*NVY/TARGETVOLUME) + 1)			//number of cells in a row/column
 
-#define NOSTICKJ 1200.0 //10000// [/mm] contact penalty for none-adhesive surface
+#define NOSTICKJ 500.0 //10000// [/mm] contact penalty for none-adhesive surface
 #define JCM (NOSTICKJ*VOXSIZE)  // cell-medium
-#define JCC (1.2*JCM) // cell-cell
+#define JCC (1.7*JCM) // cell-cell
+#define JSC JCM			//cell-glass
+#define JCF (0.1*JSC)	//cell-fiber
 
 #define SQ05 .707107 //sqrt(.5), used often enough to make this convenient
-
-#define PI 3.14159265359 
 
 #define MAX_FOCALS 20
 

@@ -16,27 +16,26 @@ void write_increment(int increment)
 void write_cells(VOX* pv, int increment)
 {
 	int v;
-    int vx,vy;
-   	char filename[40];
-   	char astring[20];
-   	FILE *ofp;
+  int vx,vy;
+  char filename[40];
+  char astring[20];
+  FILE *ofp;
 
-   	myitostr(increment, astring);
+  myitostr(increment, astring);
 	strcpy(filename, "./output/ctags");
-   	strcat(filename, astring);
-   	strcat(filename, ".out");
+  strcat(filename, astring);
+  strcat(filename, ".out");
 
 	ofp = fopen(filename,"w");
-	/*for(v=0; v<NV; v++)
-		fprintf(ofp ,"%d\n", pv[v].ctag);*/
-    for(vx=0; vx<NVX; vx++) {
-        for (vy=0; vy<NVY; vy++) {
-            v = vx * NVY + vy;
-     		fprintf(ofp ,"%d ", pv[v].ctag);
-        }
-        fprintf(ofp, "\n");
-    }
-   	fflush(ofp);  fclose(ofp);
+
+  for(vx=0; vx<NVX; vx++) {
+      for (vy=0; vy<NVY; vy++) {
+        v = vx * NVY + vy;
+   		   fprintf(ofp ,"%d ", pv[v].ctag);
+      }
+      fprintf(ofp, "\n");
+  }
+  fflush(ofp);  fclose(ofp);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -62,34 +61,25 @@ void write_contacts(VOX* pv, CONT* contacts, int NRc, int increment)
         fprintf(ofp, "\n");
     }
     fflush(ofp);  fclose(ofp);
+}
 
-    /*strcpy(filename, "./output/contactX");
-    strcat(filename, astring);
-    strcat(filename, ".out");
+////////////////////////////////////////////////////////////////////////////////
+void write_fibers(FIBERS* pf)
+{
+  int v;
+  int vx,vy;
+  FILE *ofp;
 
-  ofp = fopen(filename,"w");
-    for(vx=0; vx<NRc; vx++) {
-        for (vy=0; vy<MAX_FOCALS; vy++) {
-            v = vx*MAX_FOCALS + vy;
-        fprintf(ofp ,"%d ", contacts[v].x);
-        }
-        fprintf(ofp, "\n");
-    }
-    fflush(ofp);  fclose(ofp);
+  ofp = fopen("./output/fib.out","w");
 
-    strcpy(filename, "./output/contactY");
-    strcat(filename, astring);
-    strcat(filename, ".out");
-
-  ofp = fopen(filename,"w");
-    for(vx=0; vx<NRc; vx++) {
-        for (vy=0; vy<MAX_FOCALS; vy++) {
-            v = vx*MAX_FOCALS + vy;
-        fprintf(ofp ,"%d ", contacts[v].y);
-        }
-        fprintf(ofp, "\n");
-    }
-    fflush(ofp);  fclose(ofp);*/
+  for(vx=0; vx<NVX; vx++) {
+      for (vy=0; vy<NVY; vy++) {
+        v = vx * NVY + vy;
+         fprintf(ofp ,"%d ", pf[v].Q);
+      }
+      fprintf(ofp, "\n");
+  }
+  fflush(ofp);  fclose(ofp);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
