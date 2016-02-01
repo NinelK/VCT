@@ -40,11 +40,11 @@ typedef int BOOL;
 // cells
 #define IMMOTILITY 1.0*SCALE*SCALE//50
 //#define OVERCROWD 2.0
-#define NCX 4
-#define NCY 7
+#define NCX 8
+#define NCY 22
 
 //field
-#define distanceF 10.020
+#define distanceF 0.020
 #define fiberD	0.0025
 #define F_DISTANCE rounder(distanceF/VOXSIZE)
 #define F_ANGLE 0
@@ -71,7 +71,7 @@ typedef int BOOL;
 #define JCC (1.5*JCM) // cell-cell
 #define JSC JCM			//cell-glass
 #define JCF (fiberD>VOXSIZE ? (0.1*JSC) : (0.1*JSC*fiberD + JSC*(VOXSIZE-fiberD))/VOXSIZE) 		//cell-fiber
-#define JSM 1.04*JCM		//media-glass
+#define JSM 1.04*JSC		//media-glass
 
 #define SQ05 .707107 //sqrt(.5), used often enough to make this convenient
 
