@@ -16,7 +16,7 @@ FIBERS* 	set_fibers(void);
 
 // cellmoves.c
 double 		CPM_moves(VOX* pv, FIBERS* pf, CM* CMs, CONT* contacts, int* attached, int* csize);
-double 		CH_moves(VOX* pv, CM* CMs);
+double 		CH_moves(VOX* pv, CM* CMs, double k);
 BOOL 		splitcheckCCR(VOX* pv,  int* csize, int xt, int ttag);
 
 // CM.c

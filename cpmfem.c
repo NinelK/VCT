@@ -34,6 +34,8 @@ int main(void)
 	gettimeofday(&tv, NULL);
 	time = tv.tv_sec;
 
+	printf("JCF/JSC: %.4f\n",JCF/JSC);
+
 	// START SIMULATION ///
 	for(incr=startincr; incr<NRINC; incr++)
 	{
@@ -70,7 +72,7 @@ int main(void)
 			write_contacts(pv,contacts,NRc,incr+1);
 		}
 
-		acceptance = CH_moves(pv, CMs);
+		acceptance = CH_moves(pv, CMs, 0.5 + 0.5*incr/NRINC);
 
 		if (incr % 100 == 0){
 			printf("\nAcceptance rate %.4f",acceptance);
@@ -83,7 +85,8 @@ int main(void)
 	gettimeofday(&tv, NULL);
 	printf("Took %lds\n", tv.tv_sec - time);
 
-	free(pv); free(pf);
+	free(pv); 
+	free(pf);
 	return 0;
 }
 

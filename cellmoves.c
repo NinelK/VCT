@@ -88,7 +88,7 @@ double CPM_moves(VOX* pv, FIBERS* pf, CM* CMs, CONT* contacts, int* attached, in
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-double CH_moves(VOX* pv, CM* CMs)
+double CH_moves(VOX* pv, CM* CMs, double k)
 // cellular potts model: one Monte Carlo step
 {
 	int i,j,NRsteps = NV;
@@ -117,7 +117,7 @@ double CH_moves(VOX* pv, CM* CMs)
 			if(pv[xt].contact!=pv[xs].contact && pv[xs].contact!=0)
 			{
         		dH = calcdH_CH(pv, CMs, xt, xs);
-        		prob = exp(-IMMOTILITY_CH*dH);
+        		prob = exp(-k*IMMOTILITY_CH*dH);
         		if (prob>(rand()/(double)RAND_MAX))
 				{
             		pv[xt].contact = pv[xs].contact; // a move is made

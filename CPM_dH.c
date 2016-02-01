@@ -32,7 +32,7 @@ double calcdHborder(VOX* pv, int xt, int ttag)
 	{
 		nbtag = pv[nbs[n]].ctag;
 		if(ttag!=nbtag)
-			dHcontact = pv[nbs[n]].contact ? 0.0 : JH;
+			dHcontact = (pv[nbs[n]].contact && nbtag!=0) ? 0.0 : JH;
 	}
 	
 	return dHcontact;
@@ -120,7 +120,7 @@ double contactenergy(int tag1, int tag2)
 ////////////////////////////////////////////////////////////////////////////////
 double scaffoldenergy(int tag, int Q)
 {
-	double J = Q ? JCF : JSC;
+	double J = Q ? JCF : (tag ? JSC : JSM);
 
 	return J;
 }
@@ -201,8 +201,8 @@ double calcdHnuclei(VOX* pv, CM* CMs, int xt, int ttag, int stag)
 	double dH = 0;
 
 	//don't touch the nuclei
-	if(!stag && dist(CMs,xt,ttag)<NUCLEI_R)
-		dH = 2*NOSTICKJ;
+	if(dist(CMs,xt,ttag)<NUCLEI_R)
+		dH = NUCL*NOSTICKJ;
 
 	return dH;
 }

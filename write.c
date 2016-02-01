@@ -30,7 +30,7 @@ void write_cells(VOX* pv, int increment)
 
   for(vx=0; vx<NVX; vx++) {
       for (vy=0; vy<NVY; vy++) {
-        v = vx * NVY + vy;
+        v = vx + vy * NVX;
    		   fprintf(ofp ,"%d ", pv[v].ctag);
       }
       fprintf(ofp, "\n");
@@ -55,7 +55,7 @@ void write_contacts(VOX* pv, CONT* contacts, int NRc, int increment)
   ofp = fopen(filename,"w");
     for(vx=0; vx<NVX; vx++) {
         for (vy=0; vy<NVY; vy++) {
-            v = vx * NVY + vy;
+            v = vx + vy * NVX;
         fprintf(ofp ,"%d ", pv[v].contact);
         }
         fprintf(ofp, "\n");
@@ -74,7 +74,7 @@ void write_fibers(FIBERS* pf)
 
   for(vx=0; vx<NVX; vx++) {
       for (vy=0; vy<NVY; vy++) {
-        v = vx * NVY + vy;
+        v = vx + vy * NVX;
          fprintf(ofp ,"%d ", pf[v].Q);
       }
       fprintf(ofp, "\n");
