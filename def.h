@@ -14,8 +14,8 @@ typedef int BOOL;
 
 #define VOXSIZE .0025 // [mm]
 #define SCALE (VOXSIZE/.0025)
-#define sizeX 4.75 				// [mm]
-#define sizeY 4.75 				// [mm]
+#define sizeX 9.75 				// [mm]
+#define sizeY 9.75 				// [mm]
 #define sizeMarginX 0.200 		// [mm] from one side
 #define sizeMarginY 0.100 		// [mm] from one side
 #define MARGINX rounder(sizeMarginX/VOXSIZE)
@@ -40,8 +40,8 @@ typedef int BOOL;
 // cells
 #define IMMOTILITY 1.0*SCALE*SCALE//50
 //#define OVERCROWD 2.0
-#define NCX 50
-#define NCY 140
+#define NCX 100
+#define NCY 290
 
 //field
 #define distanceF 0.020

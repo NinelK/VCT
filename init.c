@@ -4,11 +4,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 int* alloc_attach(int NRc)
 {
+	int i;
 	int * attached;
 
 	attached = calloc(NRc+1, sizeof(int));
 
-	for(int i=0;i<NRc+1;i++)
+	for(i=0;i<NRc+1;i++)
 		attached[i]=0;
 	
 	return attached;

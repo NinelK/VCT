@@ -138,8 +138,11 @@ BOOL splitcheckCCR(VOX* pv, int* csize, int xt, int ttag)
 	int nbs[8],n,nb,prev,curr,in;
 	int v, nrblue, nrgrey, startnb;
 	int greys[csize[ttag-1]];
-	short CCAlabels[NV];
+	short * CCAlabels;
 	int i, nrgrey0, g, nbsg[8];
+
+
+	CCAlabels = malloc(NV * sizeof(short));
 
 	nbs[0]=xt-1+NVX; nbs[1]=xt+NVX; nbs[2]=xt+1+NVX;
 	nbs[7]=xt-1;                    nbs[3]=xt+1;
@@ -212,5 +215,8 @@ BOOL splitcheckCCR(VOX* pv, int* csize, int xt, int ttag)
 		if(nrblue) {split = TRUE;}
 
 	}
+
+	free(CCAlabels);
+
 	return split;
 }
