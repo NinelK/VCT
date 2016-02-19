@@ -85,17 +85,20 @@ void write_fibers(FIBERS* pf)
 ////////////////////////////////////////////////////////////////////////////////
 void read_cells(VOX* pv, char filename_ctag[40], char filename_cont[40])
 {
-  int v,k;
+  int v,k,vx,vy;
   FILE *ofp;
 
   ofp = fopen(filename_ctag,"r");
-    for(v=0; v<NV; v++)
-        k = fscanf(ofp ,"%d", &pv[v].ctag);
+    for(v=0; v<NV; v++){
+        vx = v/NVY; vy = v%NVY;
+        k = fscanf(ofp ,"%d", &pv[vx + vy * NVX].ctag);
+    }
     fflush(ofp);  fclose(ofp);
 
     ofp = fopen(filename_cont,"r");
-    for(v=0; v<NV; v++)
-        k = fscanf(ofp ,"%d", &pv[v].contact);
-        
+    for(v=0; v<NV; v++){
+        vx = v/NVY; vy = v%NVY;
+        k = fscanf(ofp ,"%d", &pv[vx + vy * NVX].contact);
+    }
     fflush(ofp);  fclose(ofp);
 }

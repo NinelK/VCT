@@ -44,9 +44,9 @@ double CPM_moves(VOX* pv, FIBERS* pf, CM* CMs, CONT* contacts, int* attached, in
             		if(csize[ttag-1]==1) // cell cannot disappear (constraint may be removed)
                 		go_on = 0;
 				}
-				if(pv[xs].contact && pf[xs].Q && !pf[xt].Q){
+				/*if(pv[xs].contact && pf[xs].Q && !pf[xt].Q){
 					go_on = 0;
-				}
+				}*/
 			}
 
 			if(go_on)

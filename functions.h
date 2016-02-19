@@ -35,7 +35,7 @@ double 		contactenergy(int tag1, int tag2);
 double 		scaffoldenergy(int tag, int Q);
 double 		calcdHvol(int* csize, int ttag, int stag);
 double 		calcdHconnectivity(VOX* pv, int xt, int stag);
-double 		calcdHfromnuclei(VOX* pv, CM* CMs, int xt, int xs, int ttag, int stag);
+double 		calcdHfromnuclei(VOX* pv, CM* CMs, int xt, int xs, int ttag, int stag, int Qt, int Qs);
 double 		calcdHnuclei(VOX* pv, CM* CMs, int xt, int ttag, int stag);
 double 		calcHstrain(CM* CMs, CONT* contacts, int xt, int tag);
 double 		calcdHstrain(CM* CMs, CONT* contacts, int xt, int stag, int ttag);

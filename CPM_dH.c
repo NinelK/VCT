@@ -65,7 +65,7 @@ double calcdH(VOX* pv, FIBERS* pf, CM* CMs, CONT* contacts, int* csize, int xt, 
 	dHconnectivity = calcdHconnectivity(pv,xt,stag);
 
 	dHfocals = 0;
-	dHfocals = calcdHfromnuclei(pv, CMs, xt, xs, ttag, stag);
+	dHfocals = calcdHfromnuclei(pv, CMs, xt, xs, ttag, stag, pf[xt].Q, pf[xs].Q);
 
 	dHnuclei = 0;
 	dHnuclei = calcdHnuclei(pv, CMs, xt, ttag, stag);
@@ -181,16 +181,27 @@ double findphi(CM* CMs, int xt, int tag)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-double calcdHfromnuclei(VOX* pv, CM* CMs, int xt, int xs, int ttag, int stag)
+double calcdHfromnuclei(VOX* pv, CM* CMs, int xt, int xs, int ttag, int stag, int Qt, int Qs)
 {
 	double dH = 0;
+	double cost = 1.0, coss = 1.0;
+	int xty, xtx;
+	xty = xs/NVX; xtx = xs%NVX;
+
+	if(Qs)
+		coss = cos(F_ANGLE - atan((xty - CMs[stag].y)/(xtx - CMs[stag].x)));
+
+	xty = xt/NVX; xtx = xt%NVX;
+
+	if(Qt)
+		cost = cos(F_ANGLE - atan((xty - CMs[stag].y)/(xtx - CMs[stag].x)));
 
 	//focals don't go back
 	if(pv[xt].contact)
 		dH = NOSTICKJ;
 	
 	if(pv[xs].contact)
-		dH = G_N*(1/dist(CMs,xt,stag) - 1/dist(CMs,xs,stag));
+		dH = G_N*(1/(dist(CMs,xt,stag)*cost) - 1/(dist(CMs,xs,stag)*coss));
 
 	return dH;
 }

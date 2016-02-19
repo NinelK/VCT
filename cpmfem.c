@@ -58,7 +58,7 @@ int main(void)
 
 	// free(pv);
 	// pv = init_voxels();
-	// read_cells(pv,"./output/ctags900.sout","./output/contactM900.sout");
+	// read_cells(pv,"./output/ctags1000.sout","./output/contactM1000.sout");
 	// incr=800;
 	// write_cells(pv,incr);
 	// write_contacts(pv,contacts,NRc,incr);
