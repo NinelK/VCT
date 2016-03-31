@@ -2,7 +2,7 @@
 #include "functions.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-double CPM_moves(VOX* pv, FIBERS* pf, CM* CMs, CONT* contacts, int* attached, int* csize)
+double CPM_moves(VOX* pv, FIBERS* pf, CM* CMs, CONT* contacts, int* attached, int* csize, double k)
 // cellular potts model: one Monte Carlo step
 {
 	int i,j,NRsteps = NV;
@@ -52,7 +52,7 @@ double CPM_moves(VOX* pv, FIBERS* pf, CM* CMs, CONT* contacts, int* attached, in
 			if(go_on)
 			{
         		dH = calcdH(pv,pf,CMs,contacts,csize,xt,xs,pick,ttag,stag);
-        		prob = exp(-IMMOTILITY*dH);
+        		prob = exp(-k*IMMOTILITY*dH);
         		if (prob>(rand()/(double)RAND_MAX))
 				{
             		pv[xt].ctag = stag; // a move is made

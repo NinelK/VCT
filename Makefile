@@ -10,9 +10,9 @@ OBJECTS = CPM_dH.o \
 # include standard C library
 LDFLAGS += -lc 
 # include standard math library
-LDFLAGS += -lm
+LDFLAGS += -lm -fopenmp
 
-CFLAGS += -std=c99
+CFLAGS += -std=c99 -fopenmp
 
 cpmfem: $(OBJECTS)
 	mkdir -p output

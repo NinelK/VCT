@@ -56,7 +56,7 @@ double calcdH(VOX* pv, FIBERS* pf, CM* CMs, CONT* contacts, int* csize, int xt, 
 	int ctag;
 
 	dHcontact = 0;
-	dHcontact = calcdHcontact(pv,xt,ttag,stag, pf[xt].Q);
+	dHcontact = calcdHcontact(pv,xt,ttag,stag);
 
 	dHvol = 0;
 	dHvol = calcdHvol(csize,ttag,stag);
@@ -80,7 +80,7 @@ double calcdH(VOX* pv, FIBERS* pf, CM* CMs, CONT* contacts, int* csize, int xt, 
 
 
 ////////////////////////////////////////////////////////////////////////////////
-double calcdHcontact(VOX* pv, int xt, int ttag, int stag, int Q)
+double calcdHcontact(VOX* pv, int xt, int ttag, int stag)
 {
 	double dHcontact, Hcontact, Hcontactn;
 	int nbs[8],n,nbtag;
@@ -92,8 +92,8 @@ double calcdHcontact(VOX* pv, int xt, int ttag, int stag, int Q)
 	for(n=0;n<8;n++)
 	{
 		nbtag = pv[nbs[n]].ctag;
-		Hcontact += contactenergy(ttag,nbtag) + scaffoldenergy(ttag, Q);
-		Hcontactn += contactenergy(stag,nbtag) + scaffoldenergy(stag, Q);
+		Hcontact += contactenergy(ttag,nbtag);
+		Hcontactn += contactenergy(stag,nbtag);
 	}
 	dHcontact = Hcontactn-Hcontact;
 
@@ -114,13 +114,8 @@ double contactenergy(int tag1, int tag2)
         	J = JCC;
 	}
 
-	return J;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-double scaffoldenergy(int tag, int Q)
-{
-	double J = Q ? JCF : (tag ? JSC : JSM);
+	if(tag1==tag2 && tag1==0)
+		J = JMM;
 
 	return J;
 }

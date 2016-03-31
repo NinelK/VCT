@@ -14,10 +14,10 @@ typedef int BOOL;
 
 #define VOXSIZE .0025 // [mm]
 #define SCALE (VOXSIZE/.0025)
-#define sizeX 9.75 				// [mm]
-#define sizeY 9.75 				// [mm]
+#define sizeX 1.75 				// [mm]
+#define sizeY 1.75 				// [mm]
 #define sizeMarginX 0.200 		// [mm] from one side
-#define sizeMarginY 0.100 		// [mm] from one side
+#define sizeMarginY 0.050 		// [mm] from one side
 #define MARGINX rounder(sizeMarginX/VOXSIZE)
 #define MARGINY rounder(sizeMarginY/VOXSIZE)
 #define NVX rounder((sizeX+2*sizeMarginX)/VOXSIZE) // x 3 = 1500
@@ -40,17 +40,17 @@ typedef int BOOL;
 // cells
 #define IMMOTILITY 1.0*SCALE*SCALE//50
 //#define OVERCROWD 2.0
-#define NCX 100
-#define NCY 290
+#define NCX 11
+#define NCY 45
 
 //field
-#define distanceF 0.020
+#define distanceF 0.02
 #define fiberD	0.0025
 #define F_DISTANCE rounder(distanceF/VOXSIZE)
 #define F_ANGLE 0
 
-#define G_N (5000.0/SCALE)
-#define gS	0.0			// [1/mm]
+#define G_N (2500.0/SCALE)
+#define gS	0.0  			//[1/mm]
 
 
 #define CELLDIAM .020 // cell diameter [mm]
@@ -68,10 +68,8 @@ typedef int BOOL;
 
 #define NOSTICKJ 800.0 //10000// [/mm] contact penalty for none-adhesive surface
 #define JCM (NOSTICKJ*VOXSIZE)  // cell-medium
-#define JCC (1.5*JCM) // cell-cell
-#define JSC JCM			//cell-glass
-#define JCF (fiberD>VOXSIZE ? (0.1*JSC) : (0.1*JSC*fiberD + JSC*(VOXSIZE-fiberD))/VOXSIZE) 		//cell-fiber
-#define JSM 1.04*JSC		//media-glass
+#define JCC (1.0*JCM) // cell-cell
+#define JMM (0.05*JCM) // medium-medium
 
 #define SQ05 .707107 //sqrt(.5), used often enough to make this convenient
 

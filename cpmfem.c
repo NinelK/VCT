@@ -1,5 +1,6 @@
 #include "functions.h"
 #include <sys/time.h>
+#include <omp.h>
 
 int main(void)
 {
@@ -12,7 +13,7 @@ int main(void)
 	FIBERS *pf;
 	int NRc,c,v;
 	int *csize;
-	int incr, startincr;
+	int incr, startincr, i;
 	double acceptance, acceptance_phi;
 
 	/// INITIALIZE ///
@@ -31,25 +32,29 @@ int main(void)
 	CONT* contacts = allocContacts(NRc);
 	int* attached = alloc_attach(NRc);
 
+	//omp_set_dynamic(0);      // запретить библиотеке openmp менять число потоков во время исполнения
+  	//omp_set_num_threads(12); // установить число потоков
+
 	gettimeofday(&tv, NULL);
 	time = tv.tv_sec;
 
-	printf("JCF/JSC: %.4f\n",JCF/JSC);
-
 	// START SIMULATION ///
-	for(incr=startincr; incr<NRINC; incr++)
-	{
-		if (incr % 100 == 0){
-			printf("\nSTART INCREMENT %d",incr);
-			write_cells(pv,incr);
-			write_contacts(pv,contacts,NRc,incr);
-		}
+	for(i=startincr; i<NRINC; i+=12){
+		#pragma omp parallel for shared(pv, contacts, pf, attached, csize, CMs, NRc) private(incr)
+		for(incr=i; incr<i+12; incr++)
+		{
+			if (incr % 100 == 0){
+				printf("\nSTART INCREMENT %d",incr);
+				write_cells(pv,incr);
+				write_contacts(pv,contacts,NRc,incr);
+			}
 
-		findCM(pv,CMs,NRc);
-		acceptance = CPM_moves(pv,pf,CMs,contacts, attached,csize);
+			findCM(pv,CMs,NRc);
+			acceptance = CPM_moves(pv,pf,CMs,contacts, attached,csize, 0.5 + 0.5*incr/NRINC);
 
-		if (incr % 100 == 0){
-			printf("\nAcceptance rate %.4f",acceptance);
+			if (incr % 100 == 0){
+				printf("\nAcceptance rate %.4f",acceptance);
+			}
 		}
 	}
 
