@@ -9,6 +9,7 @@ typedef struct
    	//double x, y;			// minimum coordinates
 	int ctag;				// id of occupying cell, 0 if no cell
 	int contact;			// 0 or 1
+	int type;				//id of cell type
 } VOX;
 
 typedef struct
@@ -16,12 +17,6 @@ typedef struct
 	double x;
 	double y;
 } CM;
-
-typedef struct
-{
-	int x;
-	int y;
-} CONT;
 
 typedef struct
 {

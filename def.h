@@ -14,9 +14,9 @@ typedef int BOOL;
 
 #define VOXSIZE .0025 // [mm]
 #define SCALE (VOXSIZE/.0025)
-#define sizeX 9.75 				// [mm]
-#define sizeY 9.75 				// [mm]
-#define sizeMarginX 0.200 		// [mm] from one side
+#define sizeX 1.50 				// [mm]
+#define sizeY 1.50 				// [mm]
+#define sizeMarginX 0.100 		// [mm] from one side
 #define sizeMarginY 0.100 		// [mm] from one side
 #define MARGINX rounder(sizeMarginX/VOXSIZE)
 #define MARGINY rounder(sizeMarginY/VOXSIZE)
@@ -26,7 +26,7 @@ typedef int BOOL;
 #define NNX (NVX+1)
 #define NNY (NVY+1)
 #define NN  (NNX*NNY)
-#define NRINC 1201
+#define NRINC 1501
 
 #define MAXNRITER 1000
 #define ACCURACY .00001
@@ -40,41 +40,42 @@ typedef int BOOL;
 // cells
 #define IMMOTILITY 1.0*SCALE*SCALE//50
 //#define OVERCROWD 2.0
-#define NCX 100
-#define NCY 290
+#define NCX 10
+#define NCY 10
 
 //field
-#define distanceF 0.020
+#define distanceF 5.00
 #define fiberD	0.0025
 #define F_DISTANCE rounder(distanceF/VOXSIZE)
 #define F_ANGLE 0
 
-#define G_N (5000.0/SCALE)
+#define GN_CM (100.0/SCALE)
+#define GN_FB (2.0/SCALE)
 #define gS	0.0			// [1/mm]
+#define INHIBITION 5
+#define PART 0.5
 
-
-#define CELLDIAM .020 // cell diameter [mm]
-#define CELLRVOX (CELLDIAM/2/VOXSIZE) // cell radius [pixels]
-#define CELLLENGTH .200 // cell length
-#define TARGETVOLUME  (CELLDIAM*CELLLENGTH/VOXSIZE/VOXSIZE) // targetvolume [pixels]
-#define STARTVOLUME (TARGETVOLUME/10)
-#define INELASTICITY 500.0*SCALE*SCALE*SCALE*SCALE // [-] 1.0E20 // [/mm4] //500
-#define NUCLEI_R .020/VOXSIZE
+#define TARGETVOLUME_CM  (0.100*0.020/VOXSIZE/VOXSIZE) // targetvolume [pixels]
+#define TARGETVOLUME_FB  (0.080*0.010/VOXSIZE/VOXSIZE) // targetvolume [pixels]
+#define STARTVOLUME (TARGETVOLUME_FB/10)
+#define INELASTICITY_CM 50.0*SCALE*SCALE*SCALE*SCALE // [-] 1.0E20 // [/mm4] //500
+#define INELASTICITY_FB 25.0*SCALE*SCALE*SCALE*SCALE // [-] 1.0E20 // [/mm4] //500
+#define NUCLEI_R .010/VOXSIZE
 #define NUCL 2.0
 
-#define Rc 4
+#define NOSTICKJ 300.0 //10000// [/mm] contact penalty for none-adhesive surface
+#define JCMMD (NOSTICKJ*VOXSIZE)  		// CM-medium
+#define JCMCM (1.2*JCMMD) 				// CM-CM
+#define JMDMD (0.05*JCMMD) 				// medium-medium
+#define JFBMD (0.8*NOSTICKJ*VOXSIZE)	// FB-medium
+#define JFBFB (1.2*JFBMD)		 		// FB-FB
+#define JFBCM (1.8*JCMMD) 				// FB-CM
 
-//#define NC ((int) sqrt(NVX*NVY/TARGETVOLUME) + 1)			//number of cells in a row/column
-
-#define NOSTICKJ 800.0 //10000// [/mm] contact penalty for none-adhesive surface
-#define JCM (NOSTICKJ*VOXSIZE)  // cell-medium
-#define JCC (1.5*JCM) // cell-cell
-#define JSC JCM			//cell-glass
-#define JCF (fiberD>VOXSIZE ? (0.1*JSC) : (0.1*JSC*fiberD + JSC*(VOXSIZE-fiberD))/VOXSIZE) 		//cell-fiber
-#define JSM 1.04*JSC		//media-glass
 
 #define SQ05 .707107 //sqrt(.5), used often enough to make this convenient
 
-#define MAX_FOCALS 20
+#define MAX_FOCALS_CM 10
+#define MAX_FOCALS_FB 50
+#define MAX_FOCALS (MAX_FOCALS_CM<MAX_FOCALS_FB ? MAX_FOCALS_FB : MAX_FOCALS_CM)
 
 #endif

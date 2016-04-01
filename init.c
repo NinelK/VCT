@@ -32,12 +32,13 @@ VOX* init_voxels(void)
 
 		//pv[v].x = vx * VOXSIZE; pv[v].y = vy * VOXSIZE;
 		pv[v].ctag = 0;
+		pv[v].type = 0;
 	}
 	return pv;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-int init_cells(VOX* pv)
+int init_cells(VOX* pv, int * types)
 {
 	int v, vx, vy, i, j, ix, iy;
 	int NRc;
@@ -56,11 +57,14 @@ int init_cells(VOX* pv)
 			vx = MARGINX + ix * dx + dvx;
 			vy = MARGINY + iy * dy + dvy;
 			NRc++;
+			types[NRc] = (PART<(rand()/(double)RAND_MAX) ? 1 : 2);
 			for(i = -r; i<=r; i++){
 				for (j = -r; j<=r; j++){
 					v = vx + i + (vy + j)*NVX;
-					if (v<NV)
+					if (v<NV){
 						pv[v].ctag = NRc;
+						pv[v].type = types[NRc]; 
+					}
 					else
 						printf("Cell out of area: (%d,%d)\n",vx+i-NVX,vy+j-NVY);
 				}

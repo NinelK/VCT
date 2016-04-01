@@ -13,17 +13,6 @@ CM* allocCM(int NRc)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-CONT* allocContacts(int NRc)
-// alloc Contacts
-{
-	CONT* cont;
-
-	cont = calloc((NRc+1)*MAX_FOCALS, sizeof(CONT));
-	
-	return cont;
-}
-
-////////////////////////////////////////////////////////////////////////////////
 void findCM(VOX* pv, CM* CMs, int NRc)
 // find center of mass
 {

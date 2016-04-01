@@ -39,7 +39,21 @@ void write_cells(VOX* pv, int increment)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-void write_contacts(VOX* pv, CONT* contacts, int NRc, int increment)
+void write_types(int* types, int NRc)
+{
+  int v;
+  FILE *ofp;
+
+  ofp = fopen("./output/types.out","w");
+
+  for(v=0; v<NRc; v++) {
+      fprintf(ofp ,"%d ", types[1+v]);
+  }
+  fflush(ofp);  fclose(ofp);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+void write_contacts(VOX* pv, int NRc, int increment)
 {
   int v;
     int vx,vy;

@@ -11,6 +11,7 @@ int main(void)
 	VOX *pv;
 	FIBERS *pf;
 	int NRc,c,v;
+	int * types;
 	int *csize;
 	int incr, startincr;
 	double acceptance, acceptance_phi;
@@ -23,18 +24,21 @@ int main(void)
 	write_fibers(pf);
 
 	startincr = 0;
-	NRc = init_cells(pv);write_cells(pv,0);
+	types = calloc((NCX*NCY+1), sizeof(int));
+	NRc = init_cells(pv,types);write_cells(pv,0);
 	csize = calloc(NRc, sizeof(int)); for(c=0;c<NRc;c++) {csize[c]=0;}
 	for(v=0;v<NV;v++) {if(pv[v].ctag) {csize[pv[v].ctag-1]++;}}
 
 	CM* CMs = allocCM(NRc);
-	CONT* contacts = allocContacts(NRc);
 	int* attached = alloc_attach(NRc);
 
 	gettimeofday(&tv, NULL);
 	time = tv.tv_sec;
 
-	printf("JCF/JSC: %.4f\n",JCF/JSC);
+	write_types(types,NRc);
+
+	for (incr=0; incr<NRc; incr++)
+		printf("%d ",types[incr]);
 
 	// START SIMULATION ///
 	for(incr=startincr; incr<NRINC; incr++)
@@ -42,11 +46,11 @@ int main(void)
 		if (incr % 100 == 0){
 			printf("\nSTART INCREMENT %d",incr);
 			write_cells(pv,incr);
-			write_contacts(pv,contacts,NRc,incr);
+			write_contacts(pv,NRc,incr);
 		}
 
 		findCM(pv,CMs,NRc);
-		acceptance = CPM_moves(pv,pf,CMs,contacts, attached,csize);
+		acceptance = CPM_moves(pv,pf,CMs, attached,csize, 1.0);
 
 		if (incr % 100 == 0){
 			printf("\nAcceptance rate %.4f",acceptance);
@@ -69,7 +73,7 @@ int main(void)
 	{
 		if (incr % 100 == 0){
 			printf("\nSTART CHANNEL DISTRIBUTION %d",incr);
-			write_contacts(pv,contacts,NRc,incr+1);
+			write_contacts(pv,NRc,incr+1);
 		}
 
 		acceptance = CH_moves(pv, CMs, 0.5 + 0.5*incr/NRINC);

@@ -1,8 +1,10 @@
 // file: cellmoves.c
 #include "functions.h"
 
+#define MAX_FOCALS_T(a) (a==1 ? MAX_FOCALS_CM : MAX_FOCALS_FB)
+
 ////////////////////////////////////////////////////////////////////////////////
-double CPM_moves(VOX* pv, FIBERS* pf, CM* CMs, CONT* contacts, int* attached, int* csize)
+double CPM_moves(VOX* pv, FIBERS* pf, CM* CMs, int* attached, int* csize, double k)
 // cellular potts model: one Monte Carlo step
 {
 	int i,j,NRsteps = NV;
@@ -51,28 +53,21 @@ double CPM_moves(VOX* pv, FIBERS* pf, CM* CMs, CONT* contacts, int* attached, in
 
 			if(go_on)
 			{
-        		dH = calcdH(pv,pf,CMs,contacts,csize,xt,xs,pick,ttag,stag);
-        		prob = exp(-IMMOTILITY*dH);
+        		dH = calcdH(pv,pf,CMs,csize,xt,xs,pick,ttag,stag);
+        		prob = exp(-k*IMMOTILITY*dH);
         		if (prob>(rand()/(double)RAND_MAX))
 				{
             		pv[xt].ctag = stag; // a move is made
+            		pv[xt].type = pv[xs].type;
 
             		if(pv[xs].contact){		//contact moves
             			pv[xt].contact=1;
             			pv[xs].contact=0;
-            			for(j=0;j<MAX_FOCALS;j++){
-            				if(contacts[stag*MAX_FOCALS+j].x==xsx && contacts[stag*MAX_FOCALS+j].y==xsy){	//checked, it works
-            					contacts[stag*MAX_FOCALS+j].x=xtx;
-            					contacts[stag*MAX_FOCALS+j].y=xty;
-            				}
-            			}
             		}
 
-            		if(stag && attached[stag]<MAX_FOCALS){
+            		if(ttag==0 && stag && attached[stag]<MAX_FOCALS_T(pv[xs].type)){
 						//printf(" %d ",attached[stag]);
 						pv[xt].contact = 1;
-						contacts[stag*MAX_FOCALS+attached[stag]].x=xtx;
-						contacts[stag*MAX_FOCALS+attached[stag]].y=xty;
 						attached[stag]++;
 					}
             		if(ttag) {csize[ttag-1]--;}
