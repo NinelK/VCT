@@ -206,7 +206,7 @@ double calcdHfromnuclei(VOX* pv, CM* CMs, int xt, int xs, int ttag, int stag, in
 		dH = NOSTICKJ;
 	
 	if(pv[xs].contact){
-		dH = GN(pv[xs].type)*(1/dist(CMs,xt,stag)*cost - 1/dist(CMs,xs,stag)*coss);
+		dH = GN(pv[xs].type)*(1/dist(CMs,xt,stag)/cost - 1/dist(CMs,xs,stag)/coss);
 		if(ttag!=0)
 			dH /= INHIBITION;
 	}
