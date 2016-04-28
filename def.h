@@ -15,8 +15,9 @@ typedef int BOOL;
 #define VOXSIZE .0025 // [mm]
 #define SCALE (VOXSIZE/.0025)
 #define sizeX 1.00 				// [mm]
-#define sizeY 0.50 				// [mm]
-#define sizeMarginX 0.100 		// [mm] from one side
+#define sizeY 1.00 				// [mm]
+#define sizeMarginX 0.200 		// [mm] from one side
+
 #define sizeMarginY 0.100 		// [mm] from one side
 #define MARGINX rounder(sizeMarginX/VOXSIZE)
 #define MARGINY rounder(sizeMarginY/VOXSIZE)
@@ -40,20 +41,20 @@ typedef int BOOL;
 // cells
 #define IMMOTILITY 1.2*SCALE*SCALE//50
 //#define OVERCROWD 2.0
-#define NCX 16
-#define NCY 20
+#define NCX 10
+#define NCY 50
 
 //field
-#define distanceF 0.005
+#define distanceF 0.020
 #define fiberD	0.0025
 #define F_DISTANCE rounder(distanceF/VOXSIZE)
 #define F_ANGLE 0
 
-#define GN_CM (1000.0/SCALE)
-#define GN_FB (20.0/SCALE)
+#define GN_CM (500.0/SCALE)
+#define GN_FB (200.0/SCALE)
 #define gS	0.0			// [1/mm]
-#define INHIBITION 10
-#define PART 0.5
+#define INHIBITION 2
+#define PART 0.30
 
 #define TARGETVOLUME_CM  (0.100*0.020/VOXSIZE/VOXSIZE) // targetvolume [pixels]
 #define TARGETVOLUME_FB  (0.080*0.010/VOXSIZE/VOXSIZE) // targetvolume [pixels]
@@ -63,11 +64,11 @@ typedef int BOOL;
 #define NUCLEI_R .010/VOXSIZE
 #define NUCL 2.0
 
-#define NOSTICKJ 350.0 //10000// [/mm] contact penalty for none-adhesive surface
-#define JCMMD (NOSTICKJ*VOXSIZE)  		// CM-medium
+#define NOSTICKJ 350.0*3 //10000// [/mm] contact penalty for none-adhesive surface
+#define JCMMD (0.33*NOSTICKJ*VOXSIZE)  		// CM-medium
 #define JCMCM (0.5*JCMMD) 				// CM-CM
 #define JMDMD (0.01*JCMMD) 				// medium-medium
-#define JFBMD (0.8*NOSTICKJ*VOXSIZE)	// FB-medium
+#define JFBMD (0.8*0.33*NOSTICKJ*VOXSIZE)	// FB-medium
 #define JFBFB (0.5*JFBMD)		 		// FB-FB
 #define JFBCM (0.8*JCMMD) 				// FB-CM
 

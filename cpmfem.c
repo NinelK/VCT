@@ -43,7 +43,7 @@ int main(void)
 	// START SIMULATION ///
 	for(incr=startincr; incr<NRINC; incr++)
 	{
-		if (incr % 20 == 0){
+		if (incr % 100 == 0){
 			printf("\nSTART INCREMENT %d",incr);
 			write_cells(pv,incr);
 			write_contacts(pv,NRc,incr);
