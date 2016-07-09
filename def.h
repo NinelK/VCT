@@ -14,10 +14,9 @@ typedef int BOOL;
 
 #define VOXSIZE .0025 // [mm]
 #define SCALE (VOXSIZE/.0025)
-#define sizeX 1.00 				// [mm]
-#define sizeY 1.00 				// [mm]
-#define sizeMarginX 0.200 		// [mm] from one side
-
+#define sizeX 1.0 				// [mm]
+#define sizeY 1.0 				// [mm]
+#define sizeMarginX 0.100 		// [mm] from one side
 #define sizeMarginY 0.100 		// [mm] from one side
 #define MARGINX rounder(sizeMarginX/VOXSIZE)
 #define MARGINY rounder(sizeMarginY/VOXSIZE)
@@ -39,44 +38,44 @@ typedef int BOOL;
 #define G_NCH 100.0
 
 // cells
-#define IMMOTILITY 1.2*SCALE*SCALE//50
+#define IMMOTILITY 1.1*SCALE*SCALE//50
 //#define OVERCROWD 2.0
-#define NCX 10
-#define NCY 50
+#define NCX 7
+#define NCY 7
 
 //field
-#define distanceF 0.020
+#define distanceF 20.0
 #define fiberD	0.0025
 #define F_DISTANCE rounder(distanceF/VOXSIZE)
 #define F_ANGLE 0
 
-#define GN_CM (500.0/SCALE)
-#define GN_FB (200.0/SCALE)
+#define GN_CM (58.0/SCALE)
+#define GN_FB (2.0/SCALE)
 #define gS	0.0			// [1/mm]
 #define INHIBITION 2
-#define PART 0.30
+#define PART 1.0
 
-#define TARGETVOLUME_CM  (0.100*0.020/VOXSIZE/VOXSIZE) // targetvolume [pixels]
-#define TARGETVOLUME_FB  (0.080*0.010/VOXSIZE/VOXSIZE) // targetvolume [pixels]
+#define TARGETVOLUME_CM  (2.10/1000/VOXSIZE/VOXSIZE) // targetvolume [pixels]
+#define TARGETVOLUME_FB  (1.3/1000/VOXSIZE/VOXSIZE) // targetvolume [pixels]
 #define STARTVOLUME (TARGETVOLUME_FB/10)
-#define INELASTICITY_CM 50.0*SCALE*SCALE*SCALE*SCALE // [-] 1.0E20 // [/mm4] //500
-#define INELASTICITY_FB 25.0*SCALE*SCALE*SCALE*SCALE // [-] 1.0E20 // [/mm4] //500
+#define INELASTICITY_CM 100.0*SCALE*SCALE*SCALE*SCALE // [-] 1.0E20 // [/mm4] //500
+#define INELASTICITY_FB 40.0*SCALE*SCALE*SCALE*SCALE // [-] 1.0E20 // [/mm4] //500
 #define NUCLEI_R .010/VOXSIZE
 #define NUCL 2.0
 
-#define NOSTICKJ 350.0*3 //10000// [/mm] contact penalty for none-adhesive surface
-#define JCMMD (0.33*NOSTICKJ*VOXSIZE)  		// CM-medium
+#define NOSTICKJ 750.0 //10000// [/mm] contact penalty for none-adhesive surface
+#define JCMMD (0.52*NOSTICKJ*VOXSIZE)  		// CM-medium
 #define JCMCM (0.5*JCMMD) 				// CM-CM
 #define JMDMD (0.01*JCMMD) 				// medium-medium
-#define JFBMD (0.8*0.33*NOSTICKJ*VOXSIZE)	// FB-medium
+#define JFBMD (0.2*NOSTICKJ*VOXSIZE)	// FB-medium
 #define JFBFB (0.5*JFBMD)		 		// FB-FB
 #define JFBCM (0.8*JCMMD) 				// FB-CM
 
 
 #define SQ05 .707107 //sqrt(.5), used often enough to make this convenient
 
-#define MAX_FOCALS_CM 20
-#define MAX_FOCALS_FB 50
+#define MAX_FOCALS_CM 13
+#define MAX_FOCALS_FB 16
 #define MAX_FOCALS (MAX_FOCALS_CM<MAX_FOCALS_FB ? MAX_FOCALS_FB : MAX_FOCALS_CM)
 
 #endif

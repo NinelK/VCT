@@ -54,8 +54,8 @@ int init_cells(VOX* pv, int * types)
 		for (ix = 0; ix < NCX; ix++){
 			dvx = (mt_random()%(dx-2*r+1)) -((int) dx/2 - r);
 			dvy = (mt_random()%(dy-2*r+1)) -((int) dy/2 - r);
-			vx = MARGINX + ix * dx + dvx;
-			vy = MARGINY + iy * dy + dvy;
+			vx = MARGINX + ix * dx + 0*dvx;
+			vy = MARGINY + iy * dy + 0*dvy;
 			NRc++;
 			types[NRc] = (PART<(rand()/(double)RAND_MAX) ? 1 : 2);
 			for(i = -r; i<=r; i++){
