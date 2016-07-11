@@ -65,6 +65,11 @@ double CPM_moves(VOX* pv, FIBERS* pf, CM* CMs, int* attached, int* csize, double
             			pv[xs].contact=0;
             		}
 
+            		if(pv[xt].contact && pv[xs].contact==0){
+            			pv[xt].contact=0;
+            			attached[stag]--;
+            		}
+
             		if(ttag==0 && stag && attached[stag]<MAX_FOCALS_T(pv[xs].type)){
 						//printf(" %d ",attached[stag]);
 						pv[xt].contact = 1;

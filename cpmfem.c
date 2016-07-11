@@ -1,7 +1,44 @@
 #include "functions.h"
 #include <sys/time.h>
+#include <unistd.h>
 
-int main(void)
+static char *options = "p:sf";
+static char *program_name;
+
+void parse_options(int argc, char *argv[])
+{
+    int opt;
+
+    program_name = argv[0];
+    silence=0;
+    distanceF=20.0;
+
+    while ((opt = getopt(argc, argv, options)) != -1) {
+        switch (opt) {
+        case 'p':
+            IMMOTILITY		= atof(strtok(optarg, ","))*SCALE*SCALE;
+            GN_FB 			= atof(strtok(NULL, ","))/SCALE;
+            TARGETVOLUME_FB = atof(strtok(NULL, ","))/1000/VOXSIZE/VOXSIZE;
+            INELASTICITY_FB = atof(strtok(NULL, ","))*SCALE*SCALE*SCALE*SCALE;
+            NOSTICKJ		= atof(strtok(NULL, ","));
+            JMDMD 			= atof(strtok(NULL, ","))*NOSTICKJ*VOXSIZE;
+            JFBMD 			= atof(strtok(NULL, ","))*NOSTICKJ*VOXSIZE;
+            break;
+        case 's':
+        	silence=1;
+        	break;
+        case 'f':
+        	distanceF = 0.020;
+        	break;
+        default:
+            printf("WTF?");
+            break;
+        }
+    }
+}
+
+
+int main(int argc, char *argv[])
 {
 
 	struct timeval tv;
@@ -15,6 +52,18 @@ int main(void)
 	int *csize;
 	int incr, startincr;
 	double acceptance, acceptance_phi;
+
+	parse_options(argc, argv);
+	
+	if(!silence){
+		printf("IMMOTILITY = %.2f\n",IMMOTILITY/(SCALE*SCALE));
+		printf("GN_FB = %.2f\n",GN_FB*SCALE);
+		printf("TARGETVOLUME_FB = %.2f\n",TARGETVOLUME_FB*1000*VOXSIZE*VOXSIZE);
+		printf("INELASTICITY_FB = %.2f\n",INELASTICITY_FB/(SCALE*SCALE*SCALE*SCALE));
+		printf("NOSTICKJ = %.2f\n",NOSTICKJ*SCALE);
+		printf("JMDMD = %.3f\n",JMDMD/(NOSTICKJ*VOXSIZE));
+		printf("JFBMD = %.3f\n",JFBMD/(NOSTICKJ*VOXSIZE));
+	}
 
 	/// INITIALIZE ///
    	srand(SEED); mt_init();
@@ -37,14 +86,16 @@ int main(void)
 
 	write_types(types,NRc);
 
-	for (incr=0; incr<NRc; incr++)
-		printf("%d ",types[incr]);
+	if(!silence)
+		for (incr=0; incr<NRc; incr++)
+			printf("%d ",types[incr]);
 
 	// START SIMULATION ///
 	for(incr=startincr; incr<NRINC; incr++)
 	{
 		if (incr % 100 == 0){
-			printf("\nSTART INCREMENT %d",incr);
+			if (!silence)
+				printf("\nSTART INCREMENT %d",incr);
 			write_cells(pv,incr);
 			write_contacts(pv,NRc,incr);
 		}
@@ -52,15 +103,16 @@ int main(void)
 		findCM(pv,CMs,NRc);
 		acceptance = CPM_moves(pv,pf,CMs, attached,csize, 1.0);
 
-		if (incr % 100 == 0){
+		if (!silence && incr % 100 == 0){
 			printf("\nAcceptance rate %.4f",acceptance);
 		}
 	}
 
 	/// END ///
-	printf("\nSIMULATION FINISHED!\n");
+	if(!silence)
+		printf("\nSIMULATION FINISHED!\n");
 
-	// free(pv);
+	/*// free(pv);
 	// pv = init_voxels();
 	// read_cells(pv,"./output/ctags1000.sout","./output/contactM1000.sout");
 	// incr=800;
@@ -84,10 +136,11 @@ int main(void)
 	}
 
 	/// END ///
-	printf("\nSIMULATION FINISHED!\n");
+	printf("\nSIMULATION FINISHED!\n");*/
 
 	gettimeofday(&tv, NULL);
-	printf("Took %lds\n", tv.tv_sec - time);
+	if(!silence)
+		printf("Took %lds\n", tv.tv_sec - time);
 
 	free(pv); 
 	free(pf);

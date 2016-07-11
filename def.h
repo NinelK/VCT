@@ -2,6 +2,8 @@
 #ifndef _DEF
 #define _DEF
 
+int silence;
+
 #define NULL 0
 #define FALSE 0
 #define TRUE 1
@@ -31,43 +33,50 @@ typedef int BOOL;
 #define MAXNRITER 1000
 #define ACCURACY .00001
 
-
 #define IMMOTILITY_CH 1.0*SCALE*SCALE//50
 #define JB	5.0
 #define JH	4.0
 #define G_NCH 100.0
 
 // cells
-#define IMMOTILITY 1.1*SCALE*SCALE//50
+//#define IMMOTILITY 1.0*SCALE*SCALE//50
+double IMMOTILITY;
 //#define OVERCROWD 2.0
 #define NCX 7
 #define NCY 7
 
 //field
-#define distanceF 20.0
+//#define distanceF 20.0
+double distanceF;
 #define fiberD	0.0025
 #define F_DISTANCE rounder(distanceF/VOXSIZE)
 #define F_ANGLE 0
 
 #define GN_CM (58.0/SCALE)
-#define GN_FB (2.0/SCALE)
+//#define GN_FB (5.0/SCALE)
+double GN_FB;
 #define gS	0.0			// [1/mm]
 #define INHIBITION 2
 #define PART 1.0
 
 #define TARGETVOLUME_CM  (2.10/1000/VOXSIZE/VOXSIZE) // targetvolume [pixels]
-#define TARGETVOLUME_FB  (1.3/1000/VOXSIZE/VOXSIZE) // targetvolume [pixels]
+//#define TARGETVOLUME_FB  (1.10/1000/VOXSIZE/VOXSIZE) // targetvolume [pixels]
+double TARGETVOLUME_FB;
 #define STARTVOLUME (TARGETVOLUME_FB/10)
 #define INELASTICITY_CM 100.0*SCALE*SCALE*SCALE*SCALE // [-] 1.0E20 // [/mm4] //500
-#define INELASTICITY_FB 40.0*SCALE*SCALE*SCALE*SCALE // [-] 1.0E20 // [/mm4] //500
+//#define INELASTICITY_FB 35.0*SCALE*SCALE*SCALE*SCALE // [-] 1.0E20 // [/mm4] //500
+double INELASTICITY_FB;
 #define NUCLEI_R .010/VOXSIZE
 #define NUCL 2.0
 
-#define NOSTICKJ 750.0 //10000// [/mm] contact penalty for none-adhesive surface
+//#define NOSTICKJ 750.0 //10000// [/mm] contact penalty for none-adhesive surface
+double NOSTICKJ;
 #define JCMMD (0.52*NOSTICKJ*VOXSIZE)  		// CM-medium
 #define JCMCM (0.5*JCMMD) 				// CM-CM
-#define JMDMD (0.01*JCMMD) 				// medium-medium
-#define JFBMD (0.2*NOSTICKJ*VOXSIZE)	// FB-medium
+//#define JMDMD (0.005*NOSTICKJ*VOXSIZE)  // medium-medium
+double JMDMD;
+//#define JFBMD (0.25*NOSTICKJ*VOXSIZE)	// FB-medium
+double JFBMD;
 #define JFBFB (0.5*JFBMD)		 		// FB-FB
 #define JFBCM (0.8*JCMMD) 				// FB-CM
 
