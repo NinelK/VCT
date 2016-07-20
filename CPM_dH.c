@@ -5,6 +5,7 @@
 #define TARGETVOLUME(a) (a==1 ? TARGETVOLUME_CM : TARGETVOLUME_FB)
 #define INELASTICITY(a) (a==1 ? INELASTICITY_CM : INELASTICITY_FB)
 #define GN(a)			(a==1 ? GN_CM : GN_FB)
+#define NOSTICKJ(a)		(a==1 ? NOSTICKJ_CM : NOSTICKJ_FB)
 
 ////////////////////////////////////////////////////////////////////////////////
 double calcdH_CH(VOX* pv, CM* CMs, int xt, int xs)
@@ -156,7 +157,7 @@ double calcdHvol(int* csize, int ttag, int stag, int ttype, int stype)
 ////////////////////////////////////////////////////////////////////////////////
 double calcdHconnectivity(VOX* pv, int xt, int stag)
 {
-	double dH = NOSTICKJ;
+	double dH = NOSTICKJ(pv[xt].type);
 
 	int nbs[4],n;
 
@@ -203,7 +204,7 @@ double calcdHfromnuclei(VOX* pv, CM* CMs, int xt, int xs, int ttag, int stag, in
 
 	//focals can not be erased
 	if(pv[xt].contact)
-		dH = NOSTICKJ;
+		dH = NOSTICKJ(pv[xt].type);
 	
 	if(pv[xs].contact){
 		dH = GN(pv[xs].type)*(1/dist(CMs,xt,stag)/cost - 1/dist(CMs,xs,stag)/coss);
@@ -221,7 +222,7 @@ double calcdHnuclei(VOX* pv, CM* CMs, int xt, int ttag, int stag)
 
 	//don't touch the nuclei
 	if(dist(CMs,xt,ttag)<NUCLEI_R)
-		dH = NUCL*NOSTICKJ;
+		dH = NUCL*NOSTICKJ(pv[xt].type);
 
 	return dH;
 }
