@@ -2,7 +2,7 @@
 #include <sys/time.h>
 #include <unistd.h>
 
-static char *options = "p:sf";
+static char *options = "p:s";
 static char *program_name;
 
 void parse_options(int argc, char *argv[])
@@ -11,26 +11,20 @@ void parse_options(int argc, char *argv[])
 
     program_name = argv[0];
     silence=0;
-    distanceF=20.0;
-    MAX_FOCALS_FB = 16;
 
     while ((opt = getopt(argc, argv, options)) != -1) {
         switch (opt) {
         case 'p':
-        	SEED			= atoi(strtok(optarg, ","));
+        	/*SEED			= atoi(strtok(optarg, ","));
             GN_FB 			= atof(strtok(NULL, ","))/SCALE;
             TARGETVOLUME_FB = atof(strtok(NULL, ","))/1000/VOXSIZE/VOXSIZE;
             INELASTICITY_FB = atof(strtok(NULL, ","))*SCALE*SCALE*SCALE*SCALE;
             NOSTICKJ_FB		= atof(strtok(NULL, ","));
             JMDMD 			= atof(strtok(NULL, ","))*VOXSIZE;
-            JFBMD 			= atof(strtok(NULL, ","))*VOXSIZE;
+            JFBMD 			= atof(strtok(NULL, ","))*VOXSIZE;*/
             break;
         case 's':
         	silence=1;
-        	break;
-        case 'f':
-        	distanceF = 0.020;
-        	MAX_FOCALS_FB = 13;
         	break;
         default:
             printf("WTF?");
@@ -55,16 +49,16 @@ int main(int argc, char *argv[])
 	int incr, startincr;
 	double acceptance, acceptance_phi;
 
-	parse_options(argc, argv);
+	//parse_options(argc, argv);
 	
 	if(!silence){
 		printf("SEED = %d\n",SEED);
-		printf("GN_FB = %.2f\n",GN_FB*SCALE);
+		/*printf("GN_FB = %.2f\n",GN_FB*SCALE);
 		printf("TARGETVOLUME_FB = %.2f\n",TARGETVOLUME_FB*1000*VOXSIZE*VOXSIZE);
 		printf("INELASTICITY_FB = %.2f\n",INELASTICITY_FB/(SCALE*SCALE*SCALE*SCALE));
 		printf("NOSTICKJ_FB = %.2f\n",NOSTICKJ_FB*SCALE);
 		printf("JMDMD = %.3f\n",JMDMD/VOXSIZE);
-		printf("JFBMD = %.3f\n",JFBMD/VOXSIZE);
+		printf("JFBMD = %.3f\n",JFBMD/VOXSIZE);*/
 	}
 
 	/// INITIALIZE ///

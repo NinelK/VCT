@@ -6,8 +6,7 @@
 #define FALSE 0
 #define TRUE 1
 typedef int BOOL;
-//#define SEED 2
-int SEED;
+#define SEED 2
 
 #define PI 3.14159265359 
 
@@ -16,8 +15,8 @@ int SEED;
 //sample size
 #define VOXSIZE .0025 			// [mm]
 #define SCALE (VOXSIZE/.0025)	//
-#define sizeX 1.0 				// [mm]
-#define sizeY 1.0 				// [mm]
+#define sizeX 2.0 				// [mm]
+#define sizeY 2.0 				// [mm]
 #define sizeMarginX 0.100 		// [mm] from one side
 #define sizeMarginY 0.100 		// [mm] from one side
 #define MARGINX rounder(sizeMarginX/VOXSIZE)
@@ -41,45 +40,38 @@ int SEED;
 
 // cells
 #define IMMOTILITY 1.0*SCALE*SCALE						// 1/T
-#define NCX 10
-#define NCY 10
+#define NCX 15
+#define NCY 15
 
 //fibers
-//#define distanceF 20.0									// [mm] distance between fibers
-double distanceF;
+#define distanceF 20.0									// [mm] distance between fibers
 #define fiberD	0.0025									// [mm] fibers diameter
 #define F_DISTANCE rounder(distanceF/VOXSIZE)			// [pixels]
 #define F_ANGLE 0										// angle of fibers with horizont
 
 //spreading
-#define GN_CM (70.0/SCALE)								// [/mm] spreading force constant for CM
-//#define GN_FB (8.0/SCALE)								// [/mm] for FB
-double GN_FB;
+#define GN_CM (73.2/SCALE)								// [/mm] spreading force constant for CM
+#define GN_FB (6.12/SCALE)								// [/mm] for FB
 #define INHIBITION 1.0
-#define PART 1.0
+#define PART 0.5
 
 //elasticity
-#define TARGETVOLUME_CM  (1.60/1000/VOXSIZE/VOXSIZE) 	// targetvolume [pixels]
-//#define TARGETVOLUME_FB  (1.10/1000/VOXSIZE/VOXSIZE)	// targetvolume [pixels]
-double TARGETVOLUME_FB;
+#define TARGETVOLUME_CM  (1.78/1000/VOXSIZE/VOXSIZE) 	// targetvolume [pixels]
+#define TARGETVOLUME_FB  (1.29/1000/VOXSIZE/VOXSIZE)	// targetvolume [pixels]
 #define STARTVOLUME (TARGETVOLUME_FB/10)
-#define INELASTICITY_CM 189.0*SCALE*SCALE*SCALE*SCALE 	// [/mm4]
-//#define INELASTICITY_FB 62.5*SCALE*SCALE*SCALE*SCALE 	// [/mm4]
-double INELASTICITY_FB;
+#define INELASTICITY_CM 196.06*SCALE*SCALE*SCALE*SCALE 	// [/mm4]
+#define INELASTICITY_FB 100.11*SCALE*SCALE*SCALE*SCALE 	// [/mm4]
 
 //nucleus protection
 #define NUCLEI_R .007/VOXSIZE			// nucleus radius [pixels]
 #define NUCL 2.0						// penalty for nucleus penetration (NUCL * NOSTICKJ)
 
 //Js
-#define NOSTICKJ_CM 1520.0 				// [/mm] contact penalty for none-adhesive surface
-//#define NOSTICKJ_FB 1375.0 				// [/mm] contact penalty for none-adhesive surface
-double NOSTICKJ_FB;
-#define JCMMD (545.0*VOXSIZE)  			// CM-medium
-//#define JMDMD (34.4 * VOXSIZE) 			// medium-medium
-//#define JFBMD (290.0*VOXSIZE)			// FB-medium
-double JMDMD;
-double JFBMD;
+#define NOSTICKJ_CM 1139.55 			// [/mm] contact penalty for none-adhesive surface
+#define NOSTICKJ_FB 943.52 				// [/mm] contact penalty for none-adhesive surface
+#define JCMMD (469.81 * VOXSIZE)  		// CM-medium
+#define JMDMD (34.209 * VOXSIZE) 		// medium-medium
+#define JFBMD (217.11*VOXSIZE)			// FB-medium
 #define JCMCM (0.5*JCMMD) 				// CM-CM
 #define JFBFB (0.5*JFBMD)		 		// FB-FB
 #define JFBCM (0.8*JCMMD) 				// FB-CM
@@ -88,9 +80,8 @@ double JFBMD;
 
 //number of focal adhesions
 #define MAX_FOCALS_CM 13
-//#define MAX_FOCALS_FB 16
-double MAX_FOCALS_FB;
-#define MAX_FOCALS (MAX_FOCALS_CM<MAX_FOCALS_FB ? MAX_FOCALS_FB : MAX_FOCALS_CM)
+#define MAX_FOCALS_FB 16
+//#define MAX_FOCALS (MAX_FOCALS_CM<MAX_FOCALS_FB ? MAX_FOCALS_FB : MAX_FOCALS_CM)
 
 int silence;
 
