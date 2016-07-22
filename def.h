@@ -6,7 +6,8 @@
 #define FALSE 0
 #define TRUE 1
 typedef int BOOL;
-#define SEED 2
+//#define SEED 2
+int SEED;
 
 #define PI 3.14159265359 
 
@@ -39,8 +40,7 @@ typedef int BOOL;
 #define G_NCH 100.0
 
 // cells
-//#define IMMOTILITY 1.0*SCALE*SCALE						// 1/T
-double IMMOTILITY;
+#define IMMOTILITY 1.0*SCALE*SCALE						// 1/T
 #define NCX 10
 #define NCY 10
 

@@ -17,7 +17,7 @@ void parse_options(int argc, char *argv[])
     while ((opt = getopt(argc, argv, options)) != -1) {
         switch (opt) {
         case 'p':
-            IMMOTILITY		= atof(strtok(optarg, ","))*SCALE*SCALE;
+        	SEED			= atoi(strtok(optarg, ","));
             GN_FB 			= atof(strtok(NULL, ","))/SCALE;
             TARGETVOLUME_FB = atof(strtok(NULL, ","))/1000/VOXSIZE/VOXSIZE;
             INELASTICITY_FB = atof(strtok(NULL, ","))*SCALE*SCALE*SCALE*SCALE;
@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
 	parse_options(argc, argv);
 	
 	if(!silence){
-		printf("IMMOTILITY = %.2f\n",IMMOTILITY/(SCALE*SCALE));
+		printf("SEED = %d\n",SEED);
 		printf("GN_FB = %.2f\n",GN_FB*SCALE);
 		printf("TARGETVOLUME_FB = %.2f\n",TARGETVOLUME_FB*1000*VOXSIZE*VOXSIZE);
 		printf("INELASTICITY_FB = %.2f\n",INELASTICITY_FB/(SCALE*SCALE*SCALE*SCALE));
