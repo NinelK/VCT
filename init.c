@@ -84,7 +84,7 @@ FIBERS* set_fibers(void)
 	double dx,dy;
 	double k, k0;
 
-	dx = F_ANGLE!=0 ? F_DISTANCE / sin(F_ANGLE) : 0.0;
+	dx = F_ANGLE!=0    ? F_DISTANCE / sin(F_ANGLE) : 0.0;
 	dy = F_ANGLE!=PI/2 ? F_DISTANCE / cos(F_ANGLE) : 0.0;
 
    	pf = calloc(NV, sizeof(FIBERS));
@@ -96,7 +96,6 @@ FIBERS* set_fibers(void)
    	if(F_ANGLE!=PI/2){
    		fd = round(fiberD / VOXSIZE / cos(F_ANGLE));
 	   	fd = fd<1 ? 1 : fd;
-	   	printf("fiberdY: %d\n", fd);
 	   	for(vx=0; vx<NVX; vx++){
 	   		k0 = fmod(vx*tan(F_ANGLE),dy);
 	   		k = k0;

@@ -4,7 +4,7 @@
 #define MAX_FOCALS_T(a) (a==1 ? MAX_FOCALS_CM : MAX_FOCALS_FB)
 
 ////////////////////////////////////////////////////////////////////////////////
-double CPM_moves(VOX* pv, FIBERS* pf, CM* CMs, int* attached, int* csize, double k)
+double CPM_moves(VOX* pv, FIBERS* pf, CM* CMs, int* attached, int* csize)
 // cellular potts model: one Monte Carlo step
 {
 	int i,j,NRsteps = NV;
@@ -19,7 +19,6 @@ double CPM_moves(VOX* pv, FIBERS* pf, CM* CMs, int* attached, int* csize, double
 
 	for(i=0;i<NRsteps;i++)
 	{
-		//xt = (rand()*NV/RAND_MAX); // pick random element
 		xt = mt_random()%NV; // pick random element
 		xty = xt/NVX; xtx = xt%NVX;
 
@@ -46,15 +45,12 @@ double CPM_moves(VOX* pv, FIBERS* pf, CM* CMs, int* attached, int* csize, double
             		if(csize[ttag-1]==1) // cell cannot disappear (constraint may be removed)
                 		go_on = 0;
 				}
-				/*if(pv[xs].contact && pf[xs].Q && !pf[xt].Q){
-					go_on = 0;
-				}*/
 			}
 
 			if(go_on)
 			{
         		dH = calcdH(pv,pf,CMs,csize,xt,xs,pick,ttag,stag);
-        		prob = exp(-k*IMMOTILITY*dH);
+        		prob = exp(-IMMOTILITY*dH);
         		if (prob>(rand()/(double)RAND_MAX))
 				{
             		pv[xt].ctag = stag; // a move is made
@@ -65,8 +61,12 @@ double CPM_moves(VOX* pv, FIBERS* pf, CM* CMs, int* attached, int* csize, double
             			pv[xs].contact=0;
             		}
 
+            		if(pv[xt].contact && stag==0){
+            			pv[xt].contact = 0;
+            			attached[ttag]--;
+            		}
+
             		if(ttag==0 && stag && attached[stag]<MAX_FOCALS_T(pv[xs].type)){
-						//printf(" %d ",attached[stag]);
 						pv[xt].contact = 1;
 						attached[stag]++;
 					}

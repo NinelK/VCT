@@ -5,6 +5,11 @@
 #define TARGETVOLUME(a) (a==1 ? TARGETVOLUME_CM : TARGETVOLUME_FB)
 #define INELASTICITY(a) (a==1 ? INELASTICITY_CM : INELASTICITY_FB)
 #define GN(a)			(a==1 ? GN_CM : GN_FB)
+#define NOSTICKJ(a)		(a==1 ? NOSTICKJ_CM : NOSTICKJ_FB)
+/*#define TARGETVOLUME(a) (a==2 ? TARGETVOLUME_FB : TARGETVOLUME_CM)
+#define INELASTICITY(a) (a==2 ? INELASTICITY_FB : INELASTICITY_CM)
+#define GN(a)			(a==2 ? GN_FB : GN_CM)
+#define NOSTICKJ(a)		(a==2 ? NOSTICKJ_FB : NOSTICKJ_CM)*/
 
 ////////////////////////////////////////////////////////////////////////////////
 double calcdH_CH(VOX* pv, CM* CMs, int xt, int xs)
@@ -156,7 +161,10 @@ double calcdHvol(int* csize, int ttag, int stag, int ttype, int stype)
 ////////////////////////////////////////////////////////////////////////////////
 double calcdHconnectivity(VOX* pv, int xt, int stag)
 {
-	double dH = NOSTICKJ;
+	double dH = NOSTICKJ(pv[xt].type);			//if type=0 -- process below (dH=0)
+
+	if(pv[xt].type == 0)						//if you copy something TO media subcell
+		dH = 0;									//connectivity never gets worse
 
 	int nbs[4],n;
 
@@ -201,14 +209,22 @@ double calcdHfromnuclei(VOX* pv, CM* CMs, int xt, int xs, int ttag, int stag, in
 	if(Qt)
 		cost = cos(F_ANGLE - atan((xty - CMs[stag].y)/(xtx - CMs[stag].x)));
 
-	//focals can not be erased
-	if(pv[xt].contact)
-		dH = NOSTICKJ;
-	
 	if(pv[xs].contact){
-		dH = GN(pv[xs].type)*(1/dist(CMs,xt,stag)/cost - 1/dist(CMs,xs,stag)/coss);
-		if(ttag!=0)
-			dH /= INHIBITION;
+		if(pv[xt].contact)
+			dH = NOSTICKJ(pv[xs].type) + NOSTICKJ(pv[xt].type);
+		else{
+			dH = GN(pv[xs].type)*(1/dist(CMs,xt,stag)/cost - 1/dist(CMs,xs,stag)/coss);
+			if(ttag!=0)
+				dH /= INHIBITION;
+		}
+	}else{
+		//focals can not be erased
+		if(pv[xt].contact)	
+			dH = NOSTICKJ(pv[xt].type);
+		else
+			dH = 0;
+		if(pv[xt].contact && pv[xt].type==0)
+			printf("Media contact!!!!");
 	}
 
 	return dH;
@@ -220,8 +236,8 @@ double calcdHnuclei(VOX* pv, CM* CMs, int xt, int ttag, int stag)
 	double dH = 0;
 
 	//don't touch the nuclei
-	if(dist(CMs,xt,ttag)<NUCLEI_R)
-		dH = NUCL*NOSTICKJ;
+	if(ttag && dist(CMs,xt,ttag)<NUCLEI_R)
+		dH = NUCL*NOSTICKJ(pv[xt].type);
 
 	return dH;
 }
