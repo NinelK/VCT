@@ -24,15 +24,22 @@ conts=Import["./output/contactM900.out","Table"];
 
 indexes=Import["./output/ctags"<>ToString[900]<>".out","Table"];
 
+
+mCM=Map[If[#>0&&types[[#]]==1,#,0]&,indexes,{2}];
 mFB=Map[If[#>0&&types[[#]]==2,#,0]&,indexes,{2}];
 (*F[x_]:={Mean[x],StandardDeviation[x]};*)
 F[x_]:=Mean[x];
 legsC=Table[Module[{mCell=Map[If[#==n,0,1]&,indexes,{2}]},{n,CountLegs[ImageCrop@Image[mCell\[Transpose]]],types[[n]]}],{n,1,Length@types-1}];
+legsCM=Select[legsC,#[[3]]==1&][[;;,2]];
 legsFB=Select[legsC,#[[3]]==2&][[;;,2]];
 
 params=<<"params.txt";
 
-newline={params,{F@(ComponentMeasurements[mFB,"Area"][[;;,2]]2.5^2),
+newline={params,
+{F@(ComponentMeasurements[mCM,"Area"][[;;,2]]2.5^2),
+F[ComponentMeasurements[mCM,"ConvexCoverage"][[;;,2]]],F[(1-ComponentMeasurements[mCM,"Elongation"][[;;,2]])^-1],
+F[(1-ComponentMeasurements[mCM,"CaliperElongation"][[;;,2]])^-1],N@F[legsCM]},
+{F@(ComponentMeasurements[mFB,"Area"][[;;,2]]2.5^2),
 F[ComponentMeasurements[mFB,"ConvexCoverage"][[;;,2]]],F[(1-ComponentMeasurements[mFB,"Elongation"][[;;,2]])^-1],
 F[(1-ComponentMeasurements[mFB,"CaliperElongation"][[;;,2]])^-1],N@F[legsFB]}};
 

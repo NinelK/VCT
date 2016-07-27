@@ -28,6 +28,9 @@ methods
 *.sql
 *.sqlite
 
+# Imgs #
+*.png
+
 # OS generated files #
 ######################
 .DS_Store
@@ -43,3 +46,5 @@ imgs/
 maps/
 output/
 cpmfem
+output.txt
+params.txt

@@ -41,8 +41,8 @@ int SEED;
 
 // cells
 #define IMMOTILITY 1.0*SCALE*SCALE						// 1/T
-#define NCX 10
-#define NCY 10
+#define NCX 7
+#define NCY 7
 
 //fibers
 //#define distanceF 20.0									// [mm] distance between fibers
@@ -52,19 +52,22 @@ double distanceF;
 #define F_ANGLE 0										// angle of fibers with horizont
 
 //spreading
-#define GN_CM (70.0/SCALE)								// [/mm] spreading force constant for CM
+//#define GN_CM (70.0/SCALE)								// [/mm] spreading force constant for CM
 //#define GN_FB (8.0/SCALE)								// [/mm] for FB
+double GN_CM;
 double GN_FB;
 #define INHIBITION 1.0
-#define PART 1.0
+#define PART 0.5
 
 //elasticity
-#define TARGETVOLUME_CM  (1.60/1000/VOXSIZE/VOXSIZE) 	// targetvolume [pixels]
+//#define TARGETVOLUME_CM  (1.60/1000/VOXSIZE/VOXSIZE) 	// targetvolume [pixels]
 //#define TARGETVOLUME_FB  (1.10/1000/VOXSIZE/VOXSIZE)	// targetvolume [pixels]
+double TARGETVOLUME_CM;
 double TARGETVOLUME_FB;
 #define STARTVOLUME (TARGETVOLUME_FB/10)
-#define INELASTICITY_CM 189.0*SCALE*SCALE*SCALE*SCALE 	// [/mm4]
+//#define INELASTICITY_CM 189.0*SCALE*SCALE*SCALE*SCALE 	// [/mm4]
 //#define INELASTICITY_FB 62.5*SCALE*SCALE*SCALE*SCALE 	// [/mm4]
+double INELASTICITY_CM;
 double INELASTICITY_FB;
 
 //nucleus protection
@@ -72,13 +75,15 @@ double INELASTICITY_FB;
 #define NUCL 2.0						// penalty for nucleus penetration (NUCL * NOSTICKJ)
 
 //Js
-#define NOSTICKJ_CM 1520.0 				// [/mm] contact penalty for none-adhesive surface
+//#define NOSTICKJ_CM 1520.0 				// [/mm] contact penalty for none-adhesive surface
 //#define NOSTICKJ_FB 1375.0 				// [/mm] contact penalty for none-adhesive surface
+double NOSTICKJ_CM;
 double NOSTICKJ_FB;
-#define JCMMD (545.0*VOXSIZE)  			// CM-medium
+//#define JCMMD (545.0*VOXSIZE)  			// CM-medium
 //#define JMDMD (34.4 * VOXSIZE) 			// medium-medium
 //#define JFBMD (290.0*VOXSIZE)			// FB-medium
 double JMDMD;
+double JCMMD;
 double JFBMD;
 #define JCMCM (0.5*JCMMD) 				// CM-CM
 #define JFBFB (0.5*JFBMD)		 		// FB-FB
@@ -87,8 +92,9 @@ double JFBMD;
 #define SQ05 .707107 					//sqrt(.5), used often enough to make this convenient
 
 //number of focal adhesions
-#define MAX_FOCALS_CM 13
+//#define MAX_FOCALS_CM 13
 //#define MAX_FOCALS_FB 16
+double MAX_FOCALS_CM;
 double MAX_FOCALS_FB;
 #define MAX_FOCALS (MAX_FOCALS_CM<MAX_FOCALS_FB ? MAX_FOCALS_FB : MAX_FOCALS_CM)
 

@@ -6,6 +6,10 @@
 #define INELASTICITY(a) (a==1 ? INELASTICITY_CM : INELASTICITY_FB)
 #define GN(a)			(a==1 ? GN_CM : GN_FB)
 #define NOSTICKJ(a)		(a==1 ? NOSTICKJ_CM : NOSTICKJ_FB)
+//#define TARGETVOLUME(a) (a==2 ? TARGETVOLUME_FB : TARGETVOLUME_CM)
+//#define INELASTICITY(a) (a==2 ? INELASTICITY_FB : INELASTICITY_CM)
+//#define GN(a)			(a==2 ? GN_FB : GN_CM)
+//#define NOSTICKJ(a)		(a==2 ? NOSTICKJ_FB : NOSTICKJ_CM)
 
 ////////////////////////////////////////////////////////////////////////////////
 double calcdH_CH(VOX* pv, CM* CMs, int xt, int xs)
