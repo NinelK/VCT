@@ -12,24 +12,37 @@ void parse_options(int argc, char *argv[])
     program_name = argv[0];
     silence=0;
     distanceF=20.0;
+    MAX_FOCALS_CM = 13;
     MAX_FOCALS_FB = 16;
 
     while ((opt = getopt(argc, argv, options)) != -1) {
         switch (opt) {
         case 'p':
         	SEED			= atoi(strtok(optarg, ","));
+
+        	GN_CM 			= atof(strtok(NULL, ","))/SCALE;
+            TARGETVOLUME_CM = atof(strtok(NULL, ","))/1000/VOXSIZE/VOXSIZE;
+            INELASTICITY_CM = atof(strtok(NULL, ","))*SCALE*SCALE*SCALE*SCALE;
+            NOSTICKJ_CM		= atof(strtok(NULL, ","));
+
             GN_FB 			= atof(strtok(NULL, ","))/SCALE;
             TARGETVOLUME_FB = atof(strtok(NULL, ","))/1000/VOXSIZE/VOXSIZE;
             INELASTICITY_FB = atof(strtok(NULL, ","))*SCALE*SCALE*SCALE*SCALE;
             NOSTICKJ_FB		= atof(strtok(NULL, ","));
+
             JMDMD 			= atof(strtok(NULL, ","))*VOXSIZE;
+            JCMMD 			= atof(strtok(NULL, ","))*VOXSIZE;
             JFBMD 			= atof(strtok(NULL, ","))*VOXSIZE;
+
+            UNLEASH_CM		= atof(strtok(NULL, ","));
+            UNLEASH_FB		= atof(strtok(NULL, ","));
             break;
         case 's':
         	silence=1;
         	break;
         case 'f':
-        	distanceF = 0.020;
+        	distanceF = 0.010;
+        	MAX_FOCALS_CM = 7;
         	MAX_FOCALS_FB = 13;
         	break;
         default:

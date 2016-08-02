@@ -6,6 +6,7 @@
 #define INELASTICITY(a) (a==1 ? INELASTICITY_CM : INELASTICITY_FB)
 #define GN(a)			(a==1 ? GN_CM : GN_FB)
 #define NOSTICKJ(a)		(a==1 ? NOSTICKJ_CM : NOSTICKJ_FB)
+#define UNLEASH(a)		(a==1 ? UNLEASH_CM : UNLEASH_FB)
 
 ////////////////////////////////////////////////////////////////////////////////
 double calcdH_CH(VOX* pv, CM* CMs, int xt, int xs)
@@ -209,7 +210,11 @@ double calcdHfromnuclei(VOX* pv, CM* CMs, int xt, int xs, int ttag, int stag, in
 		if(pv[xt].contact)
 			dH = NOSTICKJ(pv[xs].type) + NOSTICKJ(pv[xt].type);
 		else{
-			dH = GN(pv[xs].type)*(1/dist(CMs,xt,stag)/cost - 1/dist(CMs,xs,stag)/coss);
+			dH = GN(pv[xs].type)*(1/dist(CMs,xt,stag) - 1/dist(CMs,xs,stag));
+			if(Qs && Qt)
+				dH *= fabs(1/coss);
+			if(Qs && !Qt)
+				dH += UNLEASH(pv[xs].type);
 			if(ttag!=0)
 				dH /= INHIBITION;
 		}
