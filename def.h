@@ -16,8 +16,8 @@ int SEED;
 //sample size
 #define VOXSIZE .0025 			// [mm]
 #define SCALE (VOXSIZE/.0025)	//
-#define sizeX 1.0 				// [mm]
-#define sizeY 1.0 				// [mm]
+#define sizeX 0.8 				// [mm]
+#define sizeY 0.8 				// [mm]
 #define sizeMarginX 0.100 		// [mm] from one side
 #define sizeMarginY 0.100 		// [mm] from one side
 #define MARGINX rounder(sizeMarginX/VOXSIZE)
@@ -41,8 +41,10 @@ int SEED;
 
 // cells
 #define IMMOTILITY 1.0*SCALE*SCALE						// 1/T
-#define NCX 5
-#define NCY 10
+//#define NCX 7
+//#define NCY 7
+int NCX;
+int NCY;
 
 //fibers
 //#define distanceF 20.0									// [mm] distance between fibers
@@ -56,7 +58,8 @@ double distanceF;
 //#define GN_FB (8.0/SCALE)								// [/mm] for FB
 double GN_CM;
 double GN_FB;
-#define INHIBITION 1.0
+//#define INHIBITION 1.0
+double INHIBITION;
 #define PART 0.5
 
 //elasticity
@@ -75,21 +78,24 @@ double INELASTICITY_FB;
 #define NUCL 2.0						// penalty for nucleus penetration (NUCL * NOSTICKJ)
 
 //Js
-//#define NOSTICKJ_CM 520.0 				// [/mm] contact penalty for none-adhesive surface
-//#define NOSTICKJ_FB 1375.0 				// [/mm] contact penalty for none-adhesive surface
+//#define NOSTICKJ_CM 1520.0 				// [/mm] contact penalty for none-adhesive surface
+//#define NOSTICKJ_FB 944.16 				// [/mm] contact penalty for none-adhesive surface
 double NOSTICKJ_CM;
 double NOSTICKJ_FB;
 //#define JCMMD (545.0*VOXSIZE)  			// CM-medium
 //#define JMDMD (34.4 * VOXSIZE) 			// medium-medium
-//#define JFBMD (290.0*VOXSIZE)			// FB-medium
+//#define JFBMD (208.1*VOXSIZE)			// FB-medium
 double JMDMD;
 double JCMMD;
 double JFBMD;
-#define JCMCM (0.5*JCMMD) 				// CM-CM
-#define JFBFB (0.5*JFBMD)		 		// FB-FB
-#define JFBCM (0.8*JCMMD) 				// FB-CM
+//double JFBMD;
+//#define JCMCM (0.5*JCMMD) 				// CM-CM
+double JCMCM;
+double JFBFB;
+double JFBCM;
+//#define JFBFB (0.5*JFBMD)		 		// FB-FB
+//#define JFBCM (0.8*JCMMD) 				// FB-CM
 
-//#define UNLEASH_CM 1000.0
 double UNLEASH_CM;
 double UNLEASH_FB;
 
@@ -100,7 +106,7 @@ double UNLEASH_FB;
 //#define MAX_FOCALS_FB 16
 double MAX_FOCALS_CM;
 double MAX_FOCALS_FB;
-#define MAX_FOCALS (MAX_FOCALS_CM<MAX_FOCALS_FB ? MAX_FOCALS_FB : MAX_FOCALS_CM)
+//#define MAX_FOCALS (MAX_FOCALS_CM<MAX_FOCALS_FB ? MAX_FOCALS_FB : MAX_FOCALS_CM)
 
 int silence;
 
