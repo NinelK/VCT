@@ -50,6 +50,8 @@ int init_cells(VOX* pv, int * types)
 	dx = (int) (NVX - 2 * MARGINX) / (NCX-1);
 	dy = (int) (NVY - 2 * MARGINY) / (NCY-1);
 	r  = (int) (sqrt(STARTVOLUME)/2);
+	if(dx<2*r || dy<2*r)
+		printf("Too dense!");
 	for (iy = 0; iy < NCY; iy++){
 		for (ix = 0; ix < NCX; ix++){
 			dvx = (mt_random()%(dx-2*r+1)) -((int) dx/2 - r);

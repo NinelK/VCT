@@ -20,9 +20,8 @@ CountLegs[gr_] :=
 
 fibersI=Import["./output/fib.out","Table"];
 types=First@Import["./output/types.out","Table"];
-conts=Import["./output/contactM900.out","Table"];
 
-indexes=Import["./output/ctags"<>ToString[900]<>".out","Table"];
+indexes=Import["./output/ctags"<>ToString[1]<>".out","Table"];
 
 
 mCM=Map[If[#>0&&types[[#]]==1,#,0]&,indexes,{2}];

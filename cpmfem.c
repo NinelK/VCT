@@ -30,14 +30,17 @@ void parse_options(int argc, char *argv[])
     JCMMD 			= 418.7*VOXSIZE;
     JFBMD 			= 211.1*VOXSIZE;
             
-    /*JCMCM 			= 0.*VOXSIZE;
-    JFBFB 			= 0.*VOXSIZE;
-    JFBCM 			= 0.*VOXSIZE;
+    JCMCM 			= 10000.*VOXSIZE;
+    JFBFB 			= 10000.*VOXSIZE;
+    JFBCM 			= 10000.*VOXSIZE;
 
-    UNLEASH_CM		= 0.;
+    /*UNLEASH_CM		= 0.;
     UNLEASH_FB		= 0.;
 
     INHIBITION 		= 1.;*/
+
+	LMAX_CM 		= 50.0/1000/VOXSIZE;
+    LMAX_FB 		= 50.0/1000/VOXSIZE;   	
 
     MAX_FOCALS_CM = 13;
     MAX_FOCALS_FB = 16;
@@ -46,7 +49,7 @@ void parse_options(int argc, char *argv[])
         switch (opt) {
         case 'p':
         	SEED			= atoi(strtok(optarg, ","));
-            
+            NRINC			= atoi(strtok(NULL, ","));
             break;
         case 's':
         	silence=1;
@@ -71,8 +74,15 @@ void parse_options(int argc, char *argv[])
     		JCMMD 			= 304.4*VOXSIZE;
     		JFBMD 			= 126.0*VOXSIZE;
 
+    		JCMCM 			= 10000.*VOXSIZE;
+    		JFBFB 			= 10000.*VOXSIZE;
+    		JFBCM 			= 10000.*VOXSIZE;
+
     		UNLEASH_CM		= 23.2;
     		UNLEASH_FB		= 8.1;
+
+    		LMAX_CM 		= 50.0/1000/VOXSIZE;
+    		LMAX_FB 		= 37.5/1000/VOXSIZE;
 
     		MAX_FOCALS_CM = 7;
     		MAX_FOCALS_FB = 13;
@@ -102,37 +112,43 @@ void parse_options(int argc, char *argv[])
 
     			INHIBITION 		= 1.41;
 
+    			LMAX_CM 		= 50.0/1000/VOXSIZE;
+    			LMAX_FB 		= 50.0/1000/VOXSIZE;
+
     			MAX_FOCALS_CM = 8;
     			MAX_FOCALS_FB = 8;
         	}else{
         		NCX = 16;
     			NCY = 67;
 
-    			GN_CM 			= 110.2/SCALE;
-    			TARGETVOLUME_CM = 0.67/1000/VOXSIZE/VOXSIZE;
-    			INELASTICITY_CM = 198.9*SCALE*SCALE*SCALE*SCALE;
-    			NOSTICKJ_CM		= 794.2;
+    			GN_CM 			= 319.39/SCALE;
+    			TARGETVOLUME_CM = 0.60/1000/VOXSIZE/VOXSIZE;
+    			INELASTICITY_CM = 272.3*SCALE*SCALE*SCALE*SCALE;
+    			NOSTICKJ_CM		= 479.5;
             
-    			GN_FB 			= 29.3/SCALE;
-    			TARGETVOLUME_FB = 0.59/1000/VOXSIZE/VOXSIZE;
-    			INELASTICITY_FB = 86.8*SCALE*SCALE*SCALE*SCALE;
-    			NOSTICKJ_FB		= 992.8;
+    			GN_FB 			= 521.5/SCALE;
+    			TARGETVOLUME_FB = 0.54/1000/VOXSIZE/VOXSIZE;
+    			INELASTICITY_FB = 53.63*SCALE*SCALE*SCALE*SCALE;
+    			NOSTICKJ_FB		= 280.8;
             
-    			JMDMD 			= 28.19*VOXSIZE;
-    			JCMMD 			= 631.7*VOXSIZE;
-    			JFBMD 			= 283.9*VOXSIZE;
+    			JMDMD 			= 25.75*VOXSIZE;
+    			JCMMD 			= 1628.6*VOXSIZE;
+    			JFBMD 			= 524.4*VOXSIZE;
             
-    			JCMCM 			= 726.9*VOXSIZE;
-    			JFBFB 			= 279.3*VOXSIZE;
-    			JFBCM 			= 413.6*VOXSIZE;
+    			JCMCM 			= 654.2*VOXSIZE;
+    			JFBFB 			= 485.8*VOXSIZE;
+    			JFBCM 			= 644.3*VOXSIZE;
 
-    			INHIBITION 		= 1.66;
+    			INHIBITION 		= 1.88;
 
-    			UNLEASH_CM		= 8.6;
-    			UNLEASH_FB		= 6.2;
+    			UNLEASH_CM		= 51.0;
+    			UNLEASH_FB		= 82.9;
 
-    			MAX_FOCALS_CM = 4;
-    			MAX_FOCALS_FB = 5;
+    			LMAX_CM 		= 33.99/1000/VOXSIZE;
+    			LMAX_FB 		= 34.15/1000/VOXSIZE;
+
+    			MAX_FOCALS_CM = 5;
+    			MAX_FOCALS_FB = 6;
         	}
         	break;
         default:
@@ -140,6 +156,8 @@ void parse_options(int argc, char *argv[])
             break;
         }
     }
+    /*NCX *= 2;
+    NCY *= 2;*/
 }
 
 
@@ -187,6 +205,9 @@ int main(int argc, char *argv[])
 		printf("UNLEASH_CM = %.2f\n",UNLEASH_CM*SCALE);
 		printf("UNLEASH_FB = %.2f\n",UNLEASH_FB*SCALE);
 		printf("\n");
+		printf("LMAX_CM = %.2f px\n",LMAX_CM);
+		printf("LMAX_FB = %.2f px\n",LMAX_FB);
+		printf("\n");
 		printf("MAX_FOCALS_CM = %.2f\n",MAX_FOCALS_CM);
 		printf("MAX_FOCALS_FB = %.2f\n",MAX_FOCALS_FB);
 	}
@@ -219,7 +240,7 @@ int main(int argc, char *argv[])
 			if(!silence)
 				printf("\nSTART INCREMENT %d",incr);
 			write_cells(pv,incr);
-			write_contacts(pv,NRc,incr);
+			write_contacts(pv,incr);
 		}
 
 		findCM(pv,CMs,NRc);
@@ -234,8 +255,8 @@ int main(int argc, char *argv[])
 	if(!silence)
 	printf("\nSIMULATION FINISHED!\n");
 
-	// pv = init_voxels();
-	// read_cells(pv,"./output/ctags1000.sout","./output/contactM1000.sout");
+	//pv = init_voxels();
+	//read_cells(pv,"./output/ctags900.sout","./output/contactM900.sout");
 
 	/// START DISTRIBUTION ///
 	findCM(pv,CMs,NRc);
@@ -244,7 +265,7 @@ int main(int argc, char *argv[])
 		if (incr % 100 == 0){
 			if(!silence)
 				printf("\nSTART CHANNEL DISTRIBUTION %d",incr);
-			write_contacts(pv,NRc,incr+1);
+			write_contacts(pv,incr+1);
 		}
 
 		acceptance = CH_moves(pv, CMs, 0.5 + 0.5*incr/NRINC);
@@ -253,6 +274,8 @@ int main(int argc, char *argv[])
 			printf("\nAcceptance rate %.4f",acceptance);
 		}
 	}
+
+	write_cells(pv,1);
 
 	/// END ///
 	if(!silence)

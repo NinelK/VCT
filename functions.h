@@ -48,7 +48,7 @@ double		sqr(double x);
 void   		write_increment(int increment);
 void 		write_cells(VOX* pv, int increment);
 void 		write_types(int* types, int NRc);
-void 		write_contacts(VOX* pv, int NRc, int increment);
+void 		write_contacts(VOX* pv, int increment);
 void 		write_fibers(FIBERS* pf);
 void 		read_cells(VOX* pv, char filename_ctag[40], char filename_cont[40]);
 

@@ -10,9 +10,12 @@ for i in range(10):
 
         #values_str = ",".join(["%0.2f" % v for v in values ])
 
-        params = "%d" % (
+        params = "%d,%d" % (
                 random.randint(1,100),
+                2001
                 #values_str
+                #2.0,
+                #100*(i+1)
         )
 
         #print params

@@ -53,7 +53,7 @@ void write_types(int* types, int NRc)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-void write_contacts(VOX* pv, int NRc, int increment)
+void write_contacts(VOX* pv, int increment)
 {
   int v;
     int vx,vy;
@@ -62,11 +62,11 @@ void write_contacts(VOX* pv, int NRc, int increment)
     FILE *ofp;
 
     myitostr(increment, astring);
-  strcpy(filename, "./output/contactM");
+    strcpy(filename, "./output/contactM");
     strcat(filename, astring);
     strcat(filename, ".out");
 
-  ofp = fopen(filename,"w");
+    ofp = fopen(filename,"w");
     for(vx=0; vx<NVX; vx++) {
         for (vy=0; vy<NVY; vy++) {
             v = vx + vy * NVX;

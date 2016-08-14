@@ -7,6 +7,7 @@
 #define GN(a)			(a==1 ? GN_CM : GN_FB)
 #define NOSTICKJ(a)		(a==1 ? NOSTICKJ_CM : NOSTICKJ_FB)
 #define UNLEASH(a)		(a==1 ? UNLEASH_CM : UNLEASH_FB)
+#define LMAX(a)			(a==1 ? LMAX_CM : LMAX_FB)
 
 ////////////////////////////////////////////////////////////////////////////////
 double calcdH_CH(VOX* pv, CM* CMs, int xt, int xs)
@@ -29,16 +30,18 @@ double calcdH_CH(VOX* pv, CM* CMs, int xt, int xs)
 double calcdHborder(VOX* pv, int xt, int ttag)
 {
 	double dHcontact = JB;
-	int nbs[8],n,nbtag;
+	int nbs[4],n,nbtag;
 
-	nbs[0]=xt-1+NVX; nbs[1]=xt+NVX; nbs[2]=xt+1+NVX;
-	nbs[7]=xt-1;                    nbs[3]=xt+1;
-	nbs[6]=xt-1-NVX; nbs[5]=xt-NVX; nbs[4]=xt+1-NVX;
-	for(n=0;n<8;n++)
+					 nbs[0]=xt+NVX; 
+	nbs[3]=xt-1;                    nbs[1]=xt+1;
+					 nbs[2]=xt-NVX; 
+	for(n=0;n<4;n++)
 	{
 		nbtag = pv[nbs[n]].ctag;
-		if(ttag!=nbtag)
+		if(ttag!=nbtag){
 			dHcontact = (pv[nbs[n]].contact && nbtag!=0) ? 0.0 : JH;
+			break;
+		}
 	}
 	
 	return dHcontact;
@@ -194,6 +197,7 @@ double calcdHfromnuclei(VOX* pv, CM* CMs, int xt, int xs, int ttag, int stag, in
 {
 	double dH = 0;
 	double cost = 1.0, coss = 1.0;
+	double distt, dists;
 	int xty, xtx;
 
 	xty = xs/NVX; xtx = xs%NVX;
@@ -210,7 +214,12 @@ double calcdHfromnuclei(VOX* pv, CM* CMs, int xt, int xs, int ttag, int stag, in
 		if(pv[xt].contact)
 			dH = NOSTICKJ(pv[xs].type) + NOSTICKJ(pv[xt].type);
 		else{
-			dH = GN(pv[xs].type)*(1/dist(CMs,xt,stag) - 1/dist(CMs,xs,stag));
+			distt = dist(CMs,xt,stag);
+			dists = dist(CMs,xs,stag);
+			dH = GN(pv[xs].type)*(
+				(distt < LMAX(pv[xs].type) ? 1/distt : NOSTICKJ(pv[xs].type)) - 
+				(dists < LMAX(pv[xs].type) ? 1/dists : NOSTICKJ(pv[xs].type))
+			);
 			if(Qs && Qt)
 				dH *= fabs(1/coss);
 			if(Qs && !Qt)
