@@ -88,5 +88,6 @@ double MAX_FOCALS_CM;
 double MAX_FOCALS_FB;
 
 int silence;
+int shifts;
 
 #endif

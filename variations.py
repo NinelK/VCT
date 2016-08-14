@@ -12,7 +12,7 @@ for i in range(10):
 
         params = "%d,%d" % (
                 random.randint(1,100),
-                2001
+                3001
                 #values_str
                 #2.0,
                 #100*(i+1)
