@@ -4,21 +4,20 @@ import random
 
 os.system("rm output.txt");
 
-val=[75.0, 2.0, 200, 950.0, 400.0]
-#val=[70.15, 2.14, 240.67, 909.14, 436.79]			#CMs SNO
-#val=[94.74, 2.34, 173.95, 1026.17, 545.27]			#CMs SNO
-#val=[54.56, 1.94, 235.71, 944.92, 274.61]			#FBs SNO
-diap=[50.0, 1.0, 100.0, 100.0, 250.0];
+#val=[70.006, 2.016, 174.24, 938.89, 543.284]
+val=[85.02, 2.11, 226.36, 893.31, 583.95]			#CMs SN 21
+#val=[44.27, 1.72, 220.98, 999.72, 319.62]			#FBs SN 24
+#diap=[36.7767, 0.31356, 146.839, 153.951, 131.606];
 
-for i in range(1000):
+for i in range(10):
 
-	values = [(v+2*d*(random.random()-0.5)) for v, d in zip(val,diap)]
-	#values = val
+	#values = [(v+2*d*(random.random()-0.5)) for v, d in zip(val,diap)]
+	values = val
 
 	values_str = ",".join(["%0.2f" % v for v in values ])
 
 	params = "%d,%d,%s" % (
-		2,
+		random.randint(1,100),
 		901,
 		values_str
 	)

@@ -17,18 +17,18 @@ void parse_options(int argc, char *argv[])
     NCX = 7;
     NCY = 7;
 
-    /*GN_CM 			= 75.32/SCALE;
-    TARGETVOLUME_CM = 1.93/1000/VOXSIZE/VOXSIZE;
-    INELASTICITY_CM = 202.9*SCALE*SCALE*SCALE*SCALE;
-    DETACH_CM		= 938.0;
+    GN_CM 			= 85.02/SCALE;
+    TARGETVOLUME_CM = 2.11/1000/VOXSIZE/VOXSIZE;
+    INELASTICITY_CM = 226.36*SCALE*SCALE*SCALE*SCALE;
+    DETACH_CM		= 893.31;
             
-    GN_FB 			= 4.74/SCALE;
-    TARGETVOLUME_FB = 1.32/1000/VOXSIZE/VOXSIZE;
-    INELASTICITY_FB = 99.5*SCALE*SCALE*SCALE*SCALE;
-    DETACH_FB		= 949.4;
+    GN_FB 			= 44.27/SCALE;
+    TARGETVOLUME_FB = 1.72/1000/VOXSIZE/VOXSIZE;
+    INELASTICITY_FB = 220.98*SCALE*SCALE*SCALE*SCALE;
+    DETACH_FB		= 999.72;
             
-    JCMMD 			= 418.7*VOXSIZE;
-    JFBMD 			= 211.1*VOXSIZE;*/
+    JCMMD 			= 583.95*VOXSIZE;
+    JFBMD 			= 319.62*VOXSIZE;
             
     JCMCM 			= 10000.*VOXSIZE;
     JFBFB 			= 10000.*VOXSIZE;
@@ -48,11 +48,11 @@ void parse_options(int argc, char *argv[])
         case 'p':
         	SEED			= atoi(strtok(optarg, ","));
             NRINC			= atoi(strtok(NULL, ","));
-            GN_FB 			= atof(strtok(NULL, ","));
+            /*GN_FB 			= atof(strtok(NULL, ","));
     		TARGETVOLUME_FB = atof(strtok(NULL, ","))/1000/VOXSIZE/VOXSIZE;
     		INELASTICITY_FB = atof(strtok(NULL, ","));
     		DETACH_FB		= atof(strtok(NULL, ","));            
-    		JFBMD 			= atof(strtok(NULL, ","))*VOXSIZE;
+    		JFBMD 			= atof(strtok(NULL, ","))*VOXSIZE;*/
             break;
         case 's':
         	silence=1;
@@ -172,7 +172,7 @@ int main(int argc, char *argv[])
 	//read_cells(pv,"./output/ctags900.sout","./output/contactM900.sout");
 
 	/// START DISTRIBUTION ///
-	findCM(pv,CMs,NRc);
+	/*findCM(pv,CMs,NRc);
 	for(incr=startincr; incr<NRINC; incr++)
 	{
 		if (incr % 100 == 0){
@@ -186,7 +186,7 @@ int main(int argc, char *argv[])
 		if (incr % 100 == 0 && !silence){
 			printf("\nAcceptance rate %.4f",acceptance);
 		}
-	}
+	}*/
 
 	write_cells(pv,1);
 	write_contacts(pv,1);
