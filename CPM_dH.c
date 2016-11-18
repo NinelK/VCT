@@ -5,7 +5,7 @@
 #define TARGETVOLUME(a) (a==1 ? TARGETVOLUME_CM : TARGETVOLUME_FB)
 #define INELASTICITY(a) (a==1 ? INELASTICITY_CM : INELASTICITY_FB)
 #define GN(a)			(a==1 ? GN_CM : GN_FB)
-#define NOSTICKJ(a)		(a==1 ? NOSTICKJ_CM : NOSTICKJ_FB)
+#define DETACH(a)		(a==1 ? DETACH_CM : DETACH_FB)
 #define UNLEASH(a)		(a==1 ? UNLEASH_CM : UNLEASH_FB)
 #define LMAX(a)			(a==1 ? LMAX_CM : LMAX_FB)
 
@@ -30,12 +30,12 @@ double calcdH_CH(VOX* pv, CM* CMs, int xt, int xs)
 double calcdHborder(VOX* pv, int xt, int ttag)
 {
 	double dHcontact = JB;
-	int nbs[4],n,nbtag;
+	int nbs[8],n,nbtag;
 
-					 nbs[0]=xt+NVX; 
-	nbs[3]=xt-1;                    nbs[1]=xt+1;
-					 nbs[2]=xt-NVX; 
-	for(n=0;n<4;n++)
+	nbs[0]=xt-1+NVX; nbs[1]=xt+NVX; nbs[2]=xt+1+NVX;
+	nbs[7]=xt-1;                    nbs[3]=xt+1;
+	nbs[6]=xt-1-NVX; nbs[5]=xt-NVX; nbs[4]=xt+1-NVX;
+	for(n=0;n<8;n++)
 	{
 		nbtag = pv[nbs[n]].ctag;
 		if(ttag!=nbtag){
@@ -69,8 +69,9 @@ double calcdH(VOX* pv, FIBERS* pf, CM* CMs, int* csize, int xt, int xs, int pick
 
 	dHvol = 0;
 	dHvol = calcdHvol(csize,ttag,stag,pv[xt].type,pv[xs].type);
+
 	dHfocals = 0;
-	dHfocals = calcdHfromnuclei(pv, CMs, xt, xs, ttag, stag, pf[xt].Q, pf[xs].Q);
+	dHfocals = calcdHprotrude(pv, CMs, xt, xs, ttag, stag, pf[xt].Q, pf[xs].Q);
 
 	dHnuclei = 0;
 	dHnuclei = calcdHnuclei(pv, CMs, xt, ttag, stag);
@@ -150,43 +151,8 @@ double calcdHvol(int* csize, int ttag, int stag, int ttype, int stype)
 	return dHvol;
 }
 
-
 ////////////////////////////////////////////////////////////////////////////////
-double calcdHconnectivity(VOX* pv, int xt, int stag)
-{
-	double dH = NOSTICKJ(pv[xt].type);			//if type=0 -- process below (dH=0)
-
-	if(pv[xt].type == 0)						//if you copy something TO media subcell
-		dH = 0;									//connectivity never gets worse
-
-	int nbs[4],n;
-
-					 nbs[0]=xt+NVX; 
-	nbs[3]=xt-1;                    nbs[1]=xt+1;
-					 nbs[2]=xt-NVX; 
-
-	for(n=0;n<4;n++)
-		if (pv[nbs[n]].ctag == stag)
-			dH = 0;
-
-	return dH;
-}
-
-double findphi(CM* CMs, int xt, int tag)
-{
-	int xtx, xty;
-	double phi;
-	xty = xt/NVX; xtx = xt%NVX;
-	phi = atan((CMs[tag].y - (double) xty)/(CMs[tag].x-(double) xtx));
-	if(phi>=PI)
-		phi -= PI;
-	if(phi<0)
-		phi += PI;
-	return phi;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-double calcdHfromnuclei(VOX* pv, CM* CMs, int xt, int xs, int ttag, int stag, int Qt, int Qs)
+double calcdHprotrude(VOX* pv, CM* CMs, int xt, int xs, int ttag, int stag, int Qt, int Qs)
 {
 	double dH = 0;
 	double cost = 1.0, coss = 1.0;
@@ -205,25 +171,23 @@ double calcdHfromnuclei(VOX* pv, CM* CMs, int xt, int xs, int ttag, int stag, in
 
 	if(pv[xs].contact){
 		if(pv[xt].contact)
-			dH = NOSTICKJ(pv[xs].type) + NOSTICKJ(pv[xt].type);
+			dH = DETACH(pv[xs].type) + DETACH(pv[xt].type);
 		else{
 			distt = dist(CMs,xt,stag);
 			dists = dist(CMs,xs,stag);
 			dH = GN(pv[xs].type)*(
-				(distt < LMAX(pv[xs].type) ? 1/distt : NOSTICKJ(pv[xs].type)) - 
-				(dists < LMAX(pv[xs].type) ? 1/dists : NOSTICKJ(pv[xs].type))
+				(distt < LMAX(pv[xs].type) ? 1/distt : DETACH(pv[xs].type)) - 
+				(dists < LMAX(pv[xs].type) ? 1/dists : DETACH(pv[xs].type))
 			);
 			if(Qs && Qt)
 				dH *= fabs(1/coss);
 			if(Qs && !Qt)
 				dH += UNLEASH(pv[xs].type);
-			if(ttag!=0)
-				dH /= INHIBITION;
 		}
 	}else{
 		//focals can not be erased
 		if(pv[xt].contact)	
-			dH = NOSTICKJ(pv[xt].type);
+			dH = DETACH(pv[xt].type);
 		else
 			dH = 0;
 		if(pv[xt].contact && pv[xt].type==0)
@@ -240,7 +204,7 @@ double calcdHnuclei(VOX* pv, CM* CMs, int xt, int ttag, int stag)
 
 	//don't touch the nuclei
 	if(ttag && dist(CMs,xt,ttag)<NUCLEI_R)
-		dH = NUCL*NOSTICKJ(pv[xt].type);
+		dH = NUCL*DETACH(pv[xt].type);
 
 	return dH;
 }

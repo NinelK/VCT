@@ -52,8 +52,7 @@ double distanceF;
 //spreading
 double GN_CM;
 double GN_FB;
-double INHIBITION;
-#define PART 0.3 			//% FBs
+#define PART 1.0 			//% FBs
 
 //elasticity
 double TARGETVOLUME_CM;
@@ -66,12 +65,12 @@ double LMAX_FB;
 
 //nucleus protection
 #define NUCLEI_R .007/VOXSIZE			// nucleus radius [pixels]
-#define NUCL 2.0						// penalty for nucleus penetration (NUCL * NOSTICKJ)
+#define NUCL 2.0						// penalty for nucleus penetration (NUCL * DETACH)
 
 //Js
-double NOSTICKJ_CM;
-double NOSTICKJ_FB;
-double JMDMD;
+double DETACH_CM;
+double DETACH_FB;
+#define JMDMD 0
 double JCMMD;
 double JFBMD;
 double JCMCM;

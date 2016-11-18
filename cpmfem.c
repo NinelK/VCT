@@ -17,76 +17,48 @@ void parse_options(int argc, char *argv[])
     NCX = 7;
     NCY = 7;
 
-    GN_CM 			= 75.32/SCALE;
+    /*GN_CM 			= 75.32/SCALE;
     TARGETVOLUME_CM = 1.93/1000/VOXSIZE/VOXSIZE;
     INELASTICITY_CM = 202.9*SCALE*SCALE*SCALE*SCALE;
-    NOSTICKJ_CM		= 938.0;
+    DETACH_CM		= 938.0;
             
     GN_FB 			= 4.74/SCALE;
     TARGETVOLUME_FB = 1.32/1000/VOXSIZE/VOXSIZE;
     INELASTICITY_FB = 99.5*SCALE*SCALE*SCALE*SCALE;
-    NOSTICKJ_FB		= 949.4;
+    DETACH_FB		= 949.4;
             
-    JMDMD 			= 33.0*VOXSIZE;
     JCMMD 			= 418.7*VOXSIZE;
-    JFBMD 			= 211.1*VOXSIZE;
+    JFBMD 			= 211.1*VOXSIZE;*/
             
     JCMCM 			= 10000.*VOXSIZE;
     JFBFB 			= 10000.*VOXSIZE;
     JFBCM 			= 10000.*VOXSIZE;
 
-    /*UNLEASH_CM		= 0.;
-    UNLEASH_FB		= 0.;
-
-    INHIBITION 		= 1.;*/
+    UNLEASH_CM		= 0.0;
+	UNLEASH_FB		= 0.0;
 
 	LMAX_CM 		= 50.0/1000/VOXSIZE;
     LMAX_FB 		= 50.0/1000/VOXSIZE;   	
 
-    MAX_FOCALS_CM = 13;
-    MAX_FOCALS_FB = 16;
+    MAX_FOCALS_CM = 21;
+    MAX_FOCALS_FB = 24;
 
     while ((opt = getopt(argc, argv, options)) != -1) {
         switch (opt) {
         case 'p':
         	SEED			= atoi(strtok(optarg, ","));
             NRINC			= atoi(strtok(NULL, ","));
+            GN_FB 			= atof(strtok(NULL, ","));
+    		TARGETVOLUME_FB = atof(strtok(NULL, ","))/1000/VOXSIZE/VOXSIZE;
+    		INELASTICITY_FB = atof(strtok(NULL, ","));
+    		DETACH_FB		= atof(strtok(NULL, ","));            
+    		JFBMD 			= atof(strtok(NULL, ","))*VOXSIZE;
             break;
         case 's':
         	silence=1;
         	break;
         case 'f':
         	distanceF = 0.010;
-
-        	NCX = 5;
-    		NCY = 10;
-
-    		GN_CM 			= 115.61/SCALE;
-    		TARGETVOLUME_CM = 1.11/1000/VOXSIZE/VOXSIZE;
-    		INELASTICITY_CM = 88.7*SCALE*SCALE*SCALE*SCALE;
-    		NOSTICKJ_CM		= 990.4;
-            
-    		GN_FB 			= 2.80/SCALE;
-    		TARGETVOLUME_FB = 0.83/1000/VOXSIZE/VOXSIZE;
-    		INELASTICITY_FB = 109.8*SCALE*SCALE*SCALE*SCALE;
-    		NOSTICKJ_FB		= 918.4;
-            
-    		JMDMD 			= 25.0*VOXSIZE;
-    		JCMMD 			= 304.4*VOXSIZE;
-    		JFBMD 			= 126.0*VOXSIZE;
-
-    		JCMCM 			= 10000.*VOXSIZE;
-    		JFBFB 			= 10000.*VOXSIZE;
-    		JFBCM 			= 10000.*VOXSIZE;
-
-    		UNLEASH_CM		= 23.2;
-    		UNLEASH_FB		= 8.1;
-
-    		LMAX_CM 		= 50.0/1000/VOXSIZE;
-    		LMAX_FB 		= 37.5/1000/VOXSIZE;
-
-    		MAX_FOCALS_CM = 7;
-    		MAX_FOCALS_FB = 13;
         	break;
         case 'm':
         	shifts = 1;
@@ -97,70 +69,6 @@ void parse_options(int argc, char *argv[])
         }
     }
 
-    if(shifts==1){
-	    if(distanceF>1.0){
-			NCX = 26;
-			NCY = 26;
-
-			GN_CM 			= 81.42/SCALE;
-			TARGETVOLUME_CM = 0.96/1000/VOXSIZE/VOXSIZE;
-			INELASTICITY_CM = 239.4*SCALE*SCALE*SCALE*SCALE;
-			NOSTICKJ_CM		= 697.4;
-	    
-			GN_FB 			= 13.46/SCALE;
-			TARGETVOLUME_FB = 0.74/1000/VOXSIZE/VOXSIZE;
-			INELASTICITY_FB = 86.2*SCALE*SCALE*SCALE*SCALE;
-			NOSTICKJ_FB		= 753.0;
-	    
-			JMDMD 			= 28.36*VOXSIZE;
-			JCMMD 			= 539.9*VOXSIZE;
-			JFBMD 			= 327.5*VOXSIZE;
-	    
-			JCMCM 			= 715.5*VOXSIZE;
-			JFBFB 			= 375.7*VOXSIZE;
-			JFBCM 			= 557.9*VOXSIZE;
-
-			INHIBITION 		= 1.41;
-
-			LMAX_CM 		= 50.0/1000/VOXSIZE;
-			LMAX_FB 		= 50.0/1000/VOXSIZE;
-
-			MAX_FOCALS_CM = 8;
-			MAX_FOCALS_FB = 8;
-		}else{
-			NCX = 17;
-			NCY = 68;
-
-			GN_CM 			= 319.39/SCALE;
-			TARGETVOLUME_CM = 0.60/1000/VOXSIZE/VOXSIZE;
-			INELASTICITY_CM = 272.3*SCALE*SCALE*SCALE*SCALE;
-			NOSTICKJ_CM		= 479.5;
-        
-			GN_FB 			= 521.5/SCALE;
-			TARGETVOLUME_FB = 0.45/1000/VOXSIZE/VOXSIZE;
-			INELASTICITY_FB = 53.63*SCALE*SCALE*SCALE*SCALE;
-			NOSTICKJ_FB		= 280.8;
-        
-			JMDMD 			= 25.75*VOXSIZE;
-			JCMMD 			= 1628.6*VOXSIZE;
-			JFBMD 			= 524.4*VOXSIZE;
-        
-			JCMCM 			= 654.2*VOXSIZE;
-			JFBFB 			= 485.8*VOXSIZE;
-			JFBCM 			= 644.3*VOXSIZE;
-
-			INHIBITION 		= 1.88;
-
-			UNLEASH_CM		= 51.0;
-			UNLEASH_FB		= 82.9;
-
-			LMAX_CM 		= 30.0/1000/VOXSIZE;
-			LMAX_FB 		= 27.5/1000/VOXSIZE;
-
-			MAX_FOCALS_CM = 5;
-			MAX_FOCALS_FB = 6;
-		}
-	}
     NCX *= 1;
     NCY *= 1;
 }
@@ -190,12 +98,12 @@ int main(int argc, char *argv[])
 		printf("GN_CM = %.2f\n",GN_CM*SCALE);
 		printf("TARGETVOLUME_CM = %.2f\n",TARGETVOLUME_CM*1000*VOXSIZE*VOXSIZE);
 		printf("INELASTICITY_CM = %.2f\n",INELASTICITY_CM/(SCALE*SCALE*SCALE*SCALE));
-		printf("NOSTICKJ_CM = %.2f\n",NOSTICKJ_CM*SCALE);
+		printf("DETACH_CM = %.2f\n",DETACH_CM*SCALE);
 		printf("\n");
 		printf("GN_FB = %.2f\n",GN_FB*SCALE);
 		printf("TARGETVOLUME_FB = %.2f\n",TARGETVOLUME_FB*1000*VOXSIZE*VOXSIZE);
 		printf("INELASTICITY_FB = %.2f\n",INELASTICITY_FB/(SCALE*SCALE*SCALE*SCALE));
-		printf("NOSTICKJ_FB = %.2f\n",NOSTICKJ_FB*SCALE);
+		printf("DETACH_FB = %.2f\n",DETACH_FB*SCALE);
 		printf("\n");
 		printf("JMDMD = %.3f\n",JMDMD/VOXSIZE);
 		printf("JCMMD = %.3f\n",JCMMD/VOXSIZE);
@@ -204,8 +112,6 @@ int main(int argc, char *argv[])
 		printf("JCMCM = %.3f\n",JCMCM/VOXSIZE);
 		printf("JFBFB = %.3f\n",JFBFB/VOXSIZE);
 		printf("JFBCM = %.3f\n",JFBCM/VOXSIZE);
-		printf("\n");
-		printf("INHIBITION = %.3f\n",INHIBITION);
 		printf("\n");
 		printf("UNLEASH_CM = %.2f\n",UNLEASH_CM*SCALE);
 		printf("UNLEASH_FB = %.2f\n",UNLEASH_FB*SCALE);
