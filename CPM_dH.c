@@ -159,37 +159,32 @@ double calcdHprotrude(VOX* pv, CM* CMs, int xt, int xs, int ttag, int stag, int 
 	double distt, dists;
 	int xty, xtx;
 
-	xty = xs/NVX; xtx = xs%NVX;
-
-	if(Qs)
+	if(Qs && Qt){																		//if we move along the fiber -- apply projection
+		xty = xs/NVX; xtx = xs%NVX;
 		coss = cos(F_ANGLE - atan((xty - CMs[stag].y)/(xtx - CMs[stag].x)));
-
-	xty = xt/NVX; xtx = xt%NVX;
-
-	if(Qt)
+		xty = xt/NVX; xtx = xt%NVX;
 		cost = cos(F_ANGLE - atan((xty - CMs[stag].y)/(xtx - CMs[stag].x)));
+	}
 
 	if(pv[xs].contact){
 		if(pv[xt].contact)
-			dH = DETACH(pv[xs].type) + DETACH(pv[xt].type);
+			dH = DETACH(pv[xt].type);													//if we copy one contact over the other, it means that we detach target focal adhesion
 		else{
 			distt = dist(CMs,xt,stag);
 			dists = dist(CMs,xs,stag);
 			dH = GN(pv[xs].type)*(
-				(distt < LMAX(pv[xs].type) ? 1/distt : DETACH(pv[xs].type)) - 
-				(dists < LMAX(pv[xs].type) ? 1/dists : DETACH(pv[xs].type))
-			);
-			if(Qs && Qt)
-				dH *= fabs(1/coss);
+				(distt < LMAX(pv[xs].type) ? 1/distt : DETACH(pv[xs].type))*fabs(1/cost) - 
+				(dists < LMAX(pv[xs].type) ? 1/dists : DETACH(pv[xs].type))*fabs(1/coss)
+			);																			//protrusions grow up to LMAX, then have to stop or be erased
 			if(Qs && !Qt)
 				dH += UNLEASH(pv[xs].type);
 		}
 	}else{
-		//focals can not be erased
+		//focals can be erased with the penalty
 		if(pv[xt].contact)	
 			dH = DETACH(pv[xt].type);
 		else
-			dH = 0;
+			dH = 0;																		//if source and target are both not focals
 		if(pv[xt].contact && pv[xt].type==0)
 			printf("Media contact!!!!");
 	}
