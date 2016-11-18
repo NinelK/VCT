@@ -6,10 +6,8 @@
 #define INELASTICITY(a) (a==1 ? INELASTICITY_CM : INELASTICITY_FB)
 #define GN(a)			(a==1 ? GN_CM : GN_FB)
 #define NOSTICKJ(a)		(a==1 ? NOSTICKJ_CM : NOSTICKJ_FB)
-/*#define TARGETVOLUME(a) (a==2 ? TARGETVOLUME_FB : TARGETVOLUME_CM)
-#define INELASTICITY(a) (a==2 ? INELASTICITY_FB : INELASTICITY_CM)
-#define GN(a)			(a==2 ? GN_FB : GN_CM)
-#define NOSTICKJ(a)		(a==2 ? NOSTICKJ_FB : NOSTICKJ_CM)*/
+#define UNLEASH(a)		(a==1 ? UNLEASH_CM : UNLEASH_FB)
+#define LMAX(a)			(a==1 ? LMAX_CM : LMAX_FB)
 
 ////////////////////////////////////////////////////////////////////////////////
 double calcdH_CH(VOX* pv, CM* CMs, int xt, int xs)
@@ -32,16 +30,18 @@ double calcdH_CH(VOX* pv, CM* CMs, int xt, int xs)
 double calcdHborder(VOX* pv, int xt, int ttag)
 {
 	double dHcontact = JB;
-	int nbs[8],n,nbtag;
+	int nbs[4],n,nbtag;
 
-	nbs[0]=xt-1+NVX; nbs[1]=xt+NVX; nbs[2]=xt+1+NVX;
-	nbs[7]=xt-1;                    nbs[3]=xt+1;
-	nbs[6]=xt-1-NVX; nbs[5]=xt-NVX; nbs[4]=xt+1-NVX;
-	for(n=0;n<8;n++)
+					 nbs[0]=xt+NVX; 
+	nbs[3]=xt-1;                    nbs[1]=xt+1;
+					 nbs[2]=xt-NVX; 
+	for(n=0;n<4;n++)
 	{
 		nbtag = pv[nbs[n]].ctag;
-		if(ttag!=nbtag)
+		if(ttag!=nbtag){
 			dHcontact = (pv[nbs[n]].contact && nbtag!=0) ? 0.0 : JH;
+			break;
+		}
 	}
 	
 	return dHcontact;
@@ -61,7 +61,7 @@ double calcdHdist(VOX* pv, CM* CMs, int xt, int xs, int ttag)
 ////////////////////////////////////////////////////////////////////////////////
 double calcdH(VOX* pv, FIBERS* pf, CM* CMs, int* csize, int xt, int xs, int pick, int ttag, int stag)
 {
-	double dH, dHcontact, dHvol, dHconnectivity, dHfocals, dHnuclei;//, dHstrain;
+	double dH, dHcontact, dHvol, dHfocals, dHnuclei;//, dHstrain;
 	int ctag;
 
 	dHcontact = 0;
@@ -69,17 +69,13 @@ double calcdH(VOX* pv, FIBERS* pf, CM* CMs, int* csize, int xt, int xs, int pick
 
 	dHvol = 0;
 	dHvol = calcdHvol(csize,ttag,stag,pv[xt].type,pv[xs].type);
-
-	dHconnectivity = 0;
-	dHconnectivity = calcdHconnectivity(pv,xt,stag);
-
 	dHfocals = 0;
 	dHfocals = calcdHfromnuclei(pv, CMs, xt, xs, ttag, stag, pf[xt].Q, pf[xs].Q);
 
 	dHnuclei = 0;
 	dHnuclei = calcdHnuclei(pv, CMs, xt, ttag, stag);
 
-	dH = dHcontact + dHvol + dHconnectivity + dHfocals + dHnuclei;
+	dH = dHcontact + dHvol + dHfocals + dHnuclei;
 	return dH;
 
 }
@@ -125,9 +121,6 @@ double contactenergy(int tag1, int tag2, int type1, int type2)
     		else
         		J = JFBCM;
 	}
-
-	if(tag1==tag2 && tag1==0)
-		J = JMDMD;
 
 	return J;
 }
@@ -197,6 +190,7 @@ double calcdHfromnuclei(VOX* pv, CM* CMs, int xt, int xs, int ttag, int stag, in
 {
 	double dH = 0;
 	double cost = 1.0, coss = 1.0;
+	double distt, dists;
 	int xty, xtx;
 
 	xty = xs/NVX; xtx = xs%NVX;
@@ -213,7 +207,16 @@ double calcdHfromnuclei(VOX* pv, CM* CMs, int xt, int xs, int ttag, int stag, in
 		if(pv[xt].contact)
 			dH = NOSTICKJ(pv[xs].type) + NOSTICKJ(pv[xt].type);
 		else{
-			dH = GN(pv[xs].type)*(1/dist(CMs,xt,stag)/cost - 1/dist(CMs,xs,stag)/coss);
+			distt = dist(CMs,xt,stag);
+			dists = dist(CMs,xs,stag);
+			dH = GN(pv[xs].type)*(
+				(distt < LMAX(pv[xs].type) ? 1/distt : NOSTICKJ(pv[xs].type)) - 
+				(dists < LMAX(pv[xs].type) ? 1/dists : NOSTICKJ(pv[xs].type))
+			);
+			if(Qs && Qt)
+				dH *= fabs(1/coss);
+			if(Qs && !Qt)
+				dH += UNLEASH(pv[xs].type);
 			if(ttag!=0)
 				dH /= INHIBITION;
 		}

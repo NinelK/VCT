@@ -43,19 +43,23 @@ int init_cells(VOX* pv, int * types)
 	int v, vx, vy, i, j, ix, iy;
 	int NRc;
 	double r01;
-	double d; int dx, dy,r,dvx,dvy; // distance to center
+	double d;
+	double dx, dy,dvx,dvy; // distance to center
+	int r;
 
 	NRc = 0;
 
-	dx = (int) (NVX - 2 * MARGINX) / (NCX-1);
-	dy = (int) (NVY - 2 * MARGINY) / (NCY-1);
+	dx = (double) (NVX - 2 * MARGINX) / (NCX-1);
+	dy = (double) (NVY - 2 * MARGINY) / (NCY-1);
 	r  = (int) (sqrt(STARTVOLUME)/2);
+	if(dx<2*r || dy<2*r)
+		printf("Too dense!");
 	for (iy = 0; iy < NCY; iy++){
 		for (ix = 0; ix < NCX; ix++){
-			dvx = (mt_random()%(dx-2*r+1)) -((int) dx/2 - r);
-			dvy = (mt_random()%(dy-2*r+1)) -((int) dy/2 - r);
-			vx = MARGINX + ix * dx + 0*dvx;
-			vy = MARGINY + iy * dy + 0*dvy;
+			dvx = (mt_random()%((int) dx-2*r+1)) -(dx/2 - r);
+			dvy = (mt_random()%((int) dy-2*r+1)) -(dy/2 - r);
+			vx = MARGINX + (int) (ix * dx + shifts*dvx);
+			vy = MARGINY + (int) (iy * dy + shifts*dvy);
 			NRc++;
 			types[NRc] = (PART<(rand()/(double)RAND_MAX) ? 1 : 2);
 			for(i = -r; i<=r; i++){
