@@ -176,7 +176,7 @@ double calcdHprotrude(VOX* pv, CM* CMs, int xt, int xs, int ttag, int stag, int 
 				(distt < LMAX(pv[xs].type) ? 1/distt : 
 INF)*fabs(1/cost) - 
 				(dists < LMAX(pv[xs].type) ? 1/dists : 
-INF)*fabs(1/coss)
+0)*fabs(1/coss)
 			);																			//protrusions grow up to LMAX, then have to stop or be erased
 			if(Qs && !Qt)
 				dH += UNLEASH(pv[xs].type);

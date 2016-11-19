@@ -62,7 +62,7 @@ double INELASTICITY_CM;
 double INELASTICITY_FB;
 double LMAX_CM;
 double LMAX_FB;
-#define INF 100000.0
+#define INF 10000000.0
 
 //nucleus protection
 #define NUCLEI_R .007/VOXSIZE			// nucleus radius [pixels]
