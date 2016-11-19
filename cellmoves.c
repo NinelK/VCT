@@ -2,9 +2,11 @@
 #include "functions.h"
 
 #define MAX_FOCALS_T(a) (a==1 ? MAX_FOCALS_CM : MAX_FOCALS_FB)
+#define LMAX(a) (a==1 ? LMAX_CM : LMAX_FB)
 
 ////////////////////////////////////////////////////////////////////////////////
-double CPM_moves(VOX* pv, FIBERS* pf, CM* CMs, int* attached, int* csize)
+double CPM_moves(VOX* pv, short * CCAlabels, BOX* pb, FIBERS* pf, CM* CMs, 
+int* attached, int* csize)
 // cellular potts model: one Monte Carlo step
 {
 	int i,j,NRsteps = NV;
@@ -40,7 +42,8 @@ double CPM_moves(VOX* pv, FIBERS* pf, CM* CMs, int* attached, int* csize)
         		go_on = 1;
         		if(ttag) // if a cell in xt (retracting)
 				{
-            		if (splitcheckCCR(pv,csize,xt,ttag))
+            		if 
+(splitcheckCCR(pv,CCAlabels,pb,CMs,csize,xt,ttag))
                 		go_on = 0;
             		if(csize[ttag-1]==1) // cell cannot disappear (constraint may be removed)
                 		go_on = 0;
@@ -52,11 +55,20 @@ double CPM_moves(VOX* pv, FIBERS* pf, CM* CMs, int* attached, int* csize)
         		dH = calcdH(pv,pf,CMs,csize,xt,xs,pick,ttag,stag);
         		prob = exp(-IMMOTILITY*dH);
         		if (prob>(rand()/(double)RAND_MAX))
-				{
+        		{
             		pv[xt].ctag = stag; // a move is made
             		pv[xt].type = pv[xs].type;
 
+			if(stag){
+				if(xtx<pb[stag].x1) pb[stag].x1=xtx;
+				if(xtx>pb[stag].x2) pb[stag].x2=xtx;
+				if(xty<pb[stag].y1) pb[stag].y1=xty;
+				if(xty>pb[stag].y2) pb[stag].y2=xty;
+			}
+
             		if(pv[xs].contact){		//contact moves
+				if(pv[xt].contact)
+					attached[ttag]--;
             			pv[xt].contact=1;
             			pv[xs].contact=0;
             		}
@@ -127,17 +139,15 @@ double CH_moves(VOX* pv, CM* CMs, double k)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-BOOL splitcheckCCR(VOX* pv, int* csize, int xt, int ttag)
+BOOL splitcheckCCR(VOX* pv, short * CCAlabels, BOX * pb, CM* CMs, int* 
+csize, int xt, int ttag)
 {
 	BOOL split;
 	int nbs[8],n,nb,prev,curr,in;
 	int v, nrblue, nrgrey, startnb;
 	int greys[csize[ttag-1]];
-	short * CCAlabels;
 	int i, nrgrey0, g, nbsg[8];
-
-
-	CCAlabels = malloc(NV * sizeof(short));
+	int vx,vy;
 
 	nbs[0]=xt-1+NVX; nbs[1]=xt+NVX; nbs[2]=xt+1+NVX;
 	nbs[7]=xt-1;                    nbs[3]=xt+1;
@@ -162,7 +172,12 @@ BOOL splitcheckCCR(VOX* pv, int* csize, int xt, int ttag)
     	// 2: grey;    discovered but not finished processing
     	// 3: black;   finished processing
 
-		for(v=0;v<NV;v++) {CCAlabels[v] = 1;}
+		for(vx=pb[ttag].x1-1; vx<=pb[ttag].x2+1; vx++) {
+      		for (vy=pb[ttag].y1-1; vy<=pb[ttag].y2+1; vy++) {
+      			v = vx + vy * NVX;
+      			CCAlabels[v] = 1;
+      		}
+      	}
 		CCAlabels[xt] = 3;
 
 		nrblue = -1;
@@ -210,8 +225,6 @@ BOOL splitcheckCCR(VOX* pv, int* csize, int xt, int ttag)
 		if(nrblue) {split = TRUE;}
 
 	}
-
-	free(CCAlabels);
 
 	return split;
 }

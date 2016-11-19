@@ -12,6 +12,15 @@ CM* allocCM(int NRc)
 	return CMs;
 }
 
+BOX* allocBOX(int NRc)
+{
+	BOX* box;
+
+	box = calloc(NRc+1,sizeof(BOX));
+
+	return box;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 void findCM(VOX* pv, CM* CMs, int NRc)
 // find center of mass

@@ -38,7 +38,7 @@ VOX* init_voxels(void)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-int init_cells(VOX* pv, int * types)
+int init_cells(VOX* pv, int * types, BOX* pb)
 {
 	int v, vx, vy, i, j, ix, iy;
 	int NRc;
@@ -62,6 +62,10 @@ int init_cells(VOX* pv, int * types)
 			vy = MARGINY + (int) (iy * dy + shifts*dvy);
 			NRc++;
 			types[NRc] = (PART<(rand()/(double)RAND_MAX) ? 1 : 2);
+			pb[NRc].x1 = vx-r;
+			pb[NRc].x2 = vx+r;
+			pb[NRc].y1 = vy-r;
+			pb[NRc].y2 = vy+r;
 			for(i = -r; i<=r; i++){
 				for (j = -r; j<=r; j++){
 					v = vx + i + (vy + j)*NVX;

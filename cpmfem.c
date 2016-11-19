@@ -14,10 +14,10 @@ void parse_options(int argc, char *argv[])
     silence=0;
     distanceF=20.0;
     shifts=0;
-    NCX = 7;
-    NCY = 7;
+    NCX = 17;
+    NCY = 68;
 
-    GN_CM 			= 85.02/SCALE;
+    /*GN_CM 			= 85.02/SCALE;
     TARGETVOLUME_CM = 2.11/1000/VOXSIZE/VOXSIZE;
     INELASTICITY_CM = 226.36*SCALE*SCALE*SCALE*SCALE;
     DETACH_CM		= 893.31;
@@ -41,18 +41,38 @@ void parse_options(int argc, char *argv[])
     LMAX_FB 		= 50.0/1000/VOXSIZE;   	
 
     MAX_FOCALS_CM = 21;
-    MAX_FOCALS_FB = 24;
+    MAX_FOCALS_FB = 24;*/
+
+    MAX_FOCALS_CM = 8;
+    MAX_FOCALS_FB = 9;
 
     while ((opt = getopt(argc, argv, options)) != -1) {
         switch (opt) {
         case 'p':
         	SEED			= atoi(strtok(optarg, ","));
             NRINC			= atoi(strtok(NULL, ","));
-            /*GN_FB 			= atof(strtok(NULL, ","));
+
+            GN_CM 			= atof(strtok(NULL, ","));
+    		TARGETVOLUME_CM = atof(strtok(NULL, ","))/1000/VOXSIZE/VOXSIZE;
+    		INELASTICITY_CM = atof(strtok(NULL, ","));
+    		DETACH_CM		= atof(strtok(NULL, ","));            
+    
+            GN_FB 			= atof(strtok(NULL, ","));
     		TARGETVOLUME_FB = atof(strtok(NULL, ","))/1000/VOXSIZE/VOXSIZE;
     		INELASTICITY_FB = atof(strtok(NULL, ","));
-    		DETACH_FB		= atof(strtok(NULL, ","));            
-    		JFBMD 			= atof(strtok(NULL, ","))*VOXSIZE;*/
+    		DETACH_FB		= atof(strtok(NULL, ","));        
+
+    		JCMMD 			= atof(strtok(NULL, ","))*VOXSIZE;
+    		JFBMD 			= atof(strtok(NULL, ","))*VOXSIZE;
+    		JCMCM 			= atof(strtok(NULL, ","))*VOXSIZE;
+    		JFBFB 			= atof(strtok(NULL, ","))*VOXSIZE;
+    		JFBCM 			= atof(strtok(NULL, ","))*VOXSIZE;
+
+    		UNLEASH_CM 		= atof(strtok(NULL, ","));
+    		UNLEASH_FB 		= atof(strtok(NULL, ","));
+
+    		LMAX_CM 		= atof(strtok(NULL, ","))/1000/VOXSIZE;
+    		LMAX_FB 		= atof(strtok(NULL, ","))/1000/VOXSIZE;
             break;
         case 's':
         	silence=1;
@@ -127,17 +147,20 @@ int main(int argc, char *argv[])
    	srand(SEED); mt_init();
    	pv = init_voxels();
 	pf = set_fibers();
+	BOX * pb = allocBOX(NCX*NCY+1);
 
 	write_fibers(pf);
 
 	startincr = 0;
 	types = calloc((NCX*NCY+1), sizeof(int));
-	NRc = init_cells(pv,types);write_cells(pv,0);
+	NRc = init_cells(pv,types,pb);write_cells(pv,0);
 	csize = calloc(NRc, sizeof(int)); for(c=0;c<NRc;c++) {csize[c]=0;}
 	for(v=0;v<NV;v++) {if(pv[v].ctag) {csize[pv[v].ctag-1]++;}}
 
 	CM* CMs = allocCM(NRc);
 	int* attached = alloc_attach(NRc);
+
+	short * CCAlabels = malloc(NV * sizeof(short));
 
 	gettimeofday(&tv, NULL);
 	time = tv.tv_sec;
@@ -155,7 +178,8 @@ int main(int argc, char *argv[])
 		}
 
 		findCM(pv,CMs,NRc);
-		acceptance = CPM_moves(pv,pf,CMs, attached,csize);
+		acceptance = CPM_moves(pv,CCAlabels,pb,pf,CMs, 
+attached,csize);
 
 		if (incr % 100 == 0 && !silence){
 			printf("\nAcceptance rate %.4f",acceptance);
@@ -201,6 +225,8 @@ int main(int argc, char *argv[])
 
 	free(pv); 
 	free(pf);
+	free(CCAlabels);
+	
 	return 0;
 }
 

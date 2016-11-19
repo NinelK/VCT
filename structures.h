@@ -23,4 +23,12 @@ typedef struct
 	int Q;
 } FIBERS;
 
+typedef struct
+{
+	int x1;
+	int x2;
+	int y1;
+	int y2;
+} BOX;
+
 #endif

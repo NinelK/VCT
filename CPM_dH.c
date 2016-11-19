@@ -173,8 +173,10 @@ double calcdHprotrude(VOX* pv, CM* CMs, int xt, int xs, int ttag, int stag, int 
 			distt = dist(CMs,xt,stag);
 			dists = dist(CMs,xs,stag);
 			dH = GN(pv[xs].type)*(
-				(distt < LMAX(pv[xs].type) ? 1/distt : DETACH(pv[xs].type))*fabs(1/cost) - 
-				(dists < LMAX(pv[xs].type) ? 1/dists : DETACH(pv[xs].type))*fabs(1/coss)
+				(distt < LMAX(pv[xs].type) ? 1/distt : 
+INF)*fabs(1/cost) - 
+				(dists < LMAX(pv[xs].type) ? 1/dists : 
+INF)*fabs(1/coss)
 			);																			//protrusions grow up to LMAX, then have to stop or be erased
 			if(Qs && !Qt)
 				dH += UNLEASH(pv[xs].type);
