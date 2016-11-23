@@ -18,8 +18,7 @@ FIBERS* 	set_fibers(void);
 double 		CPM_moves(VOX* pv, short * CCAlabels,BOX* pb, FIBERS* pf, 
 CM* CMs, int* attached, int* csize);
 double 		CH_moves(VOX* pv, CM* CMs, double k);
-BOOL 		splitcheckCCR(VOX* pv, short * CCAlabels, BOX* pb, CM* 
-CMs,  
+BOOL 		splitcheckCCR(VOX* pv, short * CCAlabels, BOX* pb,  
 int* csize, int xt, int ttag);
 
 // CM.c

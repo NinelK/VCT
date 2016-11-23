@@ -18,7 +18,7 @@ int SEED;
 #define SCALE (VOXSIZE/.0025)	//
 #define sizeX 0.8 				// [mm]
 #define sizeY 0.8 				// [mm]
-#define sizeMarginX 0.200 		// [mm] from one side
+#define sizeMarginX 0.100 		// [mm] from one side
 #define sizeMarginY 0.100 		// [mm] from one side
 #define MARGINX rounder(sizeMarginX/VOXSIZE)
 #define MARGINY rounder(sizeMarginY/VOXSIZE)

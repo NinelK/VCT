@@ -14,8 +14,8 @@ void parse_options(int argc, char *argv[])
     silence=0;
     distanceF=20.0;
     shifts=0;
-    NCX = 17;
-    NCY = 68;
+    NCX = 26;
+    NCY = 26;
 
     /*GN_CM 			= 85.02/SCALE;
     TARGETVOLUME_CM = 2.11/1000/VOXSIZE/VOXSIZE;
@@ -43,8 +43,8 @@ void parse_options(int argc, char *argv[])
     MAX_FOCALS_CM = 21;
     MAX_FOCALS_FB = 24;*/
 
-    MAX_FOCALS_CM = 8;
-    MAX_FOCALS_FB = 9;
+    MAX_FOCALS_CM = 12;
+    MAX_FOCALS_FB = 12;
 
     while ((opt = getopt(argc, argv, options)) != -1) {
         switch (opt) {
@@ -68,8 +68,8 @@ void parse_options(int argc, char *argv[])
     		JFBFB 			= atof(strtok(NULL, ","))*VOXSIZE;
     		JFBCM 			= atof(strtok(NULL, ","))*VOXSIZE;
 
-    		UNLEASH_CM 		= atof(strtok(NULL, ","));
-    		UNLEASH_FB 		= atof(strtok(NULL, ","));
+    		/*UNLEASH_CM 		= atof(strtok(NULL, ","));
+    		UNLEASH_FB 		= atof(strtok(NULL, ","));*/
 
     		LMAX_CM 		= atof(strtok(NULL, ","))/1000/VOXSIZE;
     		LMAX_FB 		= atof(strtok(NULL, ","))/1000/VOXSIZE;

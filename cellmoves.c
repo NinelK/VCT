@@ -43,7 +43,7 @@ int* attached, int* csize)
         		if(ttag) // if a cell in xt (retracting)
 				{
             		if 
-(splitcheckCCR(pv,CCAlabels,pb,CMs,csize,xt,ttag))
+(splitcheckCCR(pv,CCAlabels,pb,csize,xt,ttag))
                 		go_on = 0;
             		if(csize[ttag-1]==1) // cell cannot disappear (constraint may be removed)
                 		go_on = 0;
@@ -139,7 +139,7 @@ double CH_moves(VOX* pv, CM* CMs, double k)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-BOOL splitcheckCCR(VOX* pv, short * CCAlabels, BOX * pb, CM* CMs, int* 
+BOOL splitcheckCCR(VOX* pv, short * CCAlabels, BOX * pb, int* 
 csize, int xt, int ttag)
 {
 	BOOL split;
