@@ -167,20 +167,17 @@ double calcdHprotrude(VOX* pv, CM* CMs, int xt, int xs, int ttag, int stag, int 
 	}
 
 	if(pv[xs].contact){
+		
+		distt = dist(CMs,xt,stag);
+		dists = dist(CMs,xs,stag);
+		dH = GN(pv[xs].type)*( 	(distt < LMAX(pv[xs].type) ? 1/distt : INF)	*fabs(1/cost) - 
+								(dists < LMAX(pv[xs].type) ? 1/dists : 0)	*fabs(1/coss)
+							);															//protrusions grow up to LMAX, then have to stop or be erased
 		if(pv[xt].contact)
-			dH = DETACH(pv[xt].type);													//if we copy one contact over the other, it means that we detach target focal adhesion
-		else{
-			distt = dist(CMs,xt,stag);
-			dists = dist(CMs,xs,stag);
-			dH = GN(pv[xs].type)*(
-				(distt < LMAX(pv[xs].type) ? 1/distt : 
-INF)*fabs(1/cost) - 
-				(dists < LMAX(pv[xs].type) ? 1/dists : 
-0)*fabs(1/coss)
-			);																			//protrusions grow up to LMAX, then have to stop or be erased
-			if(Qs && !Qt)
-				dH += UNLEASH(pv[xs].type);
-		}
+			dH += DETACH(pv[xt].type);													//if we copy one contact over the other, it means that we detach target focal adhesion
+		
+		if(Qs && !Qt)
+			dH += UNLEASH(pv[xs].type);
 	}else{
 		//focals can be erased with the penalty
 		if(pv[xt].contact)	

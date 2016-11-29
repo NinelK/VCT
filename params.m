@@ -39,6 +39,7 @@ contsCM=Map[If[#>0&&types[[#]]==1,1,0]&,indexes,{2}]conts bord;
 contsFB=Map[If[#>0&&types[[#]]==2,1,0]&,indexes,{2}]conts bord;
 Ncm=Length@Position[types,1];
 Nfb=Length@Position[types,2];
+(*zeros=Total[Flatten@Map[If[#==0,1,0]&,indexes[[50;;-50,50;;-50]],{2}]];*)
 
 params=<<"params.txt";
 
@@ -47,7 +48,7 @@ F[ComponentMeasurements[mCM,"ConvexCoverage"][[;;,2]]],
 F[(1-ComponentMeasurements[mCM,"CaliperElongation"][[;;,2]])^-1],N@F[legsCM],Total[Flatten@contsCM]/Ncm}, 
 {F@(ComponentMeasurements[mFB,"Area"][[;;,2]]2.5^2),
 F[ComponentMeasurements[mFB,"ConvexCoverage"][[;;,2]]],
-F[(1-ComponentMeasurements[mFB,"CaliperElongation"][[;;,2]])^-1],N@F[legsFB],Total[Flatten@contsFB]/Nfb}};
+F[(1-ComponentMeasurements[mFB,"CaliperElongation"][[;;,2]])^-1],N@F[legsFB],Total[Flatten@contsFB]/Nfb},{0}};
 
 If[Position[FileNames[], "output.txt"]=={},
 

@@ -5,7 +5,15 @@ SN
 	FB		44.27, 1.72, 220.98, 999.72, 319.62
 			{{2078.98, 0.656351, 1.67826, 6.41667}, {10.7472, 0.00866664, 0.0554099, 0.227795}}
 
+			GN		Vt	  lambda DETACH  JC-M   UNLEASH  LMAX
+SF	
+	CM		243.12, 1.06, 55.28, 15.26, 696.42, 29.33, 57.02
+			{{1200.96, 0.825112, 3.00967, 3.57755}, {24.2266, 0.0105263, 0.0809049, 0.25527}}
+	FB  	9.62, 0.93, 68.05, 15.2, 305.8, 1.44, 48.72
+			{{1267.43, 0.629867, 2.06999, 5.14898}, {16.8899, 0.0154252, 0.0899772, 0.307111}}
 
+MN			{{51.75, 0.96, 72.57, 7.95, 122.34, 0.88, 100.49, 8.34, 563.44, 444.37, 437.47, 539., 395.95, 50., 50.}, 
+			{1151.66, 0.754688, 1.67779, 4.19597, 984.501, 0.751259, 1.86436, 3.83841, 124}, 1.77795} not bad
 
 
 MF
@@ -23,7 +31,7 @@ MF
 
 	FOC 	8 		9
 
-			{274.03, 0.57, 53.09, 451.19, 262.88, 0.51, 45.65, 314.95, 1766.21, 949.14, 547.29, 276.88, 572.07, 87.65, 143.99, 41.53, 40.12}
+			{274.03, 0.57, 53.09, 451.19 (inf), 262.88, 0.51, 45.65, 314.95 (inf), 1766.21, 949.14, 547.29, 276.88, 572.07, 87.65, 143.99, 41.53, 40.12}
 
 	CM		{636.785, 0.695803, 2.57145, 2.89293}
 			{6.5164, 0.00723781, 0.036861, 0.0476148}
@@ -31,3 +39,163 @@ MF
 			{6.17232, 0.00684703, 0.0294349, 0.0381017}
 
 	
+
+
+
+	void parse_options(int argc, char *argv[])
+{
+    int opt;
+
+    program_name = argv[0];
+    silence=0;
+    distanceF=20.0;
+    shifts=0;
+    NCX = 7;
+    NCY = 7;
+
+    GN_CM 			= 85.02/SCALE;
+    TARGETVOLUME_CM = 2.11/1000/VOXSIZE/VOXSIZE;
+    INELASTICITY_CM = 226.36*SCALE*SCALE*SCALE*SCALE;
+    DETACH_CM		= 893.31;
+            
+    GN_FB 			= 44.27/SCALE;
+    TARGETVOLUME_FB = 1.72/1000/VOXSIZE/VOXSIZE;
+    INELASTICITY_FB = 220.98*SCALE*SCALE*SCALE*SCALE;
+    DETACH_FB		= 999.72;
+            
+    JCMMD 			= 583.95*VOXSIZE;
+    JFBMD 			= 319.62*VOXSIZE;
+            
+    JCMCM 			= 10000.*VOXSIZE;
+    JFBFB 			= 10000.*VOXSIZE;
+    JFBCM 			= 10000.*VOXSIZE;
+
+    UNLEASH_CM		= 0.0;
+	UNLEASH_FB		= 0.0;
+
+	LMAX_CM 		= 50.0/1000/VOXSIZE;
+    LMAX_FB 		= 50.0/1000/VOXSIZE;   	
+
+    MAX_FOCALS_CM = 21;
+    MAX_FOCALS_FB = 24;
+
+    while ((opt = getopt(argc, argv, options)) != -1) {
+        switch (opt) {
+        case 'p':
+        	SEED			= atoi(strtok(optarg, ","));
+            NRINC			= atoi(strtok(NULL, ","));
+            break;
+        case 's':
+        	silence=1;
+        	break;
+        case 'f':
+        	distanceF = 0.010;
+
+        	NCX = 5;
+    		NCY = 10;
+
+    		GN_CM 			= 243.12/SCALE;
+    		TARGETVOLUME_CM = 1.06/1000/VOXSIZE/VOXSIZE;
+		    INELASTICITY_CM = 55.28*SCALE*SCALE*SCALE*SCALE;
+		    DETACH_CM		= 15.26;
+		            
+		    GN_FB 			= 9.62/SCALE;
+		    TARGETVOLUME_FB = 0.93/1000/VOXSIZE/VOXSIZE;
+		    INELASTICITY_FB = 68.05*SCALE*SCALE*SCALE*SCALE;
+		    DETACH_FB		= 15.2;
+		            
+		    JCMMD 			= 696.42*VOXSIZE;
+		    JFBMD 			= 305.8*VOXSIZE;
+		            
+		    JCMCM 			= 10000.*VOXSIZE;
+		    JFBFB 			= 10000.*VOXSIZE;
+		    JFBCM 			= 10000.*VOXSIZE;
+
+		    UNLEASH_CM		= 29.33;
+			UNLEASH_FB		= 1.44;
+
+			LMAX_CM 		= 57.0/1000/VOXSIZE;
+		    LMAX_FB 		= 48.7/1000/VOXSIZE;   
+
+        	MAX_FOCALS_CM = 12;
+    		MAX_FOCALS_FB = 22;
+        	break;
+        case 'm':
+        	shifts = 1;
+        	break;
+        default:
+            printf("WTF?");
+            break;
+        }
+    }
+
+    if(shifts==1){
+	    if(distanceF>1.0){
+
+	    	NCX = 26;
+    		NCY = 26;
+
+    		GN_CM 			= 51.75/SCALE;
+    		TARGETVOLUME_CM = 0.96/1000/VOXSIZE/VOXSIZE;
+		    INELASTICITY_CM = 72.57*SCALE*SCALE*SCALE*SCALE;
+		    DETACH_CM		= 7.95;
+		            
+		    GN_FB 			= 122.34/SCALE;
+		    TARGETVOLUME_FB = 0.88/1000/VOXSIZE/VOXSIZE;
+		    INELASTICITY_FB = 100.49*SCALE*SCALE*SCALE*SCALE;
+		    DETACH_FB		= 8.34;
+		            
+		    JCMMD 			= 563.44*VOXSIZE;
+		    JFBMD 			= 444.37*VOXSIZE;
+		            
+		    JCMCM 			= 437.47*VOXSIZE;
+		    JFBFB 			= 539.00*VOXSIZE;
+		    JFBCM 			= 395.95*VOXSIZE;
+
+		    UNLEASH_CM		= 0.0;
+			UNLEASH_FB		= 0.0;
+
+			LMAX_CM 		= 50.0/1000/VOXSIZE;
+		    LMAX_FB 		= 50.0/1000/VOXSIZE;   
+
+        	MAX_FOCALS_CM = 12;
+    		MAX_FOCALS_FB = 12;
+
+	    }else{
+
+	    	274.03, 0.57, 53.09, 451.19 (inf), 262.88, 0.51, 45.65, 314.95 (inf), 1766.21, 949.14, 547.29, 276.88, 572.07, 87.65, 143.99, 41.53, 40.12
+	    	
+	    	NCX = 17;
+    		NCY = 68;
+
+    		GN_CM 			= 51.75/SCALE;
+    		TARGETVOLUME_CM = 0.96/1000/VOXSIZE/VOXSIZE;
+		    INELASTICITY_CM = 72.57*SCALE*SCALE*SCALE*SCALE;
+		    DETACH_CM		= 7.95;
+		            
+		    GN_FB 			= 122.34/SCALE;
+		    TARGETVOLUME_FB = 0.88/1000/VOXSIZE/VOXSIZE;
+		    INELASTICITY_FB = 100.49*SCALE*SCALE*SCALE*SCALE;
+		    DETACH_FB		= 8.34;
+		            
+		    JCMMD 			= 563.44*VOXSIZE;
+		    JFBMD 			= 444.37*VOXSIZE;
+		            
+		    JCMCM 			= 437.47*VOXSIZE;
+		    JFBFB 			= 539.00*VOXSIZE;
+		    JFBCM 			= 395.95*VOXSIZE;
+
+		    UNLEASH_CM		= 0.0;
+			UNLEASH_FB		= 0.0;
+
+			LMAX_CM 		= 50.0/1000/VOXSIZE;
+		    LMAX_FB 		= 50.0/1000/VOXSIZE;   
+
+        	MAX_FOCALS_CM = 12;
+    		MAX_FOCALS_FB = 12;
+	    }
+	}
+
+    NCX *= 1;
+    NCY *= 1;
+}
