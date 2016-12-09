@@ -48,6 +48,8 @@ int* attached, int* csize)
             		if(csize[ttag-1]==1) // cell cannot disappear (constraint may be removed)
                 		go_on = 0;
 				}
+				if(shifts==1 && distanceF<0.1 && (xtx<MARGINX || xtx>NVX-MARGINX))
+					go_on = 0;
 			}
 
 			if(go_on)
