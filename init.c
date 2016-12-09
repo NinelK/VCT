@@ -49,17 +49,17 @@ int init_cells(VOX* pv, int * types, BOX* pb)
 
 	NRc = 0;
 
-	dx = (double) (NVX - 2 * MARGINX) / (NCX-1);
-	dy = (double) (NVY - 2 * MARGINY) / (NCY-1);
+	dx = (double) (NVX - 2 * MARGINX) / (NCX);
+	dy = (double) (NVY - 2 * MARGINY) / (NCY);
 	r  = (int) (sqrt(STARTVOLUME)/2);
 	if(dx<2*r || dy<2*r)
 		printf("Too dense!");
 	for (iy = 0; iy < NCY; iy++){
 		for (ix = 0; ix < NCX; ix++){
-			dvx = (mt_random()%((int) dx-2*r+1)) -(dx/2 - r);
-			dvy = (mt_random()%((int) dy-2*r+1)) -(dy/2 - r);
-			vx = MARGINX + (int) (ix * dx + shifts*dvx);
-			vy = MARGINY + (int) (iy * dy + shifts*dvy);
+			dvx = (mt_random()%((int) (dx-2*r))) - (dx/2 - r);
+			dvy = (mt_random()%((int) (dy-2*r))) - (dy/2 - r);
+			vx = MARGINX + (int) (((double) ix+0.5) * dx + shifts*dvx);
+			vy = MARGINY + (int) (((double) iy+0.5) * dy + shifts*dvy);
 			NRc++;
 			types[NRc] = (PART<(rand()/(double)RAND_MAX) ? 1 : 2);
 			pb[NRc].x1 = vx-r;
