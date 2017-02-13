@@ -52,7 +52,7 @@ void 		write_cells(VOX* pv, int increment);
 void 		write_types(int* types, int NRc);
 void 		write_contacts(VOX* pv, int increment);
 void 		write_fibers(FIBERS* pf);
-void 		read_cells(VOX* pv, char filename_ctag[40], char filename_cont[40]);
+void 		read_cells(VOX* pv, int* types, int NRc, char filename_ctag[40], char filename_cont[40], char filename_types[40]);
 
 // mylib.c
 void 		myitostr(int n, char s[]);

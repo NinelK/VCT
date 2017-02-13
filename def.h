@@ -14,10 +14,10 @@ int SEED;
 #define rounder(a) (((a) + ((a) < 0 ? 0.5 : -0.5) < (int)(a))? (int)(a): (int)(a) + 1)
 
 //sample size
-#define VOXSIZE .001 			// [mm]
+#define VOXSIZE .0025 			// [mm]
 #define SCALE (VOXSIZE/.0025)	//
-#define sizeX 0.8 				// [mm]
-#define sizeY 0.8 				// [mm]
+#define sizeX 4.8 				// [mm]
+#define sizeY 4.8 				// [mm]
 #define sizeMarginX 0.100 		// [mm] from one side
 #define sizeMarginY 0.100 		// [mm] from one side
 #define MARGINX rounder(sizeMarginX/VOXSIZE)
@@ -27,6 +27,7 @@ int SEED;
 #define NV  (NVX*NVY)
 //#define NRINC 901
 int NRINC;
+#define NRINC_CH 500
 
 #define MAXNRITER 1000
 #define ACCURACY .00001
@@ -52,7 +53,7 @@ double distanceF;
 //spreading
 double GN_CM;
 double GN_FB;
-#define PART 0.50 			//% FBs
+#define PART 0.30 			//% FBs
 
 //elasticity
 double TARGETVOLUME_CM;
@@ -77,6 +78,9 @@ double JFBMD;
 double JCMCM;
 double JFBFB;
 double JFBCM;
+double JCMCMc;
+double JFBFBc;
+double JFBCMc;
 
 double UNLEASH_CM;
 double UNLEASH_FB;

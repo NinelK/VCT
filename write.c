@@ -97,7 +97,7 @@ void write_fibers(FIBERS* pf)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-void read_cells(VOX* pv, char filename_ctag[40], char filename_cont[40])
+void read_cells(VOX* pv, int* types, int NRc, char filename_ctag[40], char filename_cont[40], char filename_types[40])
 {
   int v,k,vx,vy;
   FILE *ofp;
@@ -113,6 +113,12 @@ void read_cells(VOX* pv, char filename_ctag[40], char filename_cont[40])
     for(v=0; v<NV; v++){
         vx = v/NVY; vy = v%NVY;
         k = fscanf(ofp ,"%d", &pv[vx + vy * NVX].contact);
+    }
+    fflush(ofp);  fclose(ofp);
+
+    ofp = fopen(filename_types,"r");
+    for(v=0; v<NRc; v++){
+        k = fscanf(ofp ,"%d", &types[v+1]);
     }
     fflush(ofp);  fclose(ofp);
 }

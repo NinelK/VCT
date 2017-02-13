@@ -116,6 +116,10 @@ void parse_options(int argc, char *argv[])
 		    JFBFB 			= 473.28*VOXSIZE;
 		    JFBCM 			= 949.22*VOXSIZE;
 
+		    JCMCMc			= JCMCM;//0.0 * VOXSIZE;
+		    JFBFBc			= JFBFB;//0.0 * VOXSIZE;
+		    JFBCMc			= JFBCM;//0.0 * VOXSIZE;
+
 		    UNLEASH_CM		= 0.0;
 			UNLEASH_FB		= 0.0;
 
@@ -157,8 +161,8 @@ void parse_options(int argc, char *argv[])
     	}
     }
     
-    NCX *= 1;
-    NCY *= 1;
+    NCX *= 6;
+    NCY *= 6;
 }
 
 
@@ -260,12 +264,12 @@ attached,csize);
 
 	write_contacts(pv,0);
 
-	//pv = init_voxels();
-	//read_cells(pv,"./output/ctags900.sout","./output/contactM900.sout");
+	/*pv = init_voxels();
+	read_cells(pv,types, NRc, "./output/ctags1.sout","./output/conts1.sout","./output/types.sout");*/
 
 	/// START DISTRIBUTION ///
-	/*findCM(pv,CMs,NRc);
-	for(incr=startincr; incr<NRINC; incr++)
+	findCM(pv,CMs,NRc);
+	for(incr=startincr; incr<NRINC_CH; incr++)
 	{
 		if (incr % 100 == 0){
 			if(!silence)
@@ -278,7 +282,7 @@ attached,csize);
 		if (incr % 100 == 0 && !silence){
 			printf("\nAcceptance rate %.4f",acceptance);
 		}
-	}*/
+	}
 
 	write_cells(pv,1);
 	write_contacts(pv,1);

@@ -124,6 +124,28 @@ double contactenergy(int tag1, int tag2, int type1, int type2)
 	}
 
 	return J;
+
+	// J = 0;
+	// if(tag1!=tag2)
+	// {
+ //    	if((tag1==0)||(tag2==0)){
+ //        	type = (tag1==0 ? type2 : type1);
+ //        	J = (type==1 ? JCMMD : JFBMD);
+ //        }
+ //    	else
+ //    		if(type1==type2)
+ //    			if(cont1 && cont2)
+ //    				J = (type1==1 ? JCMCMc : JFBFBc);
+ //    			else 
+ //    				J = (type1==1 ? JCMCM : JFBFB);
+ //    		else
+ //    			if(cont1 && cont2)
+ //    				J = JFBCMc;
+ //    			else
+ //        			J = JFBCM;
+	// }
+
+	// return J;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
