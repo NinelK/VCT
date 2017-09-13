@@ -16,8 +16,8 @@ int SEED;
 //sample size
 #define VOXSIZE .0025 			// [mm]
 #define SCALE (VOXSIZE/.0025)	//
-#define sizeX 4.8 				// [mm]
-#define sizeY 4.8 				// [mm]
+#define sizeX 1.6 				// [mm]
+#define sizeY 1.6 				// [mm]
 #define sizeMarginX 0.100 		// [mm] from one side
 #define sizeMarginY 0.100 		// [mm] from one side
 #define MARGINX rounder(sizeMarginX/VOXSIZE)
@@ -39,7 +39,9 @@ int NRINC;
 #define G_NCH 50.0
 
 // cells
-#define IMMOTILITY 1.0*SCALE*SCALE						// 1/T
+#define IMMOTILITY_CM 1.0*SCALE*SCALE						
+#define IMMOTILITY_FB 1.0*SCALE*SCALE
+// 1/T
 int NCX;
 int NCY;
 
@@ -53,7 +55,7 @@ double distanceF;
 //spreading
 double GN_CM;
 double GN_FB;
-#define PART 0.30 			//% FBs
+#define PART 0.65 			//% FBs
 
 //elasticity
 double TARGETVOLUME_CM;

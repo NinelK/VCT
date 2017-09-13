@@ -95,39 +95,60 @@ void parse_options(int argc, char *argv[])
 
     if(shifts==1){
     	if(distanceF>1.0){
-
-    		NCX = 26;
+			
+			NCX = 26;
 		    NCY = 26;
 
-		    GN_CM 			= 51.03/SCALE;
-		    TARGETVOLUME_CM = 0.88/1000/VOXSIZE/VOXSIZE;
-		    INELASTICITY_CM = 62.32*SCALE*SCALE*SCALE*SCALE;
-		    DETACH_CM		= 30.93;
+		    GN_CM 			= 500.0/SCALE;
+		 	TARGETVOLUME_CM = 1.0/1000/VOXSIZE/VOXSIZE;
+		    INELASTICITY_CM = 150.0*SCALE*SCALE*SCALE*SCALE;
+		    DETACH_CM		= 12.5;
 		            
-		    GN_FB 			= 5.09/SCALE;
-		    TARGETVOLUME_FB = 0.79/1000/VOXSIZE/VOXSIZE;
-		    INELASTICITY_FB = 17.91*SCALE*SCALE*SCALE*SCALE;
-		    DETACH_FB		= 11.22;
+		    GN_FB 			= 50.0/SCALE;
+		    TARGETVOLUME_FB = 0.75/1000/VOXSIZE/VOXSIZE;
+		    INELASTICITY_FB = 80.0*SCALE*SCALE*SCALE*SCALE;
+		    DETACH_FB		= 10.0;
 		            
-		    JCMMD 			= 1013.93*VOXSIZE;
-		    JFBMD 			= 445.77*VOXSIZE;
+		    JCMMD 			= 1200.0*VOXSIZE;
+		    JFBMD 			= 800.0*VOXSIZE;
 		            
-		    JCMCM 			= 798.73*VOXSIZE;
-		    JFBFB 			= 473.28*VOXSIZE;
-		    JFBCM 			= 949.22*VOXSIZE;
-
-		    JCMCMc			= JCMCM;//0.0 * VOXSIZE;
-		    JFBFBc			= JFBFB;//0.0 * VOXSIZE;
-		    JFBCMc			= JFBCM;//0.0 * VOXSIZE;
+		    JCMCM 			= 700.0*VOXSIZE;
+		    JFBFB 			= 900.0*VOXSIZE;
+		    JFBCM 			= 900.0*VOXSIZE;
 
 		    UNLEASH_CM		= 0.0;
 			UNLEASH_FB		= 0.0;
 
-			LMAX_CM 		= 81.41/1000/VOXSIZE;
-		    LMAX_FB 		= 73.62/1000/VOXSIZE;   	
+			LMAX_CM 		= 77.0/1000/VOXSIZE;
+		    LMAX_FB 		= 77.0/1000/VOXSIZE;   	
 
-		    MAX_FOCALS_CM = 12;
+		    MAX_FOCALS_CM = 13;
 		    MAX_FOCALS_FB = 13;
+		 //    GN_CM 			= 51.03/SCALE;
+		 //    TARGETVOLUME_CM = 0.88/1000/VOXSIZE/VOXSIZE;
+		 //    INELASTICITY_CM = 62.32*SCALE*SCALE*SCALE*SCALE;
+		 //    DETACH_CM		= 30.93;
+		            
+		 //    GN_FB 			= 5.09/SCALE;
+		 //    TARGETVOLUME_FB = 0.79/1000/VOXSIZE/VOXSIZE;
+		 //    INELASTICITY_FB = 17.91*SCALE*SCALE*SCALE*SCALE;
+		 //    DETACH_FB		= 11.22;
+		            
+		 //    JCMMD 			= 1013.93*VOXSIZE;
+		 //    JFBMD 			= 445.77*VOXSIZE;
+		            
+		 //    JCMCM 			= 798.73*VOXSIZE;
+		 //    JFBFB 			= 473.28*VOXSIZE;
+		 //    JFBCM 			= 949.22*VOXSIZE;
+
+		 //    UNLEASH_CM		= 0.0;
+			// UNLEASH_FB		= 0.0;
+
+			// LMAX_CM 		= 81.41/1000/VOXSIZE;
+		 //    LMAX_FB 		= 73.62/1000/VOXSIZE;   	
+
+		 //    MAX_FOCALS_CM = 12;
+		 //    MAX_FOCALS_FB = 13;
 
     	}else{
     		NCX = 17;
@@ -161,8 +182,8 @@ void parse_options(int argc, char *argv[])
     	}
     }
     
-    NCX *= 6;
-    NCY *= 6;
+    NCX *= 2;
+    NCY *= 2;
 }
 
 

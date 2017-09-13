@@ -3,6 +3,7 @@
 
 #define MAX_FOCALS_T(a) (a==1 ? MAX_FOCALS_CM : MAX_FOCALS_FB)
 #define LMAX(a) (a==1 ? LMAX_CM : LMAX_FB)
+#define IMMOTILITY(a) (a==1 ? IMMOTILITY_CM : IMMOTILITY_FB)
 
 ////////////////////////////////////////////////////////////////////////////////
 double CPM_moves(VOX* pv, short * CCAlabels, BOX* pb, FIBERS* pf, CM* CMs, 
@@ -12,7 +13,7 @@ int* attached, int* csize)
 	int i,j,NRsteps = NV;
 	int xs, xt; // source and target pixel
 	int xtx,xty,xsx,xsy; // x and y position of target pixel
-	int ttag, stag; // target and source label
+	int ttag, stag, type; // target and source label
 	int nbs[8],pick, reject, accept; // neighbors of target pixel
 	BOOL go_on;
 	double dH, prob, phi;
@@ -35,12 +36,14 @@ int* attached, int* csize)
 
 			ttag = pv[xt].ctag;
 			stag = pv[xs].ctag;
-			
+
 			go_on = 0;
-			if(ttag!=stag) //don't bother if no difference
+			if(ttag!=stag/* || pv[xs].contact*/) //don't bother if no difference
 			{
         		go_on = 1;
-        		if(ttag) // if a cell in xt (retracting)
+        		//if(!pv[xt].contact && !pv[xt].contact && mt_random()%10!=0)			//if contact is not involved -- pick up again
+        		//	go_on = 0; 
+        		if(go_on && ttag) // if a cell in xt (retracting)
 				{
             		if 
 (splitcheckCCR(pv,CCAlabels,pb,csize,xt,ttag))
@@ -48,14 +51,15 @@ int* attached, int* csize)
             		if(csize[ttag-1]==1) // cell cannot disappear (constraint may be removed)
                 		go_on = 0;
 				}
-				if(shifts==1 && distanceF<0.1 && (xtx<MARGINX || xtx>NVX-MARGINX))
+				if(go_on && shifts==1 && distanceF<0.1 && (xtx<MARGINX || xtx>NVX-MARGINX))
 					go_on = 0;
 			}
 
 			if(go_on)
 			{
+				type = ((pv[xs].type==1 || pv[xt].type==1) ? 1 : 2); 		//Determine who moves and who's motility we take into account.
         		dH = calcdH(pv,pf,CMs,csize,xt,xs,pick,ttag,stag);
-        		prob = exp(-IMMOTILITY*dH);
+        		prob = exp(-IMMOTILITY(type)*dH);
         		if (prob>(rand()/(double)RAND_MAX))
         		{
             		pv[xt].ctag = stag; // a move is made
@@ -91,6 +95,8 @@ int* attached, int* csize)
 					reject++;
 				}
 			}
+			/*else
+				i--;*/
 		}
 	}
 	return ((double) accept / (double) (reject + accept));
