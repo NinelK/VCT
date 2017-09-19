@@ -61,7 +61,7 @@ double calcdHdist(VOX* pv, CM* CMs, int xt, int xs, int ttag)
 ////////////////////////////////////////////////////////////////////////////////
 double calcdH(VOX* pv, FIBERS* pf, CM* CMs, int* csize, int xt, int xs, int pick, int ttag, int stag)
 {
-	double dH, dHcontact, dHvol, dHfocals, dHnuclei;//, dHstrain;
+	double dH, dHcontact, dHvol, dHfocals, dHsyncytium, dHnuclei;//, dHstrain;
 	int ctag;
 
 	dHcontact = 0;
@@ -73,12 +73,62 @@ double calcdH(VOX* pv, FIBERS* pf, CM* CMs, int* csize, int xt, int xs, int pick
 	dHfocals = 0;
 	dHfocals = calcdHprotrude(pv, CMs, xt, xs, ttag, stag, pf[xt].Q, pf[xs].Q);
 
+	dHsyncytium = 0;
+	dHsyncytium = calcdHsyncytium(pv, CMs, xt,xs,ttag,stag);
+
 	dHnuclei = 0;
 	dHnuclei = calcdHnuclei(pv, CMs, xt, ttag, stag);
 
-	dH = dHcontact + dHvol + dHfocals + dHnuclei;
+	dH = dHcontact + dHvol + dHfocals + dHsyncytium + dHnuclei;
 	return dH;
 
+}
+
+////////////////////////////////////////////////////////////////////////////////
+double calcdHsyncytium(VOX* pv, CM* CMs, int xt, int xs, int ttag, int stag)
+{
+	double dH = 0;
+	double bondS, bondT;
+	int xb, xsy, xsx, xby, xbx, btag, vx, vy;
+	double normX, normB;
+
+	if(pv[xs].bond!=0){
+
+		xsy = xs/NVX - CMs[stag].y; xsx = (xs%NVX) - CMs[stag].x;
+		
+		xb = pv[xs].bond;
+		btag = pv[xb].ctag;
+		xby = xb/NVX - CMs[btag].y; xbx = (xb%NVX) - CMs[btag].x;
+
+		normX = sqrt(xsy*xsy+xsx*xsx);
+		normB = sqrt(xby*xby+xbx*xbx);
+
+		vx = xsx/normX + xbx/normB;
+		vy = xsy/normX + xby/normB;
+		
+		dH += E_bond * (2 - sqrt(vx*vx+vy*vy));
+
+	}
+
+	if(pv[xt].bond!=0){
+
+		xsy = xt/NVX - CMs[ttag].y; xsx = (xt%NVX) - CMs[ttag].x;
+		
+		xb = pv[xt].bond;
+		btag = pv[xb].ctag;
+		xby = xb/NVX - CMs[btag].y; xbx = (xb%NVX) - CMs[btag].x;
+
+		normX = sqrt(xsy*xsy+xsx*xsx);
+		normB = sqrt(xby*xby+xbx*xbx);
+
+		vx = xsx/normX + xbx/normB;
+		vy = xsy/normX + xby/normB;
+		
+		dH += E_bond * (2 - sqrt(vx*vx+vy*vy));
+
+	}
+
+	return dH;
 }
 
 

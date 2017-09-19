@@ -99,31 +99,31 @@ void parse_options(int argc, char *argv[])
 			NCX = 26;
 		    NCY = 26;
 
-		    GN_CM 			= 500.0/SCALE;
-		 	TARGETVOLUME_CM = 1.0/1000/VOXSIZE/VOXSIZE;
-		    INELASTICITY_CM = 150.0*SCALE*SCALE*SCALE*SCALE;
-		    DETACH_CM		= 12.5;
+		    GN_CM 			= 100.0/SCALE;
+		 	TARGETVOLUME_CM = 0.9/1000/VOXSIZE/VOXSIZE;
+		    INELASTICITY_CM = 60.0*SCALE*SCALE*SCALE*SCALE;
+		    DETACH_CM		= 11.0;
 		            
-		    GN_FB 			= 50.0/SCALE;
-		    TARGETVOLUME_FB = 0.75/1000/VOXSIZE/VOXSIZE;
-		    INELASTICITY_FB = 80.0*SCALE*SCALE*SCALE*SCALE;
+		    GN_FB 			= 20.0/SCALE;
+		    TARGETVOLUME_FB = 0.8/1000/VOXSIZE/VOXSIZE;
+		    INELASTICITY_FB = 20.0*SCALE*SCALE*SCALE*SCALE;
 		    DETACH_FB		= 10.0;
 		            
-		    JCMMD 			= 1200.0*VOXSIZE;
-		    JFBMD 			= 800.0*VOXSIZE;
+		    JCMMD 			= 600.0*VOXSIZE;
+		    JFBMD 			= 275.0*VOXSIZE;
 		            
 		    JCMCM 			= 700.0*VOXSIZE;
-		    JFBFB 			= 900.0*VOXSIZE;
-		    JFBCM 			= 900.0*VOXSIZE;
+		    JFBFB 			= 500.0*VOXSIZE;
+		    JFBCM 			= 700.0*VOXSIZE;
 
 		    UNLEASH_CM		= 0.0;
 			UNLEASH_FB		= 0.0;
 
-			LMAX_CM 		= 77.0/1000/VOXSIZE;
-		    LMAX_FB 		= 77.0/1000/VOXSIZE;   	
+			LMAX_CM 		= 40.0/1000/VOXSIZE;
+		    LMAX_FB 		= 40.0/1000/VOXSIZE;   	
 
-		    MAX_FOCALS_CM = 13;
-		    MAX_FOCALS_FB = 13;
+		    MAX_FOCALS_CM = 14;
+		    MAX_FOCALS_FB = 8;
 		 //    GN_CM 			= 51.03/SCALE;
 		 //    TARGETVOLUME_CM = 0.88/1000/VOXSIZE/VOXSIZE;
 		 //    INELASTICITY_CM = 62.32*SCALE*SCALE*SCALE*SCALE;
@@ -182,8 +182,8 @@ void parse_options(int argc, char *argv[])
     	}
     }
     
-    NCX *= 2;
-    NCY *= 2;
+    NCX *= 6;
+    NCY *= 6;
 }
 
 

@@ -16,8 +16,8 @@ int SEED;
 //sample size
 #define VOXSIZE .0025 			// [mm]
 #define SCALE (VOXSIZE/.0025)	//
-#define sizeX 1.6 				// [mm]
-#define sizeY 1.6 				// [mm]
+#define sizeX 4.8 				// [mm]
+#define sizeY 4.8 				// [mm]
 #define sizeMarginX 0.100 		// [mm] from one side
 #define sizeMarginY 0.100 		// [mm] from one side
 #define MARGINX rounder(sizeMarginX/VOXSIZE)
@@ -38,6 +38,8 @@ int NRINC;
 #define JH	2.0
 #define G_NCH 50.0
 
+#define E_bond 5.0
+
 // cells
 #define IMMOTILITY_CM 1.0*SCALE*SCALE						
 #define IMMOTILITY_FB 1.0*SCALE*SCALE
@@ -55,7 +57,7 @@ double distanceF;
 //spreading
 double GN_CM;
 double GN_FB;
-#define PART 0.65 			//% FBs
+#define PART 0.70 			//% FBs
 
 //elasticity
 double TARGETVOLUME_CM;
@@ -69,7 +71,7 @@ double LMAX_FB;
 
 //nucleus protection
 #define NUCLEI_R .007/VOXSIZE			// nucleus radius [pixels]
-#define NUCL 2.0						// penalty for nucleus penetration (NUCL * DETACH)
+#define NUCL 10.0						// penalty for nucleus penetration (NUCL * DETACH)
 
 //Js
 double DETACH_CM;

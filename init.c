@@ -33,6 +33,8 @@ VOX* init_voxels(void)
 		//pv[v].x = vx * VOXSIZE; pv[v].y = vy * VOXSIZE;
 		pv[v].ctag = 0;
 		pv[v].type = 0;
+		pv[v].contact = 0;
+		pv[v].bond = 0;
 	}
 	return pv;
 }
