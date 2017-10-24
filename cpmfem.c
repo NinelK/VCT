@@ -96,8 +96,8 @@ void parse_options(int argc, char *argv[])
     if(shifts==1){
     	if(distanceF>1.0){
 			
-			NCX = 26;
-		    NCY = 26;
+			NCX = 27;
+		    NCY = 27;
 
 		    GN_CM 			= 100.0/SCALE;
 		 	TARGETVOLUME_CM = 0.9/1000/VOXSIZE/VOXSIZE;
@@ -263,7 +263,7 @@ int main(int argc, char *argv[])
 	// START SIMULATION ///
 	for(incr=startincr; incr<NRINC; incr++)
 	{
-		if (incr % 100 == 0){
+		if (incr % 500 == 0){
 			if(!silence)
 				printf("\nSTART INCREMENT %d",incr);
 			write_cells(pv,incr);
@@ -274,7 +274,7 @@ int main(int argc, char *argv[])
 		acceptance = CPM_moves(pv,CCAlabels,pb,pf,CMs, 
 attached,csize);
 
-		if (incr % 100 == 0 && !silence){
+		if (incr % 500 == 0 && !silence){
 			printf("\nAcceptance rate %.4f",acceptance);
 		}
 	}

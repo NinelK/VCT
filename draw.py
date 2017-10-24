@@ -28,9 +28,9 @@ def make_image(n_int, CMs_ind):
         FBs = np.ones_like(table) - null - CMs
 
 	#img[:,:,:] = 255
-	img[:,:,0] = CMs*(1-edges)*255#+conts*edges*CMs*255+conts*edges*FBs*255
-	img[:,:,1] = FBs*(1-edges)*255#+conts*edges*CMs*255
-	img[:,:,2] = FBs*(1-edges)*255
+	img[:,:,0] = CMs*255#(1-edges)*255#+conts*edges*CMs*255+conts*edges*FBs*255
+	img[:,:,1] = FBs*255#(1-edges)*255#+conts*edges*CMs*255
+	img[:,:,2] = FBs*255#(1-edges)*255
 
 	areas = np.zeros(4)
 	conv = (2.5/1000)**2 #to mm
@@ -64,5 +64,5 @@ print (len(CMs_ind),len(FBs_ind), 1.0*len(CMs_ind)/(len(CMs_ind)+len(FBs_ind)))
 #vselect_CMs = np.vectorize(select_CMs)
 #vselect_FBs = np.vectorize(select_FBs)
 
-for n in range(0,50001,500):
+for n in range(50000,50001,1):
 	print make_image(n, CMs_ind)

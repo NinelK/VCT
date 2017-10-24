@@ -1,4 +1,4 @@
 make clean
 make
 rm -r imgs
-./cpmfem -m -p 2,30001
+./cpmfem -m -p 1,50001

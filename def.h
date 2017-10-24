@@ -57,7 +57,7 @@ double distanceF;
 //spreading
 double GN_CM;
 double GN_FB;
-#define PART 0.70 			//% FBs
+#define PART 0.75 			//% FBs
 
 //elasticity
 double TARGETVOLUME_CM;
