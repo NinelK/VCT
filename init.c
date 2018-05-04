@@ -33,6 +33,8 @@ VOX* init_voxels(void)
 		//pv[v].x = vx * VOXSIZE; pv[v].y = vy * VOXSIZE;
 		pv[v].ctag = 0;
 		pv[v].type = 0;
+		pv[v].contact = 0;
+		pv[v].bond = 0;
 	}
 	return pv;
 }
@@ -87,6 +89,7 @@ int init_cells(VOX* pv, int * types, BOX* pb)
 FIBERS* set_fibers(void)
 {
 	FIBERS* pf;
+	
 	int v, vx, vy, vd, fd, kc;
 	int i;
 	double dx,dy;
@@ -98,8 +101,8 @@ FIBERS* set_fibers(void)
    	pf = calloc(NV, sizeof(FIBERS));
 
 	// set voxel information
-   	for(v=0; v<NV; v++)
-   		pf[v].Q = 0;
+    for(v=0; v<NV; v++)
+    	pf[v].Q = 0;
 
    	if(F_ANGLE!=PI/2){
    		fd = round(fiberD / VOXSIZE / cos(F_ANGLE));

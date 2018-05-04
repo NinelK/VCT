@@ -10,6 +10,7 @@ typedef struct
 	int ctag;				// id of occupying cell, 0 if no cell
 	int contact;			// 0 or 1
 	int type;				//id of cell type
+	int bond;
 } VOX;
 
 typedef struct

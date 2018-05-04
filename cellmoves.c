@@ -12,7 +12,7 @@ int* attached, int* csize)
 	int i,j,NRsteps = NV;
 	int xs, xt; // source and target pixel
 	int xtx,xty,xsx,xsy; // x and y position of target pixel
-	int ttag, stag; // target and source label
+	int ttag, stag, type; // target and source label
 	int nbs[8],pick, reject, accept; // neighbors of target pixel
 	BOOL go_on;
 	double dH, prob, phi;
@@ -35,52 +35,71 @@ int* attached, int* csize)
 
 			ttag = pv[xt].ctag;
 			stag = pv[xs].ctag;
-			
+
 			go_on = 0;
-			if(ttag!=stag) //don't bother if no difference
+			if(ttag!=stag || (CONT && pv[xs].contact==1) )//don't bother if no difference
 			{
         		go_on = 1;
+        		//if(!pv[xt].contact && !pv[xt].contact && mt_random()%10!=0)			//if contact is not involved -- pick up again
+        		//	go_on = 0; 
+        		//if(go_on && ttag) // if a cell in xt (retracting)
         		if(ttag) // if a cell in xt (retracting)
 				{
-            		if 
-(splitcheckCCR(pv,CCAlabels,pb,csize,xt,ttag))
+            		if (splitcheckCCR(pv,CCAlabels,pb,csize,xt,ttag))
                 		go_on = 0;
             		if(csize[ttag-1]==1) // cell cannot disappear (constraint may be removed)
                 		go_on = 0;
 				}
-				if(shifts==1 && distanceF<0.1 && (xtx<MARGINX || xtx>NVX-MARGINX))
-					go_on = 0;
+				// if(go_on && shifts==1 && distanceF<0.1 && (xtx<MARGINX || xtx>NVX-MARGINX))
+				// 	go_on = 0;
+
+				if(ttag!=stag && pv[xt].type==1 && pv[xs].type==1 && pv[xt].contact==1 && pv[xs].contact==1 && pv[xt].bond==0 && pv[xs].bond==0){
+					pv[xt].bond=xs;
+					pv[xs].bond=xt;
+				}
+
 			}
 
 			if(go_on)
 			{
-        		dH = calcdH(pv,pf,CMs,csize,xt,xs,pick,ttag,stag);
+				dH = calcdH(pv,pf,CMs,csize,xt,xs,pick,ttag,stag);
         		prob = exp(-IMMOTILITY*dH);
         		if (prob>(rand()/(double)RAND_MAX))
         		{
             		pv[xt].ctag = stag; // a move is made
             		pv[xt].type = pv[xs].type;
 
-			if(stag){
-				if(xtx<pb[stag].x1) pb[stag].x1=xtx;
-				if(xtx>pb[stag].x2) pb[stag].x2=xtx;
-				if(xty<pb[stag].y1) pb[stag].y1=xty;
-				if(xty>pb[stag].y2) pb[stag].y2=xty;
-			}
+					if(stag){									//box update
+						if(xtx<pb[stag].x1) pb[stag].x1=xtx;
+						if(xtx>pb[stag].x2) pb[stag].x2=xtx;
+						if(xty<pb[stag].y1) pb[stag].y1=xty;
+						if(xty>pb[stag].y2) pb[stag].y2=xty;
+					}
 
             		if(pv[xs].contact){		//contact moves
-				if(pv[xt].contact)
-					attached[ttag]--;
+						if(pv[xt].contact)
+							attached[ttag]--;
             			pv[xt].contact=1;
             			pv[xs].contact=0;
+            		}else
+	            		if(pv[xt].contact){
+	            			pv[xt].contact = 0;
+	            			attached[ttag]--;
+	            		}
+
+            		if(pv[xt].bond!=0){							//bonds break
+            			/*printf("\n%d-%d breaks",xt,pv[xt].bond);*/
+            			pv[pv[xt].bond].bond = 0;
+            			pv[xt].bond = 0;
             		}
 
-            		if(pv[xt].contact && stag==0){
-            			pv[xt].contact = 0;
-            			attached[ttag]--;
+            		if(pv[xs].bond!=0){
+            			/*printf("\n%d-%d breaks",xs,pv[xs].bond);*/
+            			pv[pv[xs].bond].bond = 0;
+            			pv[xs].bond = 0;
             		}
 
-            		if(ttag==0 && stag && attached[stag]<MAX_FOCALS_T(pv[xs].type)){
+            		if(stag && pv[xt].contact==0 && attached[stag]<MAX_FOCALS_T(pv[xs].type)){ //if there was no contact that moved and there are still less than MAX contacts -> create a new one
 						pv[xt].contact = 1;
 						attached[stag]++;
 					}
@@ -91,8 +110,11 @@ int* attached, int* csize)
 					reject++;
 				}
 			}
+			/*else
+				i--;*/
 		}
 	}
+
 	return ((double) accept / (double) (reject + accept));
 }
 
