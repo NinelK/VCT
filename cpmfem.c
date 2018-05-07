@@ -15,6 +15,8 @@ void parse_options(int argc, char *argv[])
     silence=0;
     distanceF=20.0;
     shifts=0;
+    CONT = 0;
+    CONT_INHIB = 1;
     #include "conf/cnfgSN.cfg"
 
     while ((opt = getopt(argc, argv, options)) != -1) {
@@ -36,7 +38,10 @@ void parse_options(int argc, char *argv[])
         	shifts = 1;
         	break;
         case 'c':			//move contacts if they are under the cell. If CONT=0, then only contacts on the perifery move.
-        	CONT = 1;
+        	CONT = 1;			//switches on movement of the attachment sites under the cell, not only on the periphery
+        	CONT_INHIB = 0;		//switches off simple variant of contact inhibitio, when the cell just does not create new attachment sites when it is facing a neighbouring cell there
+        						//these two properties can be separated. In "Virtual cardiac monolayers..." we used 		CONT = 0, CONT_INHIB = 1
+        						//for pathways formation we changes the idea behind contact inhibition, so we switched to 	CONT = 1, CONT_INHIB = 0
         	break;
         default:
             printf("Wrong parameter");
@@ -134,7 +139,7 @@ int main(int argc, char *argv[])
 	for(incr=startincr; incr<NRINC; incr++)
 	{
 
-		if (incr % 100 == 0){
+		if (incr % STEP_PRINT == 0){
 			if(!silence)
 				printf("\nSTART INCREMENT %d",incr);
 			write_cells(pv,incr);
@@ -145,7 +150,7 @@ int main(int argc, char *argv[])
 		acceptance = CPM_moves(pv,CCAlabels,pb,pf,CMs, 
 attached,csize);
 
-		if (incr % 100 == 0 && !silence){
+		if (incr % STEP_PRINT == 0 && !silence){
 			printf("\nAcceptance rate %.4f",acceptance);
 		}
 	}

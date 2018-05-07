@@ -29,6 +29,8 @@ int SEED;
 int NRINC;
 #define NRINC_CH 500
 
+#define STEP_PRINT 500
+
 #define MAXNRITER 1000
 #define ACCURACY .00001
 
@@ -38,8 +40,7 @@ int NRINC;
 #define JH	2.0
 #define G_NCH 50.0
 
-//#define E_bond 5.0 /* 5.0 */
-double E_bond;
+#define E_bond 0.0 /* 5.0 */
 
 // cells
 #define IMMOTILITY 1.0*SCALE*SCALE						// 1/T
@@ -47,7 +48,6 @@ int NCX;
 int NCY;
 
 //fibers
-//#define distanceF 20.0									// [mm] distance between fibers
 double distanceF;
 #define fiberD	0.0025 									// 0.0025 [mm] fibers diameter
 #define F_DISTANCE rounder(distanceF/VOXSIZE)			// [pixels]
@@ -55,6 +55,7 @@ double distanceF;
 
 //spreading
 char CONT;
+char CONT_INHIB;
 double GN_CM;
 double GN_FB;
 #define PART 0.50 			//% FBs

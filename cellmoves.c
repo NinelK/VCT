@@ -53,7 +53,7 @@ int* attached, int* csize)
 				// if(go_on && shifts==1 && distanceF<0.1 && (xtx<MARGINX || xtx>NVX-MARGINX))
 				// 	go_on = 0;
 
-				if(ttag!=stag && pv[xt].type==1 && pv[xs].type==1 && pv[xt].contact==1 && pv[xs].contact==1 && pv[xt].bond==0 && pv[xs].bond==0){
+				if(E_bond && ttag!=stag && pv[xt].type==1 && pv[xs].type==1 && pv[xt].contact==1 && pv[xs].contact==1 && pv[xt].bond==0 && pv[xs].bond==0){
 					pv[xt].bond=xs;
 					pv[xs].bond=xt;
 				}
@@ -99,7 +99,8 @@ int* attached, int* csize)
             			pv[xs].bond = 0;
             		}
 
-            		if(stag && pv[xt].contact==0 && attached[stag]<MAX_FOCALS_T(pv[xs].type)){ //if there was no contact that moved and there are still less than MAX contacts -> create a new one
+            		if((CONT_INHIB && ttag == 0) && stag && pv[xt].contact==0 && attached[stag]<MAX_FOCALS_T(pv[xs].type)){    //if there was no contact that moved and there are still less than MAX contacts -> create a new one
+            			//ttag == 0 adds sort of contact inhibition
 						pv[xt].contact = 1;
 						attached[stag]++;
 					}

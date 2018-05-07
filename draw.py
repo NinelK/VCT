@@ -66,5 +66,5 @@ print (len(CMs_ind),len(FBs_ind), 1.0*len(CMs_ind)/(len(CMs_ind)+len(FBs_ind)))
 #vselect_CMs = np.vectorize(select_CMs)
 #vselect_FBs = np.vectorize(select_FBs)
 
-for n in range(0,901,100):
+for n in range(0,2001,500):
 	print make_image(n, CMs_ind)

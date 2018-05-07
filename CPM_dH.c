@@ -74,7 +74,8 @@ double calcdH(VOX* pv, FIBERS* pf, CM* CMs, int* csize, int xt, int xs, int pick
 	dHfocals = calcdHprotrude(pv, CMs, xt, xs, ttag, stag, pf[xt].Q, pf[xs].Q);
 
 	dHsyncytium = 0;
-	dHsyncytium = calcdHsyncytium(pv, CMs, xt,xs,ttag,stag);
+	if(E_bond)
+		dHsyncytium = calcdHsyncytium(pv, CMs, xt,xs,ttag,stag);
 
 	dHnuclei = 0;
 	dHnuclei = calcdHnuclei(pv, CMs, xt, ttag, stag);
