@@ -1,4 +1,5 @@
 import numpy as np
+import sys
 from numpngw import write_png
 
 def make_image(n_int, CMs_ind):
@@ -18,21 +19,26 @@ def make_image(n_int, CMs_ind):
 	edges[:-1,:] += hor
 	edges = np.uint8(edges != 0)
 
-	#CMs = vselect_CMs(table)
-	#FBs = vselect_FBs(table)
+	is_CM = np.vectorize(lambda x: x in CMs_ind)
 
-        is_CM = np.vectorize(lambda x: x in CMs_ind)
+	null = np.uint8(table == 0)
+	CMs = is_CM(table).astype('uint8')
+	FBs = np.ones_like(table) - null - CMs
 
-        null = np.uint8(table == 0)
-        CMs = is_CM(table).astype('uint8')
-        FBs = np.ones_like(table) - null - CMs
+	f = 0;
+	cont_edges = edges
+	if sys.argv[3] != "0":		#if not 0, show contacts/attachments at least on the edge of the cell
+		f = 0.5
+	if sys.argv[3] == "2":		#if 2, show all of the attachment sites, even those under the cell
+		cont_edges = 1 
 
-	#img[:,:,:] = 255
-	img[:,:,0] = CMs*(1-0.5*edges)*255 + FBs*(1-0.5*edges)*255
-	#+conts*edges*CMs*255+conts*edges*FBs*255
-	img[:,:,1] = FBs*(1-0.5*edges)*255
-	#+conts*edges*CMs*255
-	img[:,:,2] = FBs*(1-0.5*edges)*255
+	img[:,:,0] = conts*255
+	img[:,:,1] = edges*255
+	write_png("./imgs/conts.png", img)
+
+	img[:,:,0] = CMs*(1-0.5*edges)*255 + FBs*(1-0.5*edges)*255 + f*conts*cont_edges*CMs*255 + f*conts*cont_edges*FBs*255
+	img[:,:,1] = FBs*(1-0.5*edges)*255 + 2*f*conts*cont_edges*CMs*255 + f*conts*cont_edges*FBs*255
+	img[:,:,2] = FBs*(1-0.5*edges)*255 - f*conts*cont_edges*FBs*255
 
 	areas = np.zeros(4)
 	conv = (2.5/1000)**2 #to mm
@@ -49,22 +55,5 @@ FBs_ind = np.where(types==2)[0]+1
 
 print (len(CMs_ind),len(FBs_ind), 1.0*len(CMs_ind)/(len(CMs_ind)+len(FBs_ind)))
 
-#def select_CMs(a):
-#	if (a in CMs_ind):
-#		res = 1
-#	else:
-#	 	res = 0
-#	return res	
-
-#def select_FBs(a):
-#	if (a in FBs_ind):
-#		res = 1
-#	else:
-#		res = 0
-#	return res
-
-#vselect_CMs = np.vectorize(select_CMs)
-#vselect_FBs = np.vectorize(select_FBs)
-
-for n in range(0,2001,500):
+for n in range(0,int(sys.argv[1]),int(sys.argv[2])):
 	print make_image(n, CMs_ind)

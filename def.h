@@ -29,7 +29,7 @@ int SEED;
 int NRINC;
 #define NRINC_CH 500
 
-#define STEP_PRINT 500
+#define STEP_PRINT 100
 
 #define MAXNRITER 1000
 #define ACCURACY .00001
