@@ -4,11 +4,15 @@ Description here !!!
 
 ## Getting Started
  
-These instructions will get you a copy of the project up and running on your local machine for dev$
+These instructions will get you a copy of the project up and running on your local machine.
 
 ### Prerequisites
 
-???
+This program was tested with:
+
+	C-compiler
+	Python 2.7
+	Numpy 1.11.0
    
 ### Installing
 
@@ -92,7 +96,27 @@ This model was adjusted to fit the experimental data for the simulations of the 
 
 Even though this model could be unstable in the long-term, it is suitable for generation of virtual samples and requires minimal time to compute. However, this instability might be important for the future model developments.
 
-### Example 2. Cells motility
+### Example 2. Cell motility
+
+In this example we will simulate motile cells. To run this example, evaluate:
+
+	$ make example2; make clean; make
+	$ ./cpmfem -f -p 0,5001
+
+And visualise it with:
+
+	$ python draw.py 5001 100 0
+
+to see how 50 fibroblasts crawl on the fibers.
+
+Here we took the parameters from Example 1, valid for the cells in monolayer and on fibers. But we have seeded them more sparsly and reduced the energy that corresponds to the adhesion to a substrate: DETACH_FB.
+
+One can compare the results of the simulation with the experimental movie 7 from Doyle et at. [Doyle, Andrew D., et al. "One-dimensional topography underlies three-dimensional fibrillar cell migration." The Journal of cell biology 184.4 (2009): 481-490.] 
+Here we consider only fibroblasts, because there is no experimental data for the cardiomyocytes.
+
+### Example 3. Cardiac pathways in fibrotic tissue
+
+
 
 ## Contributions
 

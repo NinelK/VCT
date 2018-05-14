@@ -27,11 +27,13 @@ example1:
 	cp conf/various/cnfgSNa.cfg conf/cnfgSN.cfg
 	cp conf/various/cnfgSFa.cfg conf/cnfgSF.cfg
 	cp conf/various/cnfgMNa.cfg conf/cnfgMN.cfg
+	cp conf/various/cnfgMFa.cfg conf/cnfgMF.cfg
 	mkdir -p imgs
 	rm *.o
 
 example2:
-
+	cp conf/defs/def2.h def.h
+	cp conf/various/cnfgSF2.cfg conf/cnfgSF.cfg
 	mkdir -p imgs
 	rm *.o
 

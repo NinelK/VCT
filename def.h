@@ -58,7 +58,7 @@ char CONT;
 char CONT_INHIB;
 double GN_CM;
 double GN_FB;
-#define PART 0.50 			//% FBs
+#define PART 1.0 			//% FBs
 
 //elasticity
 double TARGETVOLUME_CM;
