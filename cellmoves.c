@@ -99,8 +99,9 @@ int* attached, int* csize)
             			pv[xs].bond = 0;
             		}
 
-            		if((CONT_INHIB && ttag == 0) && stag && pv[xt].contact==0 && attached[stag]<MAX_FOCALS_T(pv[xs].type)){    //if there was no contact that moved and there are still less than MAX contacts -> create a new one
-            			//ttag == 0 adds sort of contact inhibition
+            		if((!CONT_INHIB || ttag == 0) && stag && pv[xt].contact==0 && attached[stag]<MAX_FOCALS_T(pv[xs].type)){    //if there was no contact that moved and there are still less than MAX contacts -> create a new one
+            			//ttag == 0 adds sort of contact inhibition, because cell can not make new adhesion sites with the substrate if it is facing another cell there
+            			// so if CONT_INHIB == 1, we apply this extra contact inhibition (ttag == 0). If CONT_INHIB == 0 we skip it.
 						pv[xt].contact = 1;
 						attached[stag]++;
 					}

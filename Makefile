@@ -23,7 +23,7 @@ clean:
 	rm ./output/*.out
 
 example1:
-	cp conf/defs/defS.h def.h
+	cp conf/defs/def1.h def.h
 	cp conf/various/cnfgSNa.cfg conf/cnfgSN.cfg
 	cp conf/various/cnfgSFa.cfg conf/cnfgSF.cfg
 	cp conf/various/cnfgMNa.cfg conf/cnfgMN.cfg
@@ -34,6 +34,18 @@ example1:
 example2:
 	cp conf/defs/def2.h def.h
 	cp conf/various/cnfgSF2.cfg conf/cnfgSF.cfg
+	mkdir -p imgs
+	rm *.o
+
+example3:
+	cp conf/defs/def3.h def.h
+	cp conf/various/cnfgMN3.cfg conf/cnfgMN.cfg
+	mkdir -p imgs
+	rm *.o
+
+example3L:
+	cp conf/defs/def3L.h def.h
+	cp conf/various/cnfgMN3.cfg conf/cnfgMN.cfg
 	mkdir -p imgs
 	rm *.o
 

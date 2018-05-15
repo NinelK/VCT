@@ -14,10 +14,11 @@ int SEED;
 #define rounder(a) (((a) + ((a) < 0 ? 0.5 : -0.5) < (int)(a))? (int)(a): (int)(a) + 1)
 
 //sample size
+#define MULT 1
 #define VOXSIZE .0025 			// [mm]
 #define SCALE (VOXSIZE/.0025)	//
-#define sizeX 1.0				// [mm]
-#define sizeY 1.0  				// [mm]
+#define sizeX (1.0*MULT)		// [mm]
+#define sizeY (1.0*MULT)		// [mm]
 #define sizeMarginX 0.100 		// [mm] from one side
 #define sizeMarginY 0.100 		// [mm] from one side
 #define MARGINX rounder(sizeMarginX/VOXSIZE)
@@ -29,7 +30,7 @@ int SEED;
 int NRINC;
 #define NRINC_CH 500
 
-#define STEP_PRINT 500
+#define STEP_PRINT 100
 
 #define MAXNRITER 1000
 #define ACCURACY .00001

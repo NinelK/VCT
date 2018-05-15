@@ -111,12 +111,30 @@ to see how 50 fibroblasts crawl on the fibers.
 
 Here we took the parameters from Example 1, valid for the cells in monolayer and on fibers. But we have seeded them more sparsly and reduced the energy that corresponds to the adhesion to a substrate: DETACH_FB.
 
-One can compare the results of the simulation with the experimental movie 7 from Doyle et at. [Doyle, Andrew D., et al. "One-dimensional topography underlies three-dimensional fibrillar cell migration." The Journal of cell biology 184.4 (2009): 481-490.] 
+One can compare the results of the simulation with the experimental movie 7 from [Doyle et at.](http://jcb.rupress.org/content/184/4/481) paper entitled "One-dimensional topography underlies three-dimensional fibrillar cell migration." The Journal of cell biology 184.4 (2009): 481-490.
 Here we consider only fibroblasts, because there is no experimental data for the cardiomyocytes.
 
 ### Example 3. Cardiac pathways in fibrotic tissue
 
+	$ make example3; make clean; make
+	$ ./cpmfem -c -m -p 0,5001
 
+And visualise it with:
+
+	$ python draw.py 5001 500 0
+
+After 5000 MCS the cardiomyocytes form more or less connected network.
+
+To generate larger example, run 
+
+	$ make example3L; make clean; make
+	$ ./cpmfem -c -m -p 0,5001
+
+It may take around 5 minutes. Visualisation also takes approximately 40-60 seconds, so we advise to run it in parallel after 4000-4500 MCS, by executing:
+
+	$ python draw.py 5001 500 0
+
+There is no limitation to the size of the sample in this program. However, 1cm x 1cm sample would take around 8 hours to compute. Perfect size for overnight computations :)
 
 ## Contributions
 

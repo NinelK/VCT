@@ -4,7 +4,7 @@
 #include <getopt.h>
 #include <math.h>
 
-static char *options = "p:smf";
+static char *options = "p:smfc";
 static char *program_name;
 
 void parse_options(int argc, char *argv[])
@@ -57,8 +57,8 @@ void parse_options(int argc, char *argv[])
     		#include "conf/cnfgMF.cfg"
     	}
     
-    NCX *= 1;
-    NCY *= 1;
+    NCX *= MULT;
+    NCY *= MULT;
 }
 
 
