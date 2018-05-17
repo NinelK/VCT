@@ -48,7 +48,9 @@ To visualise these cells, simply run the following python script:
 
 	$ python draw.py 901 100 0
 
-Here first argument (901) corresponds to the duration of simulation that was performed, second argument (100) provides the timestep of the output, and, finally, the last argument (0) is a flag that tells visualizer to show only the cell shapes without attachment sites. The resulting images are stored in "./imgs" folder. 
+Here first argument (901) corresponds to the duration of simulation that was performed, second argument (100) provides the timestep of the output, and, finally, the last argument (0) is a flag that tells visualizer to show only the cell shapes without attachment sites. The resulting images are stored in "./imgs" folder.
+
+The draw.py script outputs the total areas covered with cardiomyocytes (CMs) and fibroblasts (FBs), which plays a role of an indicator for convergence of the model (roughly). 
 
 Another command:
 	
