@@ -143,11 +143,13 @@ There is no limitation to the size of the sample in this program. However, 1cm x
 	$ make example4; make clean; make
 	$ ./cpmfem -c -m -p 0,5001
 
-This example is similar to Example 3, with the only different parameter: E_bond = 0. This means, that there is no cytoskeleton alignment in this model, but all the other parameters are exactly the same. After visualisation of cells and their attachment sites:
+This example is similar to Example 3, with the only different parameter: E_bond = 0. This means, that there is no cytoskeleton alignment in this one, but all the other parameters are exactly the same. After visualisation of cells and their attachment sites:
 
 	$ python draw.py 5001 500 1
 
-one can see that the cells are less aligned and ordered as in the previous example. The results of electrophysiological simulations in the upcoming paper show, that percolation threshold is lower in this case, then in Example 3 and experiments. So, cytoskeleton alignment explains how the cardiac cells form connected networks that wire whole samples with only 27% cardiomyocytes.
+one can see that the cells are less aligned and ordered compared to the previous example. 
+
+The results of electrophysiological simulations (in the upcoming paper) show, that percolation threshold is the highest for E_bond = 5.0, as in Example 3, in which cardiac cells formed connected networks that wired the whole sample with only 27% cardiomyocytes. That result also corresponded well to the experiments. In Example 4, however, percolation threshold was only around 60% FBs / 40% CMs.
 
 ## Contributions
 
