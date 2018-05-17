@@ -13,6 +13,8 @@ This program was tested with:
 	C-compiler
 	Python 2.7
 	Numpy 1.11.0
+	Numpngw 0.0.6
+
    
 ### Installing
 
@@ -119,13 +121,13 @@ Here we consider only fibroblasts, because there is no experimental data for the
 	$ make example3; make clean; make
 	$ ./cpmfem -c -m -p 0,5001
 
-And visualise it with:
+Here "-c" means that we turn on cytoskeleton alignment term and turn off an old contact inhibition part of the algorithm (that the cells did not create new attachment sites if they expanded in the dense tissue, in place where the other cell were laying just 1 MCS ago). And visualise it with:
 
-	$ python draw.py 5001 500 0
+	$ python draw.py 5001 500 1
 
-After 5000 MCS the cardiomyocytes form more or less connected network.
+After 5000 MCS the cardiomyocytes form more or less connected network. It is also interesting to see the distribution of contacts in this case, since new energy term make the cytoskeletons of neighbouring cells align.
 
-To generate larger example, run 
+To generate a larger example, run 
 
 	$ make example3L; make clean; make
 	$ ./cpmfem -c -m -p 0,5001
@@ -135,6 +137,17 @@ It may take around 5 minutes. Visualisation also takes approximately 40-60 secon
 	$ python draw.py 5001 500 0
 
 There is no limitation to the size of the sample in this program. However, 1cm x 1cm sample would take around 8 hours to compute. Perfect size for overnight computations :)
+
+### Example 4. Fibrotic tissue without cytoskeleton alignment
+
+	$ make example4; make clean; make
+	$ ./cpmfem -c -m -p 0,5001
+
+This example is similar to Example 3, with the only different parameter: E_bond = 0. This means, that there is no cytoskeleton alignment in this model, but all the other parameters are exactly the same. After visualisation of cells and their attachment sites:
+
+	$ python draw.py 5001 500 1
+
+one can see that the cells are less aligned and ordered as in the previous example. The results of electrophysiological simulations in the upcoming paper show, that percolation threshold is lower in this case, then in Example 3 and experiments. So, cytoskeleton alignment explains how the cardiac cells form connected networks that wire whole samples with only 27% cardiomyocytes.
 
 ## Contributions
 

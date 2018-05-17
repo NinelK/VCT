@@ -21,6 +21,7 @@ cpmfem: $(OBJECTS)
 clean:
 	rm *.o
 	rm ./output/*.out
+	rm ./imgs/*.png
 
 example1:
 	cp conf/defs/def1.h def.h
@@ -45,6 +46,12 @@ example3:
 
 example3L:
 	cp conf/defs/def3L.h def.h
+	cp conf/various/cnfgMN3.cfg conf/cnfgMN.cfg
+	mkdir -p imgs
+	rm *.o
+
+example4:
+	cp conf/defs/def4.h def.h
 	cp conf/various/cnfgMN3.cfg conf/cnfgMN.cfg
 	mkdir -p imgs
 	rm *.o

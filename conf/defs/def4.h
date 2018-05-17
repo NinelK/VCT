@@ -30,7 +30,7 @@ int SEED;
 int NRINC;
 #define NRINC_CH 500
 
-#define STEP_PRINT 100
+#define STEP_PRINT 500
 
 #define MAXNRITER 1000
 #define ACCURACY .00001
@@ -59,7 +59,7 @@ char CONT;
 char CONT_INHIB;
 double GN_CM;
 double GN_FB;
-#define PART 1.0 			//% FBs
+#define PART 0.70 			//% FBs
 
 //elasticity
 double TARGETVOLUME_CM;
