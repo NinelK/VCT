@@ -1,11 +1,11 @@
-# Citation
-
-To refer to this code in your paper, please use the following citation:
-> Kudryashova, N., Tsvelaya, V., Agladze, K., & Panfilov, A. (2017). Virtual cardiac monolayers for electrical wave propagation. Scientific Reports, 7(1), 7887. https://doi.org/10.1038/s41598-017-07653-3
-
 # Virtual cardiac monolayers 
 
 This program generates virtual cardiac monolayers with two cell types: cardiomyocytes and fibroblasts.
+
+## Citation
+
+If you use our model and/or code, please refer to it in your paper using the following citation:
+> Kudryashova, N., Tsvelaya, V., Agladze, K., & Panfilov, A. (2017). Virtual cardiac monolayers for electrical wave propagation. Scientific Reports, 7(1), 7887. https://doi.org/10.1038/s41598-017-07653-3
 
 ## Getting Started
  
