@@ -158,14 +158,6 @@ one can see that the cells are less aligned and ordered compared to the previous
 
 The results of electrophysiological simulations (in the upcoming paper) show, that percolation threshold is the highest for E_bond = 5.0, as in Example 3, in which cardiac cells formed connected networks that wired the whole sample with only 27% cardiomyocytes. That result also corresponded well to the experiments. In Example 4, however, percolation threshold was only around 60% FBs / 40% CMs.
 
-## Contributions
-
-???
-
-## Licence
-
-???
-
 
 
 
