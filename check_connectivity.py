@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 
 import numpy as np
 import os
+import sys
 import scipy.ndimage as ndimage
 from numpngw import write_png
 import time
@@ -53,15 +54,15 @@ def compute_sample(SEED):
 	time.sleep(2)
 	os.system("mkdir output")
 	#os.system("mkdir imgs")
-	# os.system("./cpmfem -c -m -p %d,%f,%f,%f" % (SEED,(T+1),E_bond,PRC))
+	os.system("./cpmfem -c -s -m -p %d,%f,%f,%f" % (SEED,(T+1),E_bond,PRC))
 
-	# types=np.loadtxt('./output/types.out', dtype=np.uint8)
-	# CMs_ind = np.where(types==1)[0]+1
-	# FBs_ind = np.where(types==2)[0]+1
+	types=np.loadtxt('./output/types.out', dtype=np.uint8)
+	CMs_ind = np.where(types==1)[0]+1
+	FBs_ind = np.where(types==2)[0]+1
 
-	# PRC_real = 1.0*len(FBs_ind)/(len(CMs_ind)+len(FBs_ind))	#the actaul percentage of FB cells in the sample
+	PRC_real = 1.0*len(FBs_ind)/(len(CMs_ind)+len(FBs_ind))	#the actaul percentage of FB cells in the sample
 
-	# print("%.2f\n" % PRC_real)
+	#print("%.2f\n" % PRC_real)
 
 	#print 'N CMs:',len(CMs_ind),'; N FBs:',len(FBs_ind),'; % FBs:', 1.0*len(FBs_ind)/(len(CMs_ind)+len(FBs_ind))
 
@@ -74,50 +75,47 @@ def compute_sample(SEED):
 	# 		f.write("%d, %d \n" % (n,res))
 	# 	f.close()
 
-	#res = make_image(T, CMs_ind)
-	print(os.getcwd())
-	res = 0
+	res = make_image(T, CMs_ind)
+	# print(os.getcwd())
+	# res = 0
 
 	#os.system("mv imgs ../imgs_S%d_E%.1f_P%.2f" % (SEED, E_bond, PRC))
 
 	return res
 
-def frange(x, y, jump):
-  while x < y:
-    yield x
-    x += jump
 
-E_bond = 5.0
-#PRC = 0.60
-T = 2000
-Ts = 2000
+E_bond = float(sys.argv[1])
+PRC = float(sys.argv[2])
+T = 20000
+Ts = 20000
 dT = 1000
+
+print("Arguments %.1f %.2f" % (E_bond, PRC))
 
 num_cores = multiprocessing.cpu_count()
 
 print(num_cores)
 
-for PRC in frange(0.60,0.75,0.05):
+seeds = range(10)
 
-	seeds = range(4)
+for s in seeds:
+	os.system("mkdir sample_S%d_E%.1f_P%.2f" % (s, E_bond, PRC))
+	os.system("cp ./cpmfem sample_S%d_E%.1f_P%.2f" % (s, E_bond, PRC))
 
-	for s in seeds:
-		os.system("mkdir sample_S%d_E%.1f_P%.2f" % (s, E_bond, PRC))
-		os.system("cp ./cpmfem sample_S%d_E%.1f_P%.2f" % (s, E_bond, PRC))
+results = Parallel(n_jobs=num_cores)(delayed(compute_sample)(s) for s in seeds)
 
-	results = Parallel(n_jobs=num_cores)(delayed(compute_sample)(s) for s in seeds)
+print results
 
-	print results
-
-	with open("./results/res_all_E%.1f_P%.2f.txt" % (E_bond,PRC),"w") as f:
-			f.write("T: %d\n" % T)
-			for r in results:
-				f.write("%d " % r);
-			f.close()
+with open("./results/res_all_E%.1f_P%.2f.txt" % (E_bond,PRC),"w") as f:
+		f.write("T: %d\n" % T)
+		for r in results:
+			f.write("%d " % r);
+		f.close()
 
 
-	print(os.getcwd())
-	#os.chdir("../")
+#print(os.getcwd())
 
-	for s in seeds:
-		os.system("rm -r sample_S%d_E%.1f_P%.2f" % (s, E_bond, PRC))
+for s in seeds:
+	os.system("rm -r sample_S%d_E%.1f_P%.2f" % (s, E_bond, PRC))
+
+
