@@ -14,7 +14,7 @@ int SEED;
 #define rounder(a) (((a) + ((a) < 0 ? 0.5 : -0.5) < (int)(a))? (int)(a): (int)(a) + 1)
 
 //sample size
-#define MULT 1
+#define MULT 2
 #define VOXSIZE .0025 			// [mm]
 #define SCALE (VOXSIZE/.0025)	//
 #define sizeX (0.8*MULT)		// [mm]
@@ -28,9 +28,9 @@ int SEED;
 #define NV  (NVX*NVY)
 //#define NRINC 901
 int NRINC;
-#define NRINC_CH 500
+#define NRINC_CH 0
 
-#define STEP_PRINT 100
+#define STEP_PRINT 500
 
 #define MAXNRITER 1000
 #define ACCURACY .00001
@@ -41,7 +41,7 @@ int NRINC;
 #define JH	2.0
 #define G_NCH 50.0
 
-#define E_bond 0.0 /* 5.0 */
+float E_bond; /* 5.0 */
 
 // cells
 #define IMMOTILITY 1.0*SCALE*SCALE						// 1/T
@@ -59,7 +59,7 @@ char CONT;
 char CONT_INHIB;
 double GN_CM;
 double GN_FB;
-#define PART 1.0 			//% FBs
+float PART; //0.70 			//% FBs
 
 //elasticity
 double TARGETVOLUME_CM;

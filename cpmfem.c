@@ -24,6 +24,8 @@ void parse_options(int argc, char *argv[])
         case 'p':
         	SEED			= atoi(strtok(optarg, ","));
             NRINC			= atoi(strtok(NULL, ","));          
+	    E_bond			= atof(strtok(NULL,","));
+	    PART			= atof(strtok(NULL,","));
             break;
         case 's':
         	silence=1;
