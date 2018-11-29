@@ -8,6 +8,10 @@ def frange(x, y, jump):
 #E_bond = 5.0
 #PRC = 0.60
 
-for E_bond in frange(0.0,10.0,1.0):
-	for PRC in frange(0.60,0.75,0.01):
-		subprocess.call(["python","check_connectivity.py","%.1f" % E_bond,"%.2f" % PRC])
+for E_bond in range(10):
+	for PRC in frange(0.65,0.709,0.01):
+		subprocess.call(["python","check_connectivity.py","%.1f" % E_bond,"%.2f" % PRC,"%d" % 30])
+
+for E_bond in range(10):
+	for PRC in frange(0.65,0.709,0.01):
+		subprocess.call(["python","check_connectivity.py","%.1f" % E_bond,"%.2f" % PRC,"%d" % 50])
