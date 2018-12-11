@@ -26,6 +26,9 @@ def make_image(n_int, CMs_ind):
 	CMs = is_CM(table).astype('uint8')
 	FBs = np.ones_like(table) - null - CMs
 
+	CMs = ndimage.binary_erosion(CMs,iterations=1).astype(CMs.dtype)
+ 	#print("%d -%d"% (np.sum(CMs2),np.sum(CMs)))
+
 	img,labels = ndimage.label(CMs)
 
 	#areas = np.zeros(4)
