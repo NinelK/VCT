@@ -87,8 +87,8 @@ def compute_sample(SEED):
 E_bond = float(sys.argv[1])
 PRC = float(sys.argv[2])
 seed_start = int(sys.argv[3])
-T = 20000
-Ts = 20000
+T = 50000
+Ts = 50000
 dT = 1000
 
 print("Arguments %.1f %.2f" % (E_bond, PRC))
@@ -107,7 +107,7 @@ results = Parallel(n_jobs=num_cores)(delayed(compute_sample)(s) for s in seeds)
 
 print results
 
-with open("./results/result_mid%d_E%.1f_P%.2f.txt" % (seed_start,E_bond,PRC),"w") as f:
+with open("./results/result_long%d_E%.1f_P%.2f.txt" % (seed_start,E_bond,PRC),"w") as f:
 		f.write("T: %d\n" % T)
 		for r in results:
 			f.write("%d " % r);
@@ -117,6 +117,7 @@ with open("./results/result_mid%d_E%.1f_P%.2f.txt" % (seed_start,E_bond,PRC),"w"
 #print(os.getcwd())
 
 for s in seeds:
-	os.system("rm -r sample_S%d_E%.1f_P%.2f" % (s, E_bond, PRC))
+	os.system("mv sample_S%d_E%.1f_P%.2f ./samples_done/" % (s, E_bond, PRC))
+	#os.system("rm -r sample_S%d_E%.1f_P%.2f" % (s, E_bond, PRC))
 
 
