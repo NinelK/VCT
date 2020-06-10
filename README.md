@@ -25,7 +25,7 @@ This program was tested with:
 
 Clone the repository locally:
 
-	$ git clone https://github.ugent.be/nkudryas/potts
+	$ git clone https://github.com/NinelK/VCT
 	$ cd potts
 
 ## Tests
