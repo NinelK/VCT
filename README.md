@@ -26,7 +26,7 @@ This program was tested with:
 Clone the repository locally:
 
 	$ git clone https://github.com/NinelK/VCT
-	$ cd potts
+	$ cd VCT
 
 ## Tests
 
@@ -85,7 +85,7 @@ It can be visualised with the same command:
 
 	$ python draw.py 2001 100 0
 
-#### Cells in a monolayer
+#### Cells in a monolayer on fibers
 
 Finally, if we turn both "-m" and "-f" flags on, then we could grow an anisotropic monolayer of cells on fibers:
 

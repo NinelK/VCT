@@ -56,9 +56,9 @@ types=np.loadtxt('./output/types.out', dtype=np.uint8)
 CMs_ind = np.where(types==1)[0]+1
 FBs_ind = np.where(types==2)[0]+1
 
-print 'N CMs:',len(CMs_ind),'; N FBs:',len(FBs_ind),'; % FBs:', 1.0*len(FBs_ind)/(len(CMs_ind)+len(FBs_ind))
+print('N CMs:',len(CMs_ind),'; N FBs:',len(FBs_ind),'; % FBs:', 1.0*len(FBs_ind)/(len(CMs_ind)+len(FBs_ind)))
 
-print ("MCS (CMs area, FBs area):")
+print("MCS (CMs area, FBs area):")
 
 for n in range(0,int(sys.argv[1]),int(sys.argv[2])):
-	print n,make_image(n, CMs_ind)
+	print(n,make_image(n, CMs_ind))
