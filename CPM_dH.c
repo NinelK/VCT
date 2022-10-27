@@ -70,17 +70,17 @@ double calcdH(VOX* pv, FIBERS* pf, CM* CMs, int* csize, int xt, int xs, int pick
 	dHcontact = calcdHcontact(pv,xt,xs,ttag,stag);
 
 	dHvol = 0;
-	dHvol = calcdHvol(csize,ttag,stag,pv[xt].type,pv[xs].type);
+	dHvol = calcdHvol(csize,ttag,stag,pv[xt].type,pv[xs].type,TARGETVOLUME_CM, TARGETVOLUME_FB, INELASTICITY_CM, INELASTICITY_FB);
 
 	dHfocals = 0;
-	dHfocals = calcdHprotrude(pv, CMs, xt, xs, ttag, stag, pf[xt].Q, pf[xs].Q);
+	dHfocals = calcdHprotrude(pv, CMs, xt, xs, ttag, stag, pf[xt].Q, pf[xs].Q, LMAX_CM, LMAX_FB, GN_CM, GN_FB, UNLEASH_CM, UNLEASH_FB, DETACH_CM, DETACH_FB);
 
 	dHsyncytium = 0;
 	if(E_bond)
 		dHsyncytium = calcdHsyncytium(pv, CMs, xt,xs,ttag,stag);
 
 	dHnuclei = 0;
-	dHnuclei = calcdHnuclei(pv, CMs, xt, ttag, stag);
+	dHnuclei = calcdHnuclei(pv, CMs, xt, ttag, stag, DETACH_CM, DETACH_FB);
 
 	dH = dHcontact + dHvol + dHfocals + dHsyncytium + dHnuclei;
 	return dH;
@@ -148,8 +148,8 @@ double calcdHcontact(VOX* pv, int xt, int xs, int ttag, int stag)
 	for(n=0;n<8;n++)
 	{
 		nbtag = pv[nbs[n]].ctag;
-		Hcontact += contactenergy(ttag,nbtag,pv[xt].type,pv[nbs[n]].type);
-		Hcontactn += contactenergy(stag,nbtag,pv[xs].type,pv[nbs[n]].type);
+		Hcontact += contactenergy(ttag,nbtag,pv[xt].type,pv[nbs[n]].type,JCMCM,JFBFB,JFBCM,JCMMD,JFBMD);
+		Hcontactn += contactenergy(stag,nbtag,pv[xs].type,pv[nbs[n]].type,JCMCM,JFBFB,JFBCM,JCMMD,JFBMD);
 	}
 	dHcontact = Hcontactn-Hcontact;
 
