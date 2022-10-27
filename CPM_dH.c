@@ -157,7 +157,7 @@ double calcdHcontact(VOX* pv, int xt, int xs, int ttag, int stag)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-double contactenergy(int tag1, int tag2, int type1, int type2, double JCMCM, double JCMMD, double JFBFB, double JFBMD,  double JFBCM),
+double contactenergy(int tag1, int tag2, int type1, int type2, double JCMCM, double JCMMD, double JFBFB, double JFBMD,  double JFBCM)
 {
 	double J;
 	int type;

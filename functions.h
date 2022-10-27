@@ -35,12 +35,12 @@ double 		calcdHdist(VOX* pv, CM* CMs, int xt, int xs, int ttag);
 //calculate H
 double 		calcdH(VOX* pv, FIBERS* pf, CM* CMs, int* csize, int xt, int xs, int pick, int ttag, int stag);
 double 		calcdHcontact(VOX* pv, int xt, int xs, int ttag, int stag);
-double 		contactenergy(int tag1, int tag2, int type1, int type2);
+double 		contactenergy(int tag1, int tag2, int type1, int type2, double JCMCM, double JCMMD, double JFBFB, double JFBMD, double JFBCM);
 double 		scaffoldenergy(int tag, int Q);
-double 		calcdHvol(int* csize, int ttag, int stag, int ttype, int stype);
-double 		calcdHprotrude(VOX* pv, CM* CMs, int xt, int xs, int ttag, int stag, int Qt, int Qs);
+double 		calcdHvol(int* csize, int ttag, int stag, int ttype, int stype, double TARGETVOLUME_CM, double TARGETVOLUME_FB, double INELASTICITY_CM, double INELASTICITY_FB);
+double 		calcdHprotrude(VOX* pv, CM* CMs, int xt, int xs, int ttag, int stag, int Qt, int Qs, double LMAX_CM, double LMAX_FB, double GN_CM, double GN_FB, double UNLEASH_CM, double UNLEASH_FB, double DETACH_CM, double DETACH_FB);
 double 		calcdHsyncytium(VOX* pv, CM* CMs, int xt, int xs, int ttag, int stag);
-double 		calcdHnuclei(VOX* pv, CM* CMs, int xt, int ttag, int stag);
+double 		calcdHnuclei(VOX* pv, CM* CMs, int xt, int ttag, int stag, double DETACH_CM, double DETACH_FB);
 
 double 		findphi(CM* CMs, int xt, int tag);
 double 		dist(CM* CMs, int xt, int tag);
