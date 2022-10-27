@@ -2,6 +2,8 @@
 #include "functions.h"
 #include "math.h"
 
+
+
 #define TARGETVOLUME(a) (a==1 ? TARGETVOLUME_CM : TARGETVOLUME_FB)
 #define INELASTICITY(a) (a==1 ? INELASTICITY_CM : INELASTICITY_FB)
 #define GN(a)			(a==1 ? GN_CM : GN_FB)
