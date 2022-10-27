@@ -17,8 +17,8 @@ int SEED;
 #define MULT 1
 #define VOXSIZE .0025 			// [mm]
 #define SCALE (VOXSIZE/.0025)	//
-#define sizeX (0.8*MULT)		// [mm]
-#define sizeY (0.8*MULT)		// [mm]
+#define sizeX (1.0*MULT)		// [mm]
+#define sizeY (1.0*MULT)		// [mm]
 #define sizeMarginX 0.100 		// [mm] from one side
 #define sizeMarginY 0.100 		// [mm] from one side
 #define MARGINX rounder(sizeMarginX/VOXSIZE)
@@ -59,7 +59,7 @@ char CONT;
 char CONT_INHIB;
 double GN_CM;
 double GN_FB;
-#define PART 1.0 			//% FBs
+#define PART 0.50 			//% FBs
 
 //elasticity
 double TARGETVOLUME_CM;
